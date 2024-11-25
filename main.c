@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:21:33 by msisto            #+#    #+#             */
-/*   Updated: 2024/11/20 11:53:16 by msisto           ###   ########.fr       */
+/*   Updated: 2024/11/25 15:20:23 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,7 @@ void	start_shell(char **envp)
 			break;
 		}
 		if (*input)
-		{
 			add_history(input);
-			if (builtin_check(input, envp) != 0)
-				input_cleaner(input);
-		}
 		free(input);
 	}
 }
