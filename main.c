@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:21:33 by msisto            #+#    #+#             */
-/*   Updated: 2024/11/25 15:20:23 by msisto           ###   ########.fr       */
+/*   Updated: 2024/11/26 12:12:23 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	start_shell(char **envp)
 		if (!input)
 		{
 			printf("\nExiting shell...\n");
+			rl_clear_history();
 			break;
 		}
 		if (*input)

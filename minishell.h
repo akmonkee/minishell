@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2024/11/25 15:20:54 by msisto           ###   ########.fr       */
+/*   Updated: 2024/11/27 11:30:42 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@
 ";;;:,.....\n.......,:;;;;:,,,,,,::::::::::::,,,:;+++;;:...............,:;;;;" \
 ":,,,,,,::::::::::::,,,:;+++;;:.......\n"
 
+# define white_space " \t\r\n\v"
+
 /*struct da fare:
 pipecmd
 listcmd
@@ -66,8 +68,20 @@ execcmd
 redircmd
 */
 
-/*func*/
+/*function da fare:
+parsecmd
+	parseline
+	parsepipe
+	parseredir
+	parseblock
+	parseexec
+nulterminate
+getcmd
+runcmd
+panic (error function)*/
 
 void	start_shell(char **envp);
+int		ft_strchr(char *comp, char *s);
+int		gettoken(char **ps, char *es, char **q, char **eq);
 
 #endif
