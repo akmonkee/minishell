@@ -6,13 +6,13 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 11:22:39 by msisto            #+#    #+#             */
-/*   Updated: 2024/11/27 11:27:00 by msisto           ###   ########.fr       */
+/*   Updated: 2024/11/27 14:30:50 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_strchr(char *s, char *comp)
+int	ft_strchr(char *comp, char *s)
 {
 	int	i;
 	int	k;
