@@ -6,11 +6,22 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 11:17:55 by msisto            #+#    #+#             */
-/*   Updated: 2024/11/27 12:38:24 by msisto           ###   ########.fr       */
+/*   Updated: 2024/11/27 14:19:56 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	peek(char **ps, char *es, char *toks)
+{
+	char	*s;
+
+	s = *ps;
+	while (s < es && ft_strchr(s, white_space))
+		s++;
+	*ps = s;
+	return (*s && ft_strchr(s, white_space));
+}
 
 int	gettoken(char **ps, char *es, char **q, char **eq)
 {

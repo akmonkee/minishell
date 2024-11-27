@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2024/11/27 11:30:42 by msisto           ###   ########.fr       */
+/*   Updated: 2024/11/27 14:16:35 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,10 @@ runcmd
 panic (error function)*/
 
 void	start_shell(char **envp);
+//utils
 int		ft_strchr(char *comp, char *s);
+//parse
+int		peek(char **ps, char *es, char *toks);
 int		gettoken(char **ps, char *es, char **q, char **eq);
 
 #endif
