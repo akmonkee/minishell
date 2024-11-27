@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:21:33 by msisto            #+#    #+#             */
-/*   Updated: 2024/11/26 12:12:23 by msisto           ###   ########.fr       */
+/*   Updated: 2024/11/27 12:20:57 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	start_shell(char **envp)
 		input = readline("minishell> ");
 		if (!input)
 		{
-			printf("\nExiting shell...\n");
+			printf("Exiting shell...\n");
 			rl_clear_history();
 			break;
 		}
