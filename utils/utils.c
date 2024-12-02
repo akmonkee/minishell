@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 11:22:39 by msisto            #+#    #+#             */
-/*   Updated: 2024/11/28 15:01:02 by msisto           ###   ########.fr       */
+/*   Updated: 2024/12/02 11:32:30 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,14 @@ int	ft_strchr(char *comp, char *s)
 		i++;
 	}
 	return (0);
+}
+
+size_t	ft_strlen(char	*s)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
 }
