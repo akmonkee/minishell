@@ -1,43 +1,49 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: efoschi <efoschi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/27 11:22:39 by msisto            #+#    #+#             */
-/*   Updated: 2024/12/02 14:09:58 by efoschi          ###   ########.fr       */
+/*   Created: 2024/12/02 14:11:35 by efoschi           #+#    #+#             */
+/*   Updated: 2024/12/02 14:57:35 by efoschi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_strchr(char *s, char *comp)
+int	parse_pipe(char *s, char *es, t_cmd *cmd)
 {
-	int	i;
-	int	k;
+	char	*ps;
+	char	*es;
+	char	*qs;
+	char	*qe;
+	int		ret;
 
-	i = 0;
-	while (s[i])
+	ps = s;
+	es = ps + ft_strlen(ps);
+	ret = gettoken(&ps, es, 0, 0);
+	if (ret == '|')
 	{
-		k = 0;
-		while (comp[k])
-		{
-			if (s[i] == comp[k])
-				return (1);
-			k++;
-		}
-		i++;
+		cmd->type = '|';
+		return (1);
 	}
 	return (0);
 }
 
-size_t	ft_strlen(char *s)
+int	parse_line(char *s, t_cmd *cmd)
 {
-	size_t	i;
+	char	*es;
+	int		ret;
 
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
+	es = s + ft_strlen(s);
+	ret = parse_pipe(s, es, cmd);
+	if (ret)
+		return (ret);
+	return (0);
+}
+
+int	parse(char *s, t_cmd *cmd)
+{
+	return (parse_line(s, cmd));
 }

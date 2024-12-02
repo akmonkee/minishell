@@ -1,35 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: efoschi <efoschi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/27 11:17:55 by msisto            #+#    #+#             */
-/*   Updated: 2024/12/02 14:54:56 by efoschi          ###   ########.fr       */
+/*   Created: 2024/12/02 15:27:54 by efoschi           #+#    #+#             */
+/*   Updated: 2024/12/02 15:29:31 by efoschi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#ifndef UTILS_H
+# define UTILS_H
 
-int	gettoken(char **ps, char *es, char **q, char **eq)
+# include "minishell.h"
+
+typedef struct s_parser
 {
-	char	*s;
-	int		ret;
+	int	i;
+	int	j;
+	int	k;
+	int	l;
+}	t_parser;
 
-	s = *ps;
-	while (s < es && ft_strchr(s, WHITE_SPACE))
-		s++;
-	if (q)
-		*q = s;
-	ret = *s;
-	/*
-	parse options here
-	*/
-	if (eq)
-		*eq = s;
-	while (s < es && ft_strchr(s, WHITE_SPACE))
-		s++;
-	*ps = s;
-	return (ret);
-}
+#endif

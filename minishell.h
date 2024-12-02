@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: efoschi <efoschi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2024/11/27 11:30:42 by msisto           ###   ########.fr       */
+/*   Updated: 2024/12/02 15:30:41 by efoschi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,9 @@
 # include <sys/ioctl.h>
 # include <termcap.h>
 # include <termios.h>
+# include "utils.h"
 
-# define img "......,,:::,,..,;+++;;:,,:::;;;+;;:,.,,:::,,.............,,:::," \
+# define IMG "......,,:::,,..,;+++;;:,,:::;;;+;;:,.,,:::,,.............,,:::," \
 ",..,;+++;;:,,:::;;;+;;:,.,,:::,,......\n....,+****+;;::;;;;;;;;;;;;;;;;;;;;:" \
 ":;++****+,.........,+****+;;::;;;;;;;;;;;;;;;;;;;;::;++****+,....\n....;**++" \
 ";;;;;;;;;;;;;;;;;;;;;;;;;;;;:::;;+**,.........;**++;;;;;;;;;;;;;;;;;;;;;;;;;" \
@@ -50,7 +51,15 @@
 ";;;:,.....\n.......,:;;;;:,,,,,,::::::::::::,,,:;+++;;:...............,:;;;;" \
 ":,,,,,,::::::::::::,,,:;+++;;:.......\n"
 
-# define white_space " \t\r\n\v"
+# define WHITE_SPACE " \t\r\n\v"
+# define INT_MAX 2147483647
+# define INT_MIN -2147483648
+
+typedef struct s_cmd
+{
+	char		type;
+	char		*cmd;
+}	t_cmd;
 
 /*struct da fare:
 pipecmd
@@ -80,8 +89,12 @@ getcmd
 runcmd
 panic (error function)*/
 
-void	start_shell(char **envp);
 int		ft_strchr(char *comp, char *s);
+size_t	ft_strlen(char *s);
 int		gettoken(char **ps, char *es, char **q, char **eq);
+int		parse_pipe(char *s, char *es, t_cmd *cmd);
+int		parse_line(char *s, t_cmd *cmd);
+int		parse(char *s, t_cmd *cmd);
+int		parsecmd(char *s, t_cmd *cmd);
 
 #endif
