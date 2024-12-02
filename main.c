@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:21:33 by msisto            #+#    #+#             */
-/*   Updated: 2024/12/02 11:33:07 by msisto           ###   ########.fr       */
+/*   Updated: 2024/12/02 12:26:45 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	start_shell(char **envp)
 	char	*input;
 
 	input = NULL;
-	printf("%s", img);
+	printf("%s", IMG);
 	while (1)
 	{
 		input = readline("minishell> ");
@@ -25,7 +25,7 @@ void	start_shell(char **envp)
 		{
 			printf("Exiting shell...\n");
 			rl_clear_history();
-			break;
+			break ;
 		}
 		if (*input)
 		{
@@ -45,5 +45,5 @@ int	main(int argc, char **argv, char *envp[])
 		perror("Error: Not running in a terminal.\n");
 		exit(EXIT_FAILURE);
 	}
-	return 0;
+	return (0);
 }

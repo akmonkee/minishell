@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 11:17:55 by msisto            #+#    #+#             */
-/*   Updated: 2024/12/02 11:37:59 by msisto           ###   ########.fr       */
+/*   Updated: 2024/12/02 12:27:43 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	peek(char **ps, char *es, char *toks)
 	char	*s;
 
 	s = *ps;
-	while (s < es && ft_strchr(white_space, s))
+	while (s < es && ft_strchr(WHITE_SPACE, s))
 		s++;
 	*ps = s;
 	return (*s && ft_strchr(toks, s));
@@ -29,7 +29,7 @@ int	gettoken(char **ps, char *es, char **q, char **eq)
 	int		ret;
 
 	s = *ps;
-	while (s < es && ft_strchr(white_space, s))
+	while (s < es && ft_strchr(WHITE_SPACE, s))
 		s++;
 	if (q)
 		*q = s;
@@ -39,7 +39,7 @@ int	gettoken(char **ps, char *es, char **q, char **eq)
 	*/
 	if (eq)
 		*eq = s;
-	while (s < es && ft_strchr(white_space, s))
+	while (s < es && ft_strchr(WHITE_SPACE, s))
 		s++;
 	*ps = s;
 	return (ret);
