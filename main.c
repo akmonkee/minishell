@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:21:33 by msisto            #+#    #+#             */
-/*   Updated: 2024/12/03 11:14:17 by msisto           ###   ########.fr       */
+/*   Updated: 2024/12/03 11:16:01 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	start_shell(char **envp)
 		input = readline("minipierpaolo> ");
 		if (!input)
 		{
-			printf("Exiting shell...\n");
+			printf("Pierpaolo dismissed you...\n");
 			rl_clear_history();
 			break ;
 		}
