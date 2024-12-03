@@ -1,6 +1,6 @@
 NAME = minishell
 
-SRC = main.c parser/parse.c utils/utils.c
+SRC = main.c parser/parse.c parser/parsepipe.c utils/utils.c 
 
 OUT = $(SRC:.c=.o)
 

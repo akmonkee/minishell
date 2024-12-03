@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2024/12/02 14:39:58 by msisto           ###   ########.fr       */
+/*   Updated: 2024/12/03 11:51:51 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ panic (error function)*/
 
 void	start_shell(char **envp);
 //utils
-int		ft_strchr(char *comp, char *s);
+int		ft_strchr(char *comp, char s);
 size_t	ft_strlen(char	*s);
 //parse
 int		peek(char **ps, char *es, char *toks);
