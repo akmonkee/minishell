@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:21:33 by msisto            #+#    #+#             */
-/*   Updated: 2024/12/03 15:16:37 by msisto           ###   ########.fr       */
+/*   Updated: 2024/12/04 12:33:02 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,20 @@ void	start_shell(char **envp)
 		{
 			fr = input;
 			add_history(input);
-			printf("%d\n", gettoken(&input, (input + ft_strlen(input)), 0, 0));
+			printf("%d\n", gettoken(&input, (input + ft_strlen(input)), &input, &input));
 			input = fr;
 		}
 		free(input);
 	}
 }
 
-int	main(int argc, char **argv, char *envp[])
+int	main(int ac, char **av, char *envp[])
 {
+	if (ac > 1)
+	{
+		write(2, "Error\nno args allowed\n", 22);
+		return (1);
+	}
 	if (isatty(STDIN_FILENO))
 		start_shell(envp);
 	else

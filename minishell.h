@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2024/12/03 11:51:51 by msisto           ###   ########.fr       */
+/*   Updated: 2024/12/04 12:19:49 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,48 @@
 # define WHITE_SPACE " \t\r\n\v"
 # define SYMBOLS "<|>&;()"
 
-/*struct da fare:
-pipecmd
-listcmd
-backcmd
-execcmd
-redircmd
-*/
+/*cmd type ids*/
+
+# define EXEC 1
+# define REDIR 2
+# define PIPE 3
+# define LIST 4
+# define BACK 5
+
+# define MAXARGS 10
+
+/*cmd structs*/
+
+typedef struct s_cmd {
+	int	type;
+}	t_cmd;
+
+typedef struct s_execcmd {
+	int		type;
+	char	*argv[MAXARGS];
+	char	*eargv[MAXARGS];
+}	t_execcmd;
+
+typedef struct s_redircmd {
+	int			type;
+	struct cmd	*cmd;
+	char		*file;
+	char		*efile;
+	int			mode;
+	int			fd;
+}	t_redircmd;
+
+typedef struct s_pipecmd {
+	int			type;
+	struct cmd	*left;
+	struct cmd	*right;
+}	t_pipecmd;
+
+typedef struct s_listcmd {
+	int			type;
+	struct cmd	*left;
+	struct cmd	*right;
+}	t_listcmd;
 
 /*function delle struct da fare:
 pipecmd
