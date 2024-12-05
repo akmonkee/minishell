@@ -6,7 +6,7 @@
 /*   By: efoschi <efoschi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:21:33 by msisto            #+#    #+#             */
-/*   Updated: 2024/12/02 14:08:41 by efoschi          ###   ########.fr       */
+/*   Updated: 2024/12/05 15:11:13 by efoschi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,27 @@
 void	start_shell(char **envp)
 {
 	char	*input;
+	char	*fr;
 
 	input = NULL;
 	printf("%s", IMG);
 	while (1)
 	{
-		input = readline("minishell> ");
+		input = readline("minipierpaolo> ");
 		if (!input)
 		{
-			printf("Exiting shell...\n");
+			printf("Pierpaolo dismissed you...\n");
 			rl_clear_history();
 			break ;
 		}
 		if (*input)
+		{
+			fr = input;
 			add_history(input);
+			printf("%d\n", gettoken(&input, (input + ft_strlen(input)),
+					&input, &input));
+			input = fr;
+		}
 		free(input);
 	}
 }
