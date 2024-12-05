@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2024/12/04 12:19:49 by msisto           ###   ########.fr       */
+/*   Updated: 2024/12/05 10:17:10 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,11 @@ typedef struct s_listcmd {
 	struct cmd	*left;
 	struct cmd	*right;
 }	t_listcmd;
+
+typedef struct s_backcmd {
+	int	type;
+	struct cmd *cmd;
+}	t_back_cmd;
 
 /*function delle struct da fare:
 pipecmd
