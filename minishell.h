@@ -6,7 +6,7 @@
 /*   By: efoschi <efoschi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2024/12/05 11:50:29 by efoschi          ###   ########.fr       */
+/*   Updated: 2024/12/05 14:21:33 by efoschi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 # include <sys/ioctl.h>
 # include <termcap.h>
 # include <termios.h>
-# include "utils.h"
 
 # define IMG "......,,:::,,..,;+++;;:,,:::;;;+;;:,.,,:::,,.............,,:::," \
 ",..,;+++;;:,,:::;;;+;;:,.,,:::,,......\n....,+****+;;::;;;;;;;;;;;;;;;;;;;;:" \
@@ -52,20 +51,61 @@
 ":,,,,,,::::::::::::,,,:;+++;;:.......\n"
 
 # define WHITE_SPACE " \t\r\n\v"
+# define SYMBOLS "<|>&;()"
+
+/*cmd type ids*/
+
+# define EXEC 1
+# define REDIR 2
+# define PIPE 3
+# define LIST 4
+# define BACK 5
+
+# define MAXARGS 10
+
+/*cmd structs*/
 
 typedef struct s_cmd
 {
-	char		type;
-	char		*cmd;
+	int	type;
 }	t_cmd;
 
-/*struct da fare:
-pipecmd
-listcmd
-backcmd
-execcmd
-redircmd
-*/
+typedef struct s_execcmd
+{
+	int		type;
+	char	*argv[MAXARGS];
+	char	*eargv[MAXARGS];
+}	t_execcmd;
+
+typedef struct s_redircmd
+{
+	int			type;
+	struct cmd	*cmd;
+	char		*file;
+	char		*efile;
+	int			mode;
+	int			fd;
+}	t_redircmd;
+
+typedef struct s_pipecmd
+{
+	int			type;
+	struct cmd	*left;
+	struct cmd	*right;
+}	t_pipecmd;
+
+typedef struct s_listcmd
+{
+	int			type;
+	struct cmd	*left;
+	struct cmd	*right;
+}	t_listcmd;
+
+typedef struct s_backcmd
+{
+	int			type;
+	struct cmd	*cmd;
+}	t_back_cmd;
 
 /*function delle struct da fare:
 pipecmd
@@ -87,12 +127,12 @@ getcmd
 runcmd
 panic (error function)*/
 
-int		ft_strchr(char *comp, char *s);
-size_t	ft_strlen(char *s);
+void	start_shell(char **envp);
+//utils
+int		ft_strchr(char *comp, char s);
+size_t	ft_strlen(char	*s);
+//parse
+int		peek(char **ps, char *es, char *toks);
 int		gettoken(char **ps, char *es, char **q, char **eq);
-int		parse_pipe(char *s, char *es, t_cmd *cmd);
-int		parse_line(char *s, t_cmd *cmd);
-int		parse(char *s, t_cmd *cmd);
-int		parsecmd(char *s, t_cmd *cmd);
 
 #endif
