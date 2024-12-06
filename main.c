@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:21:33 by msisto            #+#    #+#             */
-/*   Updated: 2024/12/04 12:33:02 by msisto           ###   ########.fr       */
+/*   Updated: 2024/12/06 10:14:21 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ void	start_shell(char **envp)
 		{
 			fr = input;
 			add_history(input);
-			printf("%d\n", gettoken(&input, (input + ft_strlen(input)), &input, &input));
+			while (input != (input + ft_strlen(input)))
+				printf("%d\n", gettoken(&input, (input + ft_strlen(input)), &input, &input));
 			input = fr;
 		}
 		free(input);
