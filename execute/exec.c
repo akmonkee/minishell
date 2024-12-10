@@ -6,7 +6,7 @@
 /*   By: efoschi <efoschi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 15:06:29 by efoschi           #+#    #+#             */
-/*   Updated: 2024/12/05 15:08:47 by efoschi          ###   ########.fr       */
+/*   Updated: 2024/12/10 14:16:56 by efoschi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,24 @@ void	execute(t_cmd *cmd)
 {
 	if (cmd->type == EXEC)
 	{
-		//eseguo il comando
+		execcmd((t_execcmd *)cmd);
 	}
 	else if (cmd->type == REDIR)
 	{
-		//gestisco i redirect
+		redircmd((t_redircmd *)cmd);
 	}
 	else if (cmd->type == PIPE)
 	{
-		//gestisco i pipe
+		pipecmd((t_pipecmd *)cmd);
 	}
 	else if (cmd->type == LIST)
 	{
-		//gestisco i comandi in lista
+		listcmd((t_listcmd *)cmd);
 	}
 	else if (cmd->type == BACK)
 	{
-		//gestisco i comandi in background
+		backcmd((t_backcmd *)cmd);
 	}
+	else
+		perror("cmd type");
 }

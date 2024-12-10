@@ -6,7 +6,7 @@
 /*   By: efoschi <efoschi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2024/12/05 14:21:33 by efoschi          ###   ########.fr       */
+/*   Updated: 2024/12/10 14:55:23 by efoschi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ typedef struct s_backcmd
 {
 	int			type;
 	struct cmd	*cmd;
-}	t_back_cmd;
+}	t_backcmd;
 
 /*function delle struct da fare:
 pipecmd
@@ -127,12 +127,22 @@ getcmd
 runcmd
 panic (error function)*/
 
+//execute
+void	execute(t_cmd *cmd);
+void	execcmd(t_execcmd *cmd);
+void	redircmd(t_redircmd *cmd);
+void	pipecmd(t_pipecmd *cmd);
+void	listcmd(t_listcmd *cmd);
+void	backcmd(t_backcmd *cmd);
+//parser
+int		peek(char **ps, char *es, char *toks);
+int		gettoken(char **ps, char *es, char **q, char **eq);
+int		parse_pipe(char *s, char *es, t_cmd *cmd);
+int		parse_line(char *s, t_cmd *cmd);
 void	start_shell(char **envp);
+int		parse(char *s, t_cmd *cmd);
 //utils
 int		ft_strchr(char *comp, char s);
 size_t	ft_strlen(char	*s);
-//parse
-int		peek(char **ps, char *es, char *toks);
-int		gettoken(char **ps, char *es, char **q, char **eq);
 
 #endif
