@@ -1,0 +1,101 @@
+What the shell should do?
+- print prompt
+- read a line
+- parse						(technique to analyze and interpret the syntax of a text to extract
+								relevant information)
+	- build the representation
+- execute
+
+Examples + Features
+
+$pgm -r -i /usr/filename	(options)
+
+$pgm < infile > outfile		(I/O redirection)
+             >> outfile
+
+$pgm1 | pgm2 | pgm3			(pipes the output from one program into the input of another program)
+
+$pgm1 ; pgm2 ; pgm3			(sequencing, to run pgm2 after pgm1 and so on)
+
+$pmg &						(run programs in the background)
+
+$(pgm 1 ; pgm2) | pgm3		(grouping)
+
+$echo 'Hello $USER'			(Preserve the value of most character but allow expansion of variables
+								($VAR) and interpretation of escape sequences (\n, \")
+									output: Hello $USER)
+
+$echo "Hello $USER"			(output: Hello pierpaolo	(assuming $USER is set to "pierpaolo"))
+
+BUILT-IN Command
+
+$cd pathname				(change directory)
+
+$echo 						(with -n option)
+
+$pwd						(to print the current working dir)
+
+$export						(to set environment variables)
+
+$unset						(to remove environment variables)
+
+$env						(to list environment variables)
+
+$exit						(to terminate the shell)
+
+
+ENVIRONMENT VARIABLES
+
+it should process ($), $? for the exit status and ctrl-C, ctrl-D and ctrl-\ like Bash
+
+Allow command navigation using up/down arrows with termcap
+
+
+
+
+Example of command line
+
+(pgm1 -i arg < myFile | pgm2) ; pgm3 arg3
+
+Explanation:
+	- The first thing we have is a sequencing so the shell program will create a child processo to do everything in the parentheses.
+	- After that child process terminates it will go on to continue executing and at that point we'll execute pgm3.
+	- Within the first child process we have at the root a PIPE, so the child process will create two child processes.
+		- The first child process will be executing pgm1.
+		- The other child process will be executing pgm2.
+	- The process that does the PIPE will wait for both of those to finish and then it will itself terminate, allowing pgm3 to proceed.
+
+
+The main functions we've got here are:
+	- PARSECMD: a recursive descent parser.
+	- RUNCMD: it will walk the tree recursively and execute the nodes, it will create child
+				processes using the fork system call.
+
+
+NODES
+
+Every struct will have an integer type for every different kinds of nodes in the tree
+Ex: # define PIPE 3			(PIPE will have code 3).
+
+The node will have a left and a right pointer to the sub trees.
+
+For sequencing we will have a node called LIST with pointers to the left and right sub trees.
+
+For background we will have a node called BACK with pointers to whatever is executed in background.
+
+The exec node is more complex:
+	- The shell program takes an input line and reads it into a buffer.
+	- The buffer is a fixed size and so it reads all the bytes into that buffer.
+	- Then parses from that buffer and builds the tree node.
+
+example:
+
+... _ myPgm _ -i __ arg | x ...
+
+- For the exec we have only the program name and the options
+
+The EXEC node has the type code as the first field but then it has 2 arrays:
+	ARGV and EARGV.
+Each one of these will contain pointers into the buffer.
+
+ARGV[0] will point to the program name or the file containing the executable and the remaining pointers will point to the options
