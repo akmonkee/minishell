@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 11:22:39 by msisto            #+#    #+#             */
-/*   Updated: 2024/12/03 11:55:17 by msisto           ###   ########.fr       */
+/*   Updated: 2024/12/16 11:06:38 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,20 @@ size_t	ft_strlen(char	*s)
 	while (s[i])
 		i++;
 	return (i);
+}
+
+void	*ft_memset(void *b, int c, size_t len)
+{
+	char	*s;
+	size_t	i;
+
+	s = NULL;
+	s = (char *)b;
+	i = 0;
+	while (i < len)
+	{
+		s[i] = c;
+		i++;
+	}
+	return (b);
 }

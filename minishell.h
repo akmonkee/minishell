@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2024/12/06 12:18:45 by msisto           ###   ########.fr       */
+/*   Updated: 2024/12/16 11:19:14 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ void	start_shell(char **envp);
 //utils
 int		ft_strchr(char *comp, char s);
 size_t	ft_strlen(char	*s);
+void	*ft_memset(void *b, int c, size_t len);
 //parse
 int			peek(char **ps, char *es, char *toks);
 int			gettoken(char **ps, char *es, char **q, char **eq);
@@ -138,5 +139,8 @@ struct cmd	*parseline(char **ps, char *es);
 struct cmd	*parsecmd(char *s);
 //parse pipe
 struct cmd	*parsepipe(char **ps, char *es);
+//parseexec
+struct cmd	*execcmd();
+struct cmd	*parseexec(char **ps, char *es, int argc);
 
 #endif
