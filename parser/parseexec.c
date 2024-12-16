@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 10:53:56 by msisto            #+#    #+#             */
-/*   Updated: 2024/12/16 11:32:14 by msisto           ###   ########.fr       */
+/*   Updated: 2024/12/16 12:57:20 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ struct cmd	*parseexec(char **ps, char *es, int argc)
 	ret = execcmd();
 	cmd = (t_execcmd*)ret;
 	argc = 0;
+	/*parseredirs is here to redir input*/
 	while (!peek(ps, es, "|)&;"))
 	{
 		if ((tok = gettoken(ps, es, &q, &eq)) == 0)
@@ -46,7 +47,7 @@ struct cmd	*parseexec(char **ps, char *es, int argc)
 		argc++;
 		//if (argc >= MAXARGS)
 			/*print error "too many args"*/
-		/*find out why parseredir is here*/
+		/*parseredir is here to redir output*/
 	}
 	cmd->argv[argc] = 0;
 	cmd->eargv[argc] = 0;
