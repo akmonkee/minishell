@@ -6,14 +6,14 @@
 /*   By: efoschi <efoschi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 14:18:24 by efoschi           #+#    #+#             */
-/*   Updated: 2024/12/10 14:40:43 by efoschi          ###   ########.fr       */
+/*   Updated: 2024/12/17 16:24:15 by efoschi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 //eseguire il comando EXEC
-void	execcmd(t_execcmd *cmd)
+void	execute_cmd(t_execcmd *cmd)
 {
 	pid_t	pid;
 
@@ -23,12 +23,12 @@ void	execcmd(t_execcmd *cmd)
 	if (pid == 0)
 	{
 		execvp(cmd->argv[0], cmd->argv);
-		perror("execvp");
+		write(2, "execvp\n", 7);
 		exit(1);
 	}
 	else if (pid < 0)
 	{
-		perror("fork");
+		write(2, "fork\n", 5);
 	}
 	else
 	{
@@ -44,7 +44,7 @@ void	redircmd(t_redircmd *cmd)
 	fd = open(cmd->file, cmd->mode, 0644);
 	if (fd < 0)
 	{
-		perror("open");
+		write(2, "open\n", 5);
 		exit(1);
 	}
 	dup2(fd, cmd->fd);
@@ -69,7 +69,7 @@ void	pipecmd(t_pipecmd *cmd)
 	}
 	else if (pid < 0)
 	{
-		perror("fork");
+		write(2, "fork\n", 5);
 	}
 	else
 	{
@@ -88,7 +88,7 @@ void	listcmd(t_listcmd *cmd)
 }
 
 //eseguire il comando BACK
-void	backcmd(t_backcmd *cmd)
+void	backcmd(t_back_cmd *cmd)
 {
 	pid_t	pid;
 
@@ -100,6 +100,6 @@ void	backcmd(t_backcmd *cmd)
 	}
 	else if (pid < 0)
 	{
-		perror("fork");
+		write(2, "fork\n", 5);
 	}
 }

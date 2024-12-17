@@ -6,7 +6,7 @@
 /*   By: efoschi <efoschi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2024/12/10 14:55:23 by efoschi          ###   ########.fr       */
+/*   Updated: 2024/12/17 16:24:57 by efoschi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ typedef struct s_backcmd
 {
 	int			type;
 	struct cmd	*cmd;
-}	t_backcmd;
+}	t_back_cmd;
 
 /*function delle struct da fare:
 pipecmd
@@ -127,22 +127,28 @@ getcmd
 runcmd
 panic (error function)*/
 
-//execute
-void	execute(t_cmd *cmd);
-void	execcmd(t_execcmd *cmd);
-void	redircmd(t_redircmd *cmd);
-void	pipecmd(t_pipecmd *cmd);
-void	listcmd(t_listcmd *cmd);
-void	backcmd(t_backcmd *cmd);
-//parser
-int		peek(char **ps, char *es, char *toks);
-int		gettoken(char **ps, char *es, char **q, char **eq);
-int		parse_pipe(char *s, char *es, t_cmd *cmd);
-int		parse_line(char *s, t_cmd *cmd);
 void	start_shell(char **envp);
-int		parse(char *s, t_cmd *cmd);
 //utils
 int		ft_strchr(char *comp, char s);
 size_t	ft_strlen(char	*s);
-
+void	*ft_memset(void *b, int c, size_t len);
+//parse
+int			peek(char **ps, char *es, char *toks);
+int			gettoken(char **ps, char *es, char **q, char **eq);
+struct cmd	*parseline(char **ps, char *es);
+struct cmd	*parsecmd(char *s);
+//parse pipe
+struct cmd	*parsepipe(char **ps, char *es);
+//parseexec
+struct cmd	*execcmd();
+struct cmd	*parseexec(char **ps, char *es);
+//parseredirs
+struct cmd	*parseredirs(struct cmd *cmd, char **ps, char *es);
+//execute
+void		execute_cmd(t_execcmd *cmd);
+void 		redircmd(t_redircmd *cmd);
+void		pipecmd(t_pipecmd *cmd);
+void		listcmd(t_listcmd *cmd);
+void		backcmd(t_back_cmd *cmd);
+void		execute(t_cmd *cmd);
 #endif

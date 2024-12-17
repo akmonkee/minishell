@@ -6,18 +6,18 @@
 /*   By: efoschi <efoschi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 15:06:29 by efoschi           #+#    #+#             */
-/*   Updated: 2024/12/10 14:16:56 by efoschi          ###   ########.fr       */
+/*   Updated: 2024/12/17 16:24:38 by efoschi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 //devo gestire l'execute dei vari comandi della shell
 void	execute(t_cmd *cmd)
 {
 	if (cmd->type == EXEC)
 	{
-		execcmd((t_execcmd *)cmd);
+		execute_cmd((t_execcmd *)cmd);
 	}
 	else if (cmd->type == REDIR)
 	{
@@ -33,7 +33,7 @@ void	execute(t_cmd *cmd)
 	}
 	else if (cmd->type == BACK)
 	{
-		backcmd((t_backcmd *)cmd);
+		backcmd((t_back_cmd *)cmd);
 	}
 	else
 		perror("cmd type");

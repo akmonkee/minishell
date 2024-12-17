@@ -6,7 +6,7 @@
 /*   By: efoschi <efoschi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:21:33 by msisto            #+#    #+#             */
-/*   Updated: 2024/12/05 15:11:13 by efoschi          ###   ########.fr       */
+/*   Updated: 2024/12/17 16:54:27 by efoschi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,22 +32,35 @@ void	start_shell(char **envp)
 		{
 			fr = input;
 			add_history(input);
-			printf("%d\n", gettoken(&input, (input + ft_strlen(input)),
-					&input, &input));
+			// if (strcmp(input, "run_tests") == 0) // Controllo per run_tests
+			// {
+			// 	run_tests(); // Esegui tutti i test
+			// }
+			// else
+			// {
+			// 	printf("Unknown command: %s\n", input);
+			// }
 			input = fr;
 		}
 		free(input);
 	}
 }
 
-int	main(int argc, char **argv, char *envp[])
+int	main(int ac, char **av, char *envp[])
 {
+	if (ac > 1)
+	{
+		write(2, "Error\nno args allowed\n", 22);
+		return (1);
+	}
 	if (isatty(STDIN_FILENO))
 		start_shell(envp);
 	else
 	{
-		perror("Error: Not running in a terminal.\n");
+		write(2, "Error: Not running in a terminal.\n", 34);
 		exit(EXIT_FAILURE);
 	}
+
+
 	return (0);
 }
