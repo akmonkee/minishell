@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:21:33 by msisto            #+#    #+#             */
-/*   Updated: 2024/12/06 10:14:21 by msisto           ###   ########.fr       */
+/*   Updated: 2024/12/17 15:25:00 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	main(int ac, char **av, char *envp[])
 		start_shell(envp);
 	else
 	{
-		perror("Error: Not running in a terminal.\n");
+		write(2, "Error: Not running in a terminal.\n", 34);
 		exit(EXIT_FAILURE);
 	}
 	return (0);

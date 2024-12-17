@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2024/12/16 13:09:20 by msisto           ###   ########.fr       */
+/*   Updated: 2024/12/17 15:25:54 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ struct cmd	*parsecmd(char *s);
 struct cmd	*parsepipe(char **ps, char *es);
 //parseexec
 struct cmd	*execcmd();
-struct cmd	*parseexec(char **ps, char *es, int argc);
+struct cmd	*parseexec(char **ps, char *es);
 //parseredirs
 struct cmd	*parseredirs(struct cmd *cmd, char **ps, char *es);
 
