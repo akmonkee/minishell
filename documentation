@@ -99,3 +99,26 @@ The EXEC node has the type code as the first field but then it has 2 arrays:
 Each one of these will contain pointers into the buffer.
 
 ARGV[0] will point to the program name or the file containing the executable and the remaining pointers will point to the options
+
+
+FUNCTIONS
+
+- parsecmd: returns a pointer to the tree.
+	There are other functions for the parsing.
+
+- nulterminate: is the function that recursively walks the tree and replaces those characters by \0 so that all the strings become null-terminated strings.
+
+- gettoken: it will read a token from the input buffer or will identify where the next token occurs
+
+- main
+
+- getcmd: it prints the prompt and reads in from stdin a line of characters to the buffer.
+
+- runcmd: it walks the tree and executes according to whichever nodes it encounters.
+
+- panic: prints an error message and then it terminates the process.
+	The shell creates at least one process for every command line that's entered.
+	We deal with errors just by printing a message and terminating the current process.
+	So the shell itself exists in a parent process and will continue to execute.
+
+- fork1: it checks that there's no error when we invoke the fork system call.
