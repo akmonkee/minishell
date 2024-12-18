@@ -6,13 +6,13 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 12:58:05 by msisto            #+#    #+#             */
-/*   Updated: 2024/12/16 13:09:08 by msisto           ###   ########.fr       */
+/*   Updated: 2024/12/18 12:26:16 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-struct cmd	*parseredirs(struct cmd *cmd, char **ps, char *es)
+t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es)
 {
 	int	tok;
 	char	*q;

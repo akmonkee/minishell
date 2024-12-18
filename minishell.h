@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2024/12/17 15:25:54 by msisto           ###   ########.fr       */
+/*   Updated: 2024/12/18 12:22:24 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ typedef struct s_execcmd
 typedef struct s_redircmd
 {
 	int			type;
-	struct cmd	*cmd;
+	t_cmd	*cmd;
 	char		*file;
 	char		*efile;
 	int			mode;
@@ -90,24 +90,24 @@ typedef struct s_redircmd
 typedef struct s_pipecmd
 {
 	int			type;
-	struct cmd	*left;
-	struct cmd	*right;
+	t_cmd	*left;
+	t_cmd	*right;
 }	t_pipecmd;
 
 typedef struct s_listcmd
 {
 	int			type;
-	struct cmd	*left;
-	struct cmd	*right;
+	t_cmd	*left;
+	t_cmd	*right;
 }	t_listcmd;
 
 typedef struct s_backcmd
 {
 	int			type;
-	struct cmd	*cmd;
+	t_cmd	*cmd;
 }	t_back_cmd;
 
-/*function delle struct da fare:
+/*function delle t_da fare:
 pipecmd
 listcmd
 backcmd
@@ -135,14 +135,16 @@ void	*ft_memset(void *b, int c, size_t len);
 //parse
 int			peek(char **ps, char *es, char *toks);
 int			gettoken(char **ps, char *es, char **q, char **eq);
-struct cmd	*parseline(char **ps, char *es);
-struct cmd	*parsecmd(char *s);
+t_cmd	*parseline(char **ps, char *es);
+t_cmd	*parsecmd(char *s);
 //parse pipe
-struct cmd	*parsepipe(char **ps, char *es);
+t_cmd	*parsepipe(char **ps, char *es);
 //parseexec
-struct cmd	*execcmd();
-struct cmd	*parseexec(char **ps, char *es);
+t_cmd	*execcmd();
+t_cmd	*parseexec(char **ps, char *es);
 //parseredirs
-struct cmd	*parseredirs(struct cmd *cmd, char **ps, char *es);
+t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es);
+//nulterminate
+t_cmd	*nulterminate(t_cmd *cmd);
 
 #endif

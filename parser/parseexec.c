@@ -6,30 +6,30 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 10:53:56 by msisto            #+#    #+#             */
-/*   Updated: 2024/12/17 15:25:44 by msisto           ###   ########.fr       */
+/*   Updated: 2024/12/18 12:28:06 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-struct cmd	*execcmd()
+t_cmd	*execcmd()
 {
 	t_execcmd	*cmd;
 
 	cmd = malloc(sizeof(*cmd));
 	memset(cmd, 0, sizeof(*cmd));
 	cmd->type = EXEC;
-	return ((struct cmd*)cmd);
+	return ((t_cmd *)cmd);
 }
 
-struct cmd	*parseexec(char **ps, char *es)
+t_cmd	*parseexec(char **ps, char *es)
 {
 	char	*q;
 	char	*eq;
 	int		tok;
 	int		argc;
 	t_execcmd	*cmd;
-	struct cmd	*ret;
+	t_cmd	*ret;
 
 	if (peek(ps, es, "("))
 		/*parseblock*/
