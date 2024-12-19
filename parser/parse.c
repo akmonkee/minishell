@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 11:17:55 by msisto            #+#    #+#             */
-/*   Updated: 2024/12/18 12:28:34 by msisto           ###   ########.fr       */
+/*   Updated: 2024/12/19 14:06:10 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,6 @@ t_cmd	*parsecmd(char *s)
 		write(2, "Error\nend of command not reached\n", 33);
 		return (NULL);
 	}
-	//nulterminate(cmd);
+	nulterminate(cmd);
 	return (cmd);
 }
