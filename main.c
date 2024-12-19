@@ -6,7 +6,7 @@
 /*   By: efoschi <efoschi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:21:33 by msisto            #+#    #+#             */
-/*   Updated: 2024/12/17 16:54:27 by efoschi          ###   ########.fr       */
+/*   Updated: 2024/12/19 14:08:21 by efoschi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,5 @@ int	main(int ac, char **av, char *envp[])
 		write(2, "Error: Not running in a terminal.\n", 34);
 		exit(EXIT_FAILURE);
 	}
-
-
 	return (0);
 }

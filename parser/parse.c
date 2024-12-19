@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: efoschi <efoschi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 11:17:55 by msisto            #+#    #+#             */
-/*   Updated: 2024/12/06 12:19:32 by msisto           ###   ########.fr       */
+/*   Updated: 2024/12/19 14:03:48 by efoschi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ struct cmd	*parseline(char **ps, char *es)
 	struct cmd	*cmd;
 
 	cmd = parsepipe(ps, es);
+	return (cmd);
 }
 
 struct cmd	*parsecmd(char *s)
@@ -72,7 +73,8 @@ struct cmd	*parsecmd(char *s)
 	es = s + ft_strlen(s);
 	cmd = parseline(&s, es);
 	peek(&s, es, "");
-	if(s != es){
+	if (s != es)
+	{
 		write(2, "Error\nend of command not reached\n", 33);
 		return (NULL);
 	}

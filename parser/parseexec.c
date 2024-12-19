@@ -3,43 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   parseexec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: efoschi <efoschi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 10:53:56 by msisto            #+#    #+#             */
-/*   Updated: 2024/12/17 15:25:44 by msisto           ###   ########.fr       */
+/*   Updated: 2024/12/19 14:07:13 by efoschi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-struct cmd	*execcmd()
+struct cmd	*execcmd(void)
 {
 	t_execcmd	*cmd;
 
 	cmd = malloc(sizeof(*cmd));
 	memset(cmd, 0, sizeof(*cmd));
 	cmd->type = EXEC;
-	return ((struct cmd*)cmd);
+	return ((struct cmd *) cmd);
 }
 
 struct cmd	*parseexec(char **ps, char *es)
 {
-	char	*q;
-	char	*eq;
-	int		tok;
-	int		argc;
+	char		*q;
+	char		*eq;
+	int			tok;
+	int			argc;
 	t_execcmd	*cmd;
 	struct cmd	*ret;
 
 	if (peek(ps, es, "("))
 		/*parseblock*/
 	ret = execcmd();
-	cmd = (t_execcmd*)ret;
+	cmd = (t_execcmd *)ret;
 	argc = 0;
 	/*parseredirs is here to redir input*/
 	while (!peek(ps, es, "|)&;"))
 	{
-		if ((tok = gettoken(ps, es, &q, &eq)) == 0)
+		tok = gettoken(ps, es, &q, &eq);
+		if (tok == 0)
 			break ;
 		if (tok != 'a')
 			/*print error "syntax"*/
