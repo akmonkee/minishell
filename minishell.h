@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2024/12/20 12:05:38 by msisto           ###   ########.fr       */
+/*   Updated: 2024/12/20 12:55:02 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,18 @@ t_cmd	*redircmd(t_cmd *subcmd, char *file, char *efile, int mode);
 t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es);
 //nulterminate
 t_cmd	*nulterminate(t_cmd *cmd);
-//exec
+//runcmd/fullexecmd
+char	*ft_strjoin(char *path, char *cmd);
+void	mtxs_free(char **mtx);
+char	*cmd_check(char **path, char *command);
+void	ft_execute_command(char *command, char **envp);
+//runcmd/pathfinder
+char	*path_ex(char *string, int ex_len, int start);
+int		path_count(char *string, char c);
+char	**ft_split(char *string, char c, int index, int start);
+char	*ft_strnstr(const char *s, const char *to_find, size_t len);
+char	**path_finder(char **envp);
+//runcmd/runcmd
 void	runcmd(t_cmd *cmd);
 
 #endif
