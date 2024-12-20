@@ -6,13 +6,13 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 11:57:08 by msisto            #+#    #+#             */
-/*   Updated: 2024/12/20 12:10:19 by msisto           ###   ########.fr       */
+/*   Updated: 2024/12/20 14:09:04 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	runcmd(t_cmd *cmd)
+void	runcmd(t_cmd *cmd, char	**envp)
 {
 	t_execcmd	*ecmd;
 
@@ -21,11 +21,14 @@ void	runcmd(t_cmd *cmd)
 		write(2, "no parse tree\n", 14);
 		return ;
 	}
-	ecmd = (t_execcmd *)cmd;
-	if (ecmd->argv[0] == 0)
+	if (cmd->type == EXEC)
 	{
-		write(2, "no args tree\n", 13);
-		return ;
+		ecmd = (t_execcmd *)cmd;
+		if (ecmd->argv[0] == 0)
+		{
+			write(2, "no args tree\n", 13);
+			return ;
+		}
+		ft_execute_command(ecmd->argv, envp);
 	}
-	execve(ecmd->argv[0], ecmd->argv, );
 }

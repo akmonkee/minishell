@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:21:33 by msisto            #+#    #+#             */
-/*   Updated: 2024/12/17 15:25:00 by msisto           ###   ########.fr       */
+/*   Updated: 2024/12/20 13:53:38 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,7 @@ void	start_shell(char **envp)
 		{
 			fr = input;
 			add_history(input);
-			while (input != (input + ft_strlen(input)))
-				printf("%d\n", gettoken(&input, (input + ft_strlen(input)), &input, &input));
+			runcmd(parsecmd(input), envp);
 			input = fr;
 		}
 		free(input);
