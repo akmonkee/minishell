@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2024/12/19 14:46:43 by msisto           ###   ########.fr       */
+/*   Updated: 2024/12/20 12:05:38 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,5 +147,7 @@ t_cmd	*redircmd(t_cmd *subcmd, char *file, char *efile, int mode);
 t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es);
 //nulterminate
 t_cmd	*nulterminate(t_cmd *cmd);
+//exec
+void	runcmd(t_cmd *cmd);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 11:17:55 by msisto            #+#    #+#             */
-/*   Updated: 2024/12/19 14:06:10 by msisto           ###   ########.fr       */
+/*   Updated: 2024/12/20 11:59:36 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ t_cmd	*parseline(char **ps, char *es)
 	t_cmd	*cmd;
 
 	cmd = parsepipe(ps, es);
+	return (cmd);
 }
 
 t_cmd	*parsecmd(char *s)
