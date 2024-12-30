@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fullexecmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:35:28 by msisto            #+#    #+#             */
-/*   Updated: 2024/12/20 14:15:59 by msisto           ###   ########.fr       */
+/*   Updated: 2024/12/30 16:33:05 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,3 +97,4 @@ void	ft_execute_command(char **command, char **envp)
 		mtxs_free(path);
 	}
 }
+
