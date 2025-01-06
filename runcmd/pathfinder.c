@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 11:17:05 by msisto            #+#    #+#             */
-/*   Updated: 2024/12/20 13:21:57 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/06 18:02:07 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,8 @@ char	**path_finder(char **envp)
 	int		i;
 
 	i = 0;
+	if (!envp)
+		return (NULL);
 	while (!ft_strnstr(envp[i], "PATH", 4))
 		i++;
 	paths = ft_split(envp[i], ':', 0, 5);
