@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 11:57:08 by msisto            #+#    #+#             */
-/*   Updated: 2024/12/20 14:09:04 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/06 12:04:33 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	runcmd(t_cmd *cmd, char	**envp)
 {
 	t_execcmd	*ecmd;
+	int	i = 0;
 
 	if (cmd == 0)
 	{

@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:35:28 by msisto            #+#    #+#             */
-/*   Updated: 2024/12/20 14:15:59 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/06 17:01:28 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ void	mtxs_free(char **mtx)
 		while (mtx[++i] != NULL)
 		{
 			free(mtx[i]);
-			mtx[i] = NULL;
+			//mtx[i] = NULL;
 		}
 		free(mtx);
-		mtx = NULL;
+		//mtx = NULL;
 	}
 }
 
@@ -75,7 +75,6 @@ char	*cmd_check(char **path, char *command)
 void	ft_execute_command(char **command, char **envp)
 {
 	char	**path;
-	//char	**diff_path;
 	char	*exe_path;
 
 	path = path_finder(envp);
@@ -84,16 +83,12 @@ void	ft_execute_command(char **command, char **envp)
 		write(2, "unable to create path\n", 22);
 		return ;
 	}
-	//diff_path = ft_split(command, ' ', 0, 0);
-	//if (!diff_path)
-	//	mtxs_free(path);
-	//exe_path = cmd_check(path, diff_path[0]);
 	exe_path = cmd_check(path, command[0]);
 	if (!exe_path)
 		return ;
 	else
 	{
-		execve(exe_path, command, envp);
-		mtxs_free(path);
+		if (execve(exe_path, command, envp) == -1)
+			mtxs_free(path);
 	}
 }
