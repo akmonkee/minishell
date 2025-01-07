@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:35:28 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/07 10:49:00 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/07 10:53:24 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	ft_execute_command(char **command, char **envp)
 	{
 		wait(NULL);
 		if (path)
-			printf("dio bastonato\n");
+			free(path);
 		free(exe_path);
 	}
 }
