@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:35:28 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/06 18:02:23 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/07 10:49:00 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,8 @@ void	mtxs_free(char **mtx)
 		while (mtx[++i] != NULL)
 		{
 			free(mtx[i]);
-			//mtx[i] = NULL;
 		}
 		free(mtx);
-		//mtx = NULL;
 	}
 }
 
@@ -99,5 +97,10 @@ void	ft_execute_command(char **command, char **envp)
 			mtxs_free(path);
 	}
 	else
+	{
 		wait(NULL);
+		if (path)
+			printf("dio bastonato\n");
+		free(exe_path);
+	}
 }
