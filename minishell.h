@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2024/12/20 13:38:50 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/07 11:08:21 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,13 +118,10 @@ redircmd
 /*function da fare:
 parsecmd
 	parseline
-	parsepipe
 	parseredir
 	parseblock
 	parseexec
-nulterminate
 getcmd
-runcmd
 panic (error function)*/
 
 void	start_shell(char **envp);
