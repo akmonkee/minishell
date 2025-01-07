@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:35:28 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/07 10:53:24 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/07 11:59:38 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,15 @@ void	mtxs_free(char **mtx)
 {
 	int	i;
 
-	i = -1;
+	i = 0;
 	if (mtx == NULL)
 		return ;
 	else
 	{
-		while (mtx[++i] != NULL)
+		while (mtx[i])
 		{
 			free(mtx[i]);
+			i++;
 		}
 		free(mtx);
 	}
@@ -87,20 +88,13 @@ void	ft_execute_command(char **command, char **envp)
 		return ;
 	pid = fork();
 	if (pid == -1)
-	{
-		mtxs_free(path);
 		return ;
-	}
 	if (pid == 0)
-	{
 		if (execve(exe_path, command, envp) == -1)
-			mtxs_free(path);
-	}
+			return ;
 	else
 	{
 		wait(NULL);
-		if (path)
-			free(path);
 		free(exe_path);
 	}
 }
