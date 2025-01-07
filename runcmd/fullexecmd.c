@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:35:28 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/07 13:57:31 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/07 14:56:27 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,15 @@ void	mtxs_free(char **mtx)
 	int	i;
 
 	i = 0;
+	if (!mtx)
+		return ;
 	while (mtx[i])
 	{
-		free(mtx[i]);
+		printf("%s\n", mtx[i]);
+		//free(mtx[i]);
 		i++;
 	}
-	free(mtx);
+	//free(mtx);
 }
 
 char	*cmd_check(char **path, char *command)
@@ -78,6 +81,7 @@ void	ft_execute_command(char **command, char **envp)
 		write(2, "unable to create path\n", 22);
 		return ;
 	}
+		mtxs_free(path);
 	exe_path = cmd_check(path, command[0]);
 	if (!exe_path)
 		return ;
