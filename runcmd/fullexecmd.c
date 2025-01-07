@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:35:28 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/07 11:59:38 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/07 13:57:31 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,12 @@ void	mtxs_free(char **mtx)
 	int	i;
 
 	i = 0;
-	if (mtx == NULL)
-		return ;
-	else
+	while (mtx[i])
 	{
-		while (mtx[i])
-		{
-			free(mtx[i]);
-			i++;
-		}
-		free(mtx);
+		free(mtx[i]);
+		i++;
 	}
+	free(mtx);
 }
 
 char	*cmd_check(char **path, char *command)
@@ -90,8 +85,10 @@ void	ft_execute_command(char **command, char **envp)
 	if (pid == -1)
 		return ;
 	if (pid == 0)
+	{
 		if (execve(exe_path, command, envp) == -1)
-			return ;
+			mtxs_free(path);
+	}
 	else
 	{
 		wait(NULL);
