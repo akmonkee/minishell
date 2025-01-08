@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 11:22:39 by msisto            #+#    #+#             */
-/*   Updated: 2024/12/16 11:06:38 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/08 10:56:15 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,9 @@ void	*ft_memset(void *b, int c, size_t len)
 		i++;
 	}
 	return (b);
+}
+
+ft_putstr_fd(char *s, int fd)
+{
+	write(fd, s, ft_strlen(s));
 }

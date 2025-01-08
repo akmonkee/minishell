@@ -1,36 +1,52 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_cd.c                                       :+:      :+:    :+:   */
+/*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/08 10:08:39 by marvin            #+#    #+#             */
-/*   Updated: 2025/01/08 10:08:39 by marvin           ###   ########.fr       */
+/*   Created: 2025/01/08 10:18:53 by marvin            #+#    #+#             */
+/*   Updated: 2025/01/08 10:18:53 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	builtin_cd(char **cmd)
+int	check_option(char *str)
 {
-	char	*path;
+	int	i;
 
-	if (!cmd[1])
+	i = 1;
+	if (str[0] != '-')
+		return (0);
+	while (str[i])
 	{
-		path = getenv("HOME");
-		if (!path)
-		{
-			ft_putstr_fd("cd: HOME not set\n", 2);
-			return ;
-		}
+		if (str[i] != 'n')
+			return (0);
+		i++;
 	}
-	else
-		path = cmd[1];
-	if (chdir(path) == -1)
+	return (1);
+}
+
+void	echo(char **cmd)
+{
+	int	flag;
+
+	cmd++;
+	flag = 0;
+	while (*cmd && check_option(*cmd))
 	{
-		ft_putstr_fd("cd: ", 2);
-		ft_putstr_fd(path, 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
+		flag = 1;
+		cmd++;
 	}
+	while (*cmd)
+	{
+		ft_putstr_fd(*cmd, 1);
+		cmd++;
+		if (*cmd)
+			ft_putstr_fd(" ", 1);
+	}
+	if (!flag)
+		ft_putstr_fd("\n", 1);
+	//exit_with_status(0);
 }

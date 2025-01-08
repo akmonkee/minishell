@@ -1,36 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_cd.c                                       :+:      :+:    :+:   */
+/*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/08 10:08:39 by marvin            #+#    #+#             */
-/*   Updated: 2025/01/08 10:08:39 by marvin           ###   ########.fr       */
+/*   Created: 2025/01/08 11:07:11 by marvin            #+#    #+#             */
+/*   Updated: 2025/01/08 11:07:11 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	builtin_cd(char **cmd)
+void	builtin_export(char **cmd)
 {
-	char	*path;
+	int		i;
+	char	*key;
+	char	*value;
 
-	if (!cmd[1])
+	i = 1;
+	while (cmd[i])
 	{
-		path = getenv("HOME");
-		if (!path)
+		key = cmd[i];
+		value = ft_strchr(cmd[i], '=');
+		if (value)
 		{
-			ft_putstr_fd("cd: HOME not set\n", 2);
-			return ;
+			*value = 0;
+			value++;
 		}
-	}
-	else
-		path = cmd[1];
-	if (chdir(path) == -1)
-	{
-		ft_putstr_fd("cd: ", 2);
-		ft_putstr_fd(path, 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
+		if (key && value)
+			setenv(key, value, 1);
+		else if (key)
+			setenv(key, "", 1);
+		i++;
 	}
 }

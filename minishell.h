@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efoschi <efoschi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2024/12/19 14:27:31 by efoschi          ###   ########.fr       */
+/*   Updated: 2025/01/08 10:56:27 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,7 @@ void		start_shell(char **envp);
 int			ft_strchr(char *comp, char s);
 size_t		ft_strlen(char	*s);
 void		*ft_memset(void *b, int c, size_t len);
+void		ft_putstr_fd(char *s, int fd);
 //parse
 int			peek(char **ps, char *es, char *toks);
 int			gettoken(char **ps, char *es, char **q, char **eq);

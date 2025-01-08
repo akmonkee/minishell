@@ -1,36 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_cd.c                                       :+:      :+:    :+:   */
+/*   builtin_pwd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/08 10:08:39 by marvin            #+#    #+#             */
-/*   Updated: 2025/01/08 10:08:39 by marvin           ###   ########.fr       */
+/*   Created: 2025/01/08 11:02:24 by marvin            #+#    #+#             */
+/*   Updated: 2025/01/08 11:02:24 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	builtin_cd(char **cmd)
+void	builtin_pwd(void)
 {
 	char	*path;
 
-	if (!cmd[1])
+	path = getcwd(NULL, 0);
+	if (!path)
 	{
-		path = getenv("HOME");
-		if (!path)
-		{
-			ft_putstr_fd("cd: HOME not set\n", 2);
-			return ;
-		}
+		ft_putstr_fd("pwd: error retrieving current directory: No such file or directory\n", 2);
+		return (0);
 	}
-	else
-		path = cmd[1];
-	if (chdir(path) == -1)
-	{
-		ft_putstr_fd("cd: ", 2);
-		ft_putstr_fd(path, 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
-	}
+	ft_putstr_fd(path, 1);
+	ft_putstr_fd("\n", 1);
+	free(path);
 }
