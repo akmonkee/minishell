@@ -1,36 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_bt.c                                         :+:      :+:    :+:   */
+/*   panic_bt.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/09 15:02:13 by marvin            #+#    #+#             */
-/*   Updated: 2025/01/09 15:02:13 by marvin           ###   ########.fr       */
+/*   Created: 2025/01/09 16:51:07 by marvin            #+#    #+#             */
+/*   Updated: 2025/01/09 16:51:07 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*get_path(void)
+int	malloc_p(char **m)
 {
-	char	cwd[1024];
-
-	if (getcwd(cwd, sizeof(cwd)) != NULL)
-		return (ft_strjoin(cwd, "\0"));
-	else
+	if (m == NULL)
 	{
-		perror("Panic: getcwd() error");
+		return (0);
+		perror("Panic: Malloc error");
+		exit(EXIT_FAILURE);
 	}
-	return (ft_strjoin("\0", "\0"));
-}
-
-int	ft_matrixlen(char **matrix)
-{
-	int	i;
-
-	i = 0;
-	while (matrix[i])
-		i++;
-	return (i);
+	return (1);
 }

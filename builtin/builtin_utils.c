@@ -12,21 +12,39 @@
 
 #include "../minishell.h"
 
-int	control_bt(char *input, char **envp)
+int	control_bt(t_main *main, t_cmd *cur)
 {
-	if (!ft_strncmp(input, "cd", 2))
-		return (1);
-	if (!ft_strncmp(input, "pwd", 3))
-		return (builtin_pwd());
-	if (!ft_strncmp(input, "echo", 4))
-		return (1);
-	if (!ft_strncmp(input, "export", 6))
-		return (1);
-	if (!ft_strncmp(input, "unset", 5))
-		return (1);
-	if (!ft_strncmp(input, "env", 3))
-		return (1);
-	if (!ft_strncmp(input, "exit", 4))
-		return (1);
+	if (!ft_strncmp(cur->cmd, "exit", 5))
+		return (builtin_exit(main, cur->cmd, 4, 0));
+	// else if (!ft_strncmp(cur->cmd, "pwd", 4))
+	// 	return (builtin_pwd());
+	// else if (!ft_strncmp(cur->cmd, "env", 4))
+	// 	return (builtin_env(main->env));
+	// else if (!ft_strncmp(cur->cmd, "cd", 3))
+	// 	return (builtin_cd(main, cur));
+	// else if (!ft_strncmp(cur->cmd, "export", 7))
+	// 	return (builtin_export(main, cur));
+	// else if (!ft_strncmp(cur->cmd, "unset", 6))
+	// 	return (builtin_unset(main, cur));
+	// else if (!ft_strncmp(cur->cmd, "echo", 5))
+	// 	return (builtin_echo(cur));
+	// return (0);
+}
+
+int	looking_for_env(t_main *main, char *cmd)
+{
+	char	**str;
+	int		i;
+
+	i = 0;
+	while (main->env[i])
+	{
+		str = ft_split(main->env[i], '=');
+		malloc_p(str);
+		if (ft_matrixlen(str) >= 1 && !ft_strncmp(str[0], cmd, ft_strlen(cmd) + 1))
+			return (free_matrix(str), 1);
+		free_matrix(str);
+		i++;
+	}
 	return (0);
 }

@@ -6,11 +6,13 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:21:33 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/09 15:11:48 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/09 17:21:36 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int		g_code_exit = 0;
 
 void	start_shell(char **envp)
 {
@@ -32,7 +34,7 @@ void	start_shell(char **envp)
 		{
 			fr = input;
 			add_history(input);
-			if(control_bt(input))
+			if(control_bt(input, envp))
 				printf("trovato builtin\n");
 			input = fr;
 		}
