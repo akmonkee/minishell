@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 11:57:08 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/08 12:08:41 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/09 14:27:49 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	runcmd(t_cmd *cmd, char	**envp)
 
 		if (fork1() == 0)
 		{
+			close(1);
 			dup(p[1]);
 			close(p[0]);
 			close(p[1]);
@@ -46,6 +47,7 @@ void	runcmd(t_cmd *cmd, char	**envp)
 		}
 		if (fork1() == 0)
 		{
+			close(0);
 			dup(p[0]);
 			close(p[0]);
 			close(p[1]);
