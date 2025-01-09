@@ -1,36 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_cd.c                                       :+:      :+:    :+:   */
+/*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/08 10:08:39 by marvin            #+#    #+#             */
-/*   Updated: 2025/01/08 10:08:39 by marvin           ###   ########.fr       */
+/*   Created: 2025/01/08 15:17:35 by marvin            #+#    #+#             */
+/*   Updated: 2025/01/08 15:17:35 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	builtin_cd(char **cmd)
+int	control_bt(char *input, char **envp)
 {
-	char	*path;
-
-	if (!cmd[1])
-	{
-		path = getenv("HOME");
-		if (!path)
-		{
-			ft_putstr_fd("cd: HOME not set\n", 2);
-			return ;
-		}
-	}
-	else
-		path = cmd[1];
-	if (chdir(path) == -1)
-	{
-		ft_putstr_fd("cd: ", 2);
-		ft_putstr_fd(path, 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
-	}
+	if (!ft_strncmp(input, "cd", 2))
+		return (1);
+	if (!ft_strncmp(input, "pwd", 3))
+		return (builtin_pwd());
+	if (!ft_strncmp(input, "echo", 4))
+		return (1);
+	if (!ft_strncmp(input, "export", 6))
+		return (1);
+	if (!ft_strncmp(input, "unset", 5))
+		return (1);
+	if (!ft_strncmp(input, "env", 3))
+		return (1);
+	if (!ft_strncmp(input, "exit", 4))
+		return (1);
+	return (0);
 }

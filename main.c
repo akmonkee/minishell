@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efoschi <efoschi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:21:33 by msisto            #+#    #+#             */
-/*   Updated: 2024/12/19 14:08:21 by efoschi          ###   ########.fr       */
+/*   Updated: 2025/01/09 15:11:48 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,8 @@ void	start_shell(char **envp)
 		{
 			fr = input;
 			add_history(input);
-			// if (strcmp(input, "run_tests") == 0) // Controllo per run_tests
-			// {
-			// 	run_tests(); // Esegui tutti i test
-			// }
-			// else
-			// {
-			// 	printf("Unknown command: %s\n", input);
-			// }
+			if(control_bt(input))
+				printf("trovato builtin\n");
 			input = fr;
 		}
 		free(input);

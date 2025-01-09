@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 11:22:39 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/08 10:56:15 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/09 15:17:58 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,23 @@ void	*ft_memset(void *b, int c, size_t len)
 	return (b);
 }
 
-ft_putstr_fd(char *s, int fd)
+void	ft_putstr_fd(char *s, int fd)
 {
 	write(fd, s, ft_strlen(s));
+}
+
+int	ft_strncmp(char *s1, char *s2, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while (s1[i] && s2[i] && i < n)
+	{
+		if (s1[i] != s2[i])
+			return (s1[i] - s2[i]);
+		i++;
+	}
+	if (i == n)
+		return (0);
+	return (s1[i] - s2[i]);
 }

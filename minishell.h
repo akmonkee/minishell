@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/08 10:56:27 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/09 16:20:36 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,17 @@
 
 # define MAXARGS 10
 
+extern int	g_code_exit;
+
 /*cmd structs*/
 
 typedef struct s_cmd
 {
-	int	type;
+	int				type;
+	int				or;
+	int				pipe;
+	char			*cmd;
+	struct s_cmd	*next;
 }	t_cmd;
 
 typedef struct s_execcmd
@@ -107,6 +113,41 @@ typedef struct s_backcmd
 	struct cmd	*cmd;
 }	t_back_cmd;
 
+typedef struct s_data
+{
+	char		*temp;
+	char		*temp2;
+	int			i;
+	int			i2;
+	char		*env_var;
+	char		*env_name;
+	int			pipe;
+	int			pipe_1;
+	int			or;
+	int			or_1;
+	int			quote;
+	int			dquote;
+}				t_data;
+
+typedef struct s_data2
+{
+	char		**arg;
+	char		*t1;
+	char		*t2;
+	int			i;
+}				t_data2;
+
+typedef struct s_main
+{
+	t_cmd	*lcmd;
+	char	*input;
+	char	**env;
+	int		print;
+	int		npipe;
+	int		ncmd;
+	int		in;
+	int		out;
+}				t_main;
 /*function delle struct da fare:
 pipecmd
 listcmd
@@ -133,6 +174,12 @@ int			ft_strchr(char *comp, char s);
 size_t		ft_strlen(char	*s);
 void		*ft_memset(void *b, int c, size_t len);
 void		ft_putstr_fd(char *s, int fd);
+int			ft_strncmp(char *s1, char *s2, size_t n);
+char		*ft_strjoin(char const *s1, char const *s2);
+char		*ft_strjoin12f(char *s1, char *s2);
+char		*ft_strjoin1f(char *s1, char *s2);
+char		*ft_strjoin2f(char *s1, char *s2);
+char		*get_path(void);
 //parse
 int			peek(char **ps, char *es, char *toks);
 int			gettoken(char **ps, char *es, char **q, char **eq);
@@ -152,4 +199,7 @@ void		pipecmd(t_pipecmd *cmd);
 void		listcmd(t_listcmd *cmd);
 void		backcmd(t_back_cmd *cmd);
 void		execute(t_cmd *cmd);
+//builtin
+int			control_bt(char *input);
+int			builtin_pwd(void);
 #endif
