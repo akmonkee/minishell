@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 11:57:08 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/09 14:27:49 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/10 11:38:40 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,11 @@ void	runcmd(t_cmd *cmd, char	**envp)
 	{
 		pcmd = (t_pipecmd *)cmd;
 
+		if (pipe(p) < 0)
+		{
+			write(2, "pipe\n", 5);
+			return ;
+		}
 		if (fork1() == 0)
 		{
 			close(1);

@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 11:17:55 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/09 16:26:11 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/10 10:11:04 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,7 @@ int	gettoken(char **ps, char *es, char **q, char **eq)
 	ret = *s;
 	if (*s == 0)
 		return (0);
-	else if (*s == '|')
-		s++;
-	else if (*s == '(')
-		s++;
-	else if (*s == ')')
-		s++;
-	else if (*s == ';')
-		s++;
-	else if (*s == '&')
-		s++;
-	else if (*s == '<')
+	else if (*s == '|' || *s == '(' || *s == ')' || *s == ';' || *s == '&' || *s == '<')
 		s++;
 	/*
 	parse options here
