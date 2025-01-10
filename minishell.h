@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/10 11:31:55 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/10 12:18:12 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,5 +159,6 @@ char	**path_finder(char **envp);
 void	runcmd(t_cmd *cmd, char **envp);
 //runcmd/runpipe
 int		fork1();
+void	runpipe(t_cmd *cmd, char **envp);
 
 #endif
