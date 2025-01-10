@@ -18,17 +18,17 @@ int	control_bt(t_main *main, t_cmd *cur)
 		return (builtin_exit(main, cur->cmd, 4, 0));
 	else if (!ft_strncmp(cur->cmd, "pwd", 4))
 		return (builtin_pwd());
-	// else if (!ft_strncmp(cur->cmd, "env", 4))
-	// 	return (builtin_env(main->env));
+	else if (!ft_strncmp(cur->cmd, "env", 4))
+		return (builtin_env(main->env));
 	// else if (!ft_strncmp(cur->cmd, "cd", 3))
 	// 	return (builtin_cd(main, cur));
 	// else if (!ft_strncmp(cur->cmd, "export", 7))
 	// 	return (builtin_export(main, cur));
-	// else if (!ft_strncmp(cur->cmd, "unset", 6))
-	// 	return (builtin_unset(main, cur));
+	else if (!ft_strncmp(cur->cmd, "unset", 6))
+		return (builtin_unset(main, cur));
 	// else if (!ft_strncmp(cur->cmd, "echo", 5))
 	// 	return (builtin_echo(cur));
-	// return (0);
+	return (0);
 }
 
 int	looking_for_env(t_main *main, char *cmd)
