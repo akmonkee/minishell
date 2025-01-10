@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/09 17:19:46 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/10 12:52:49 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ typedef struct s_data
 	char		*temp;
 	char		*temp2;
 	int			i;
-	int			i2;
+	int			j;
 	char		*env_var;
 	char		*env_name;
 	int			pipe;
@@ -148,30 +148,47 @@ typedef struct s_main
 	int		in;
 	int		out;
 }				t_main;
-/*function delle struct da fare:
-pipecmd
-listcmd
-backcmd
-execcmd
-redircmd
-*/
 
-/*function da fare:
-parsecmd
-	parseline
-	parsepipe
-	parseredir
-	parseblock
-	parseexec
-nulterminate
-getcmd
-runcmd
-panic (error function)*/
-
+//ARGS
+//env_expander.c
+char		*env_expander(t_main *main, t_cmd *cur, t_data data);
+//env_redirections.c
+char		**env_redir(char **matrix);
+//take_args.c
+void		rm_prefix(t_main *main, t_cmd *cur, int i);
+char		**take_args(t_main *main, t_cmd *cur, char *str);
 void		start_shell(char **envp);
+
+//BUILTIN
+//builtin commands
+int			builtin_pwd(void);
+int			builtin_exit(t_main *main, char *cmd, int i, int j);
+int			builtin_env(t_main *main, t_cmd *cur);
+//builtin_utils.c
+int			looking_for_env(t_main *main, char *cmd);
+int			control_bt(char *input, char **envp);
+char		*pick_env(t_main *main, char *cmd);
+
+//EXECUTE
+//exec_functions.c
+void		execute_cmd(t_execcmd *cmd);
+void		redircmd(t_redircmd *cmd);
+void		pipecmd(t_pipecmd *cmd);
+void		listcmd(t_listcmd *cmd);
+void		backcmd(t_back_cmd *cmd);
+//exec.c
+void		execute(t_cmd *cmd);
+
+//PANIC
+//panic.c
+int			malloc_p(char **m);
+int			file_p(char *file, int cmd);
+
+//UTILS
 //freeable.c
 void		free_all(t_main *main);
 int			free_matrix(char **matrix);
+int			free_str(char *str);
 //ft_split.c
 char		**ft_split(char const *s, char c);
 //ft_strjoin.c
@@ -182,10 +199,14 @@ char		*ft_strjoin2f(char *s1, char *s2);
 //ft_substr.c
 char		*ft_substr(char const *s, unsigned int start, size_t len);
 char		*ft_strdup(void);
-//get_arg.c
 //utils_bt.c
 char		*get_path(void);
 int			ft_matrixlen(char **matrix);
+//utils_get_args.c
+void		word_count(int *word, char *str, int *i, char c);
+char		*substr_extract(char *str, int *i, char c);
+char		*substr_extract2(char *str, int *i);
+void		which_utils(char *str, int *i, int *word, char **matrix);
 //utils.c
 int			ft_strchr(char *comp, char s);
 size_t		ft_strlen(char	*s);
@@ -195,20 +216,6 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n);
 //utils2.c
 int			ft_isdigit(int c);
 int			ft_atoi(const char *s);
-//execute
-void		execute_cmd(t_execcmd *cmd);
-void		redircmd(t_redircmd *cmd);
-void		pipecmd(t_pipecmd *cmd);
-void		listcmd(t_listcmd *cmd);
-void		backcmd(t_back_cmd *cmd);
-void		execute(t_cmd *cmd);
-//builtin_utils.c
-int			looking_for_env(t_main *main, char *cmd);
-int	control_bt(char *input, char **envp);
-//builtin commands
-int			builtin_pwd(void);
-int			builtin_exit(t_main *main, char *cmd, int i, int j);
+int			skip_space(int i, char *str);
 
-//panic.c
-int			malloc_p(char **m);
 #endif

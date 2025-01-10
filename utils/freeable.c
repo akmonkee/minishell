@@ -56,3 +56,9 @@ int	free_matrix(char **matrix)
 	}
 	return (0);
 }
+
+int	free_str(char *str)
+{
+	free(str);
+	return (0);
+}

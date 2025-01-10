@@ -45,3 +45,17 @@ int	ft_atoi(const char *s)
 	}
 	return (res * sign);
 }
+
+int	skip_space(int i, char *str)
+{
+	if (str == NULL)
+		return (i);
+	while (str[i])
+	{
+		if (str[i] == ' ' || str[i] == '\t')
+			i++;
+		else
+			break ;
+	}
+	return (i);
+}

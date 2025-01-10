@@ -22,3 +22,22 @@ int	malloc_p(char **m)
 	}
 	return (1);
 }
+
+int	file_p(char *file, int cmd)
+{
+	int	fd;
+
+	fd = -1;
+	if (cmd == 1)
+		fd = open(file, O_RDONLY);
+	else if (cmd == 3)
+		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	else if (cmd == 4)
+		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0777);
+	if (fd == -1)
+	{
+		perror("Panic: open error");
+		exit(EXIT_FAILURE);
+	}
+	return (fd);
+}

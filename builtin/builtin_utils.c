@@ -16,8 +16,8 @@ int	control_bt(t_main *main, t_cmd *cur)
 {
 	if (!ft_strncmp(cur->cmd, "exit", 5))
 		return (builtin_exit(main, cur->cmd, 4, 0));
-	// else if (!ft_strncmp(cur->cmd, "pwd", 4))
-	// 	return (builtin_pwd());
+	else if (!ft_strncmp(cur->cmd, "pwd", 4))
+		return (builtin_pwd());
 	// else if (!ft_strncmp(cur->cmd, "env", 4))
 	// 	return (builtin_env(main->env));
 	// else if (!ft_strncmp(cur->cmd, "cd", 3))
@@ -47,4 +47,28 @@ int	looking_for_env(t_main *main, char *cmd)
 		i++;
 	}
 	return (0);
+}
+
+char	*pick_env(t_main *main, char *cmd)
+{
+	char	**str;
+	int		i;
+	char	*temp;
+
+	i = 0;
+	while (main->env[i])
+	{
+		s = ft_split(main->env[i], '=');
+		if (ft_matrixlen(main->env) >= 2 && !ft_strncmp(s[0], cmd, ft_strlen(cmd) + 1))
+		{
+			temp = ft_strjoin(s[1], "\0");
+			free_matrix(str);
+			return (temp);
+		}
+		free_matrix(str);
+		i++;
+	}
+	temp = malloc (1);
+	temp[0] = '\0';
+	return (temp);
 }
