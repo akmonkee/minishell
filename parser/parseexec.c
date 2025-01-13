@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 10:53:56 by msisto            #+#    #+#             */
-/*   Updated: 2024/12/20 12:06:09 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/13 14:34:41 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_cmd	*parseexec(char **ps, char *es)
 	ret = execcmd();
 	cmd = (t_execcmd*)ret;
 	argc = 0;
-	//ret = parseredirs(ret, ps, es);
+	ret = parseredirs(ret, ps, es);
 	while (!peek(ps, es, "|)&;"))
 	{
 		if ((tok = gettoken(ps, es, &q, &eq)) == 0)
@@ -48,7 +48,7 @@ t_cmd	*parseexec(char **ps, char *es)
 		argc++;
 		//if (argc >= MAXARGS)
 			/*print error "too many args"*/
-		//ret = parseredirs(ret, ps, es);
+		ret = parseredirs(ret, ps, es);
 	}
 	cmd->argv[argc] = 0;
 	cmd->eargv[argc] = 0;

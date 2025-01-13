@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 12:58:05 by msisto            #+#    #+#             */
-/*   Updated: 2024/12/19 14:48:59 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/13 15:09:40 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,16 @@ t_cmd	*redircmd(t_cmd *subcmd, char *file, char *efile, int mode)
 	cmd->file = file;
 	cmd->efile = efile;
 	cmd->mode = mode;
-	if (mode > 0)
+	if (mode == O_RDONLY)
 		cmd->fd = 0;
-	else
+	else if (mode == O_WRONLY|O_CREAT)
 		cmd->fd = 1;
-	return (t_cmd *)cmd;
+	return ((t_cmd *)cmd);
 }
 
 t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es)
 {
-	int	tok;
+	int		tok;
 	char	*q;
 	char	*eq;
 
@@ -40,7 +40,7 @@ t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es)
 	{
 		tok = gettoken(ps, es, 0, 0);
 		if (gettoken(ps, es, &q, &eq) != 'a')
-			/*print error "missing file for redirection"*/
+			write(2, "Error\n missing file for redirection\n", 36);
 		if (tok == '<')
 			cmd = redircmd(cmd, q, eq, O_RDONLY);
 		else if (tok == '>')

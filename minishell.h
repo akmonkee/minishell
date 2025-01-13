@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/10 12:18:12 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/13 14:05:49 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ typedef struct s_execcmd
 typedef struct s_redircmd
 {
 	int			type;
-	t_cmd	*cmd;
+	t_cmd		*cmd;
 	char		*file;
 	char		*efile;
 	int			mode;
