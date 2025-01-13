@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 11:59:25 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/10 12:18:06 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/13 12:40:38 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,6 @@ void	runpipe(t_cmd *cmd, char **envp)
 	close(p[1]);
 	wait(NULL);
 	wait(NULL);
+	free(pcmd->right);
+	free(pcmd->left);
 }

@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:21:33 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/07 13:57:46 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/13 13:56:21 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 void	start_shell(char **envp)
 {
 	char	*input;
-	char	*fr;
+	pid_t	pid;
+	t_cmd	*cmd;
 
 	input = NULL;
 	printf("%s", IMG);
@@ -30,10 +31,24 @@ void	start_shell(char **envp)
 		}
 		if (*input)
 		{
-			fr = input;
 			add_history(input);
-			runcmd(parsecmd(input), envp);
-			input = fr;
+			cmd = NULL;
+			pid = fork();
+			if (pid == -1)
+			{
+				write(2, "fork non riuscito\n", 18);
+				return ;
+			}
+			if (pid == 0)
+			{
+				cmd = parsecmd(input);
+				runcmd(cmd, envp);
+				free(cmd);
+				free(input);
+				return ;
+			}
+			else
+				wait(NULL);
 		}
 		free(input);
 	}
