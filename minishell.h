@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/10 12:52:49 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/13 15:51:52 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,13 +161,14 @@ void		start_shell(char **envp);
 
 //BUILTIN
 //builtin commands
-int			builtin_pwd(void);
-int			builtin_exit(t_main *main, char *cmd, int i, int j);
+char		*extract_token(t_cmd *cur, int i, int j);
+int			builtin_cd(t_main *main, t_cmd *cur, char *home, char **arg);
 int			builtin_env(t_main *main, t_cmd *cur);
-//builtin_utils.c
-int			looking_for_env(t_main *main, char *cmd);
-int			control_bt(char *input, char **envp);
-char		*pick_env(t_main *main, char *cmd);
+void		env2(t_main *main, int i);
+int			builtin_exit(t_main *main, char *cmd, int i, int j);
+int			builtin_export(t_main *main, t_cmd *cur, t_data2 data);
+int			builtin_pwd(void);
+int			builtin_unset(t_main *main, t_cmd *cur, int j, char *str);
 
 //EXECUTE
 //exec_functions.c
@@ -185,10 +186,20 @@ int			malloc_p(char **m);
 int			file_p(char *file, int cmd);
 
 //UTILS
+//builtin_utils.c
+int			control_bt(t_main *main, t_cmd *cur);
+int			looking_for_env(t_main *main, char *cmd);
+char		*pick_env(t_main *main, char *cmd);
+char		**order(char **matrix, int i, int j, int l);
 //freeable.c
 void		free_all(t_main *main);
 int			free_matrix(char **matrix);
 int			free_str(char *str);
+//ft_atoi.c
+int			ft_isdigit(int c);
+int			ft_atoi(const char *s);
+//ft_itoa.c
+char		*ft_itoa(int nb);
 //ft_split.c
 char		**ft_split(char const *s, char c);
 //ft_strjoin.c
@@ -212,10 +223,10 @@ int			ft_strchr(char *comp, char s);
 size_t		ft_strlen(char	*s);
 void		*ft_memset(void *b, int c, size_t len);
 void		ft_putstr_fd(char *s, int fd);
-int	ft_strncmp(const char *s1, const char *s2, size_t n);
+int			ft_strncmp(const char *s1, const char *s2, size_t n);
 //utils2.c
-int			ft_isdigit(int c);
-int			ft_atoi(const char *s);
 int			skip_space(int i, char *str);
-
+int			go_next(int i, char *str);
+char		**copy_matrix(char **matrix);
+char		*no_space(char *str);
 #endif

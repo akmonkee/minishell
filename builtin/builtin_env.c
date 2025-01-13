@@ -34,3 +34,22 @@ int	builtin_env(t_main *main, t_cmd *cur)
 	free_matrix(arg);
 	return (1);
 }
+
+void	env2(t_main *main, int i)
+{
+	char	**str;
+	char	**matrix;
+
+	matrix = order(copy_matrix(main->env), 0, 0, ft_matrixlen(main->env));
+	while (matrix[i])
+	{
+		str = ft_split(matrix[i], '=');
+		if (ft_matrixlen(str) == 1)
+			printf("declare -x %s\n", str[0]);
+		else
+			printf("declare -x %s=\"%s\"\n", str[0], str[1]);
+		free_matrix(str);
+		i++;
+	}
+	free_matrix(matrix);
+}

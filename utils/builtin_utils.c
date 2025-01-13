@@ -14,20 +14,22 @@
 
 int	control_bt(t_main *main, t_cmd *cur)
 {
-	if (!ft_strncmp(cur->cmd, "exit", 5))
-		return (builtin_exit(main, cur->cmd, 4, 0));
-	else if (!ft_strncmp(cur->cmd, "pwd", 4))
+	char	*str;
+
+	str = no_space(cur->cmd);
+	if (ft_strncmp(str, "exit", 5) == 0 && free_str(str))
+		return (builtin_exit(main, cur->cmd, go_next(0, cur->cmd), 0));
+	if (ft_strncmp(str, "env", 4) == 0 && free_str(str))
+		return (builtin_env(main, cur));
+	if (ft_strncmp(str, "export", 7) == 0 && free_str(str))
+		return (builtin_export(main, cur, (t_data2){NULL, extract_token(cur, 0, 0), 0, -1}));
+	if (ft_strncmp(str, "unset", 6) == 0 && free_str(str))
+		return (1);
+	if (ft_strncmp(str, "cd", 3) == 0 && free_str(str))
+		return (1);
+	if (ft_strncmp(str, "pwd", 4) == 0 && free_str(str))
 		return (builtin_pwd());
-	else if (!ft_strncmp(cur->cmd, "env", 4))
-		return (builtin_env(main->env));
-	// else if (!ft_strncmp(cur->cmd, "cd", 3))
-	// 	return (builtin_cd(main, cur));
-	// else if (!ft_strncmp(cur->cmd, "export", 7))
-	// 	return (builtin_export(main, cur));
-	else if (!ft_strncmp(cur->cmd, "unset", 6))
-		return (builtin_unset(main, cur));
-	// else if (!ft_strncmp(cur->cmd, "echo", 5))
-	// 	return (builtin_echo(cur));
+	free(str);
 	return (0);
 }
 
@@ -58,10 +60,10 @@ char	*pick_env(t_main *main, char *cmd)
 	i = 0;
 	while (main->env[i])
 	{
-		s = ft_split(main->env[i], '=');
-		if (ft_matrixlen(main->env) >= 2 && !ft_strncmp(s[0], cmd, ft_strlen(cmd) + 1))
+		str = ft_split(main->env[i], '=');
+		if (ft_matrixlen(main->env) >= 2 && !ft_strncmp(str[0], cmd, ft_strlen(cmd) + 1))
 		{
-			temp = ft_strjoin(s[1], "\0");
+			temp = ft_strjoin(str[1], "\0");
 			free_matrix(str);
 			return (temp);
 		}
@@ -71,4 +73,26 @@ char	*pick_env(t_main *main, char *cmd)
 	temp = malloc (1);
 	temp[0] = '\0';
 	return (temp);
+}
+
+char	**order(char **matrix, int i, int j, int l)
+{
+	char	*temp;
+
+	while (i < l - 1)
+	{
+		j = 0;
+		while (j < l - i - 1)
+		{
+			if (ft_strncmp(matrix[j], matrix[j + 1], ft_strlen(matrix[j])) > 0)
+			{
+				temp = matrix[j];
+				matrix[j] = matrix[j + 1];
+				matrix[j + 1] = temp;
+			}
+			j++;
+		}
+		i++;
+	}
+	return (matrix);
 }

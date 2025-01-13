@@ -60,7 +60,7 @@ char	*env_expander(t_main *main, t_cmd *cur, t_data data)
 {
 	while (cur->cmd[data.i] != '\0')
 	{
-		if (cur->[data.i] == '\'' && data.dquote == 0)
+		if (cur->cmd[data.i] == '\'' && data.dquote == 0)
 			data.quote = 1;
 		if (cur->cmd[data.i] == '\"' && data.quote == 0)
 			data.dquote = 1;
@@ -77,7 +77,7 @@ char	*env_expander(t_main *main, t_cmd *cur, t_data data)
 			}
 			else
 				need_to_expand(main, cur, &data);
-			data.i = 0
+			data.i = 0;
 		}
 		if (cur->cmd[data.i] != '\0')
 			data.i++;

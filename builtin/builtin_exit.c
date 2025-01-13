@@ -34,7 +34,7 @@ int	builtin_exit(t_main *main, char *cmd, int i, int j)
 	{
 		free_all(main);
 		free_matrix(main->env);
-		write(2, "Panic: numeric value required\n", 30);
+		write(2, "Panic: Numeric Value required\n", 30);
 		g_code_exit = 2;
 		exit(2);
 	}
