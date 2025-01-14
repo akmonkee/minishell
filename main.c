@@ -6,11 +6,18 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:21:33 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/14 11:41:34 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/14 13:07:27 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	handle_sigint(int sig)
+{
+	(void)sig;
+	write(1, "\n", 1);
+	write(1, "minipierpaolo> ", 15);
+}
 
 void	start_shell(char **envp)
 {
@@ -62,6 +69,7 @@ int	main(int ac, char **av, char *envp[])
 		write(2, "Error\nno args allowed\n", 22);
 		return (1);
 	}
+	signal(SIGINT, handle_sigint);
 	if (isatty(STDIN_FILENO))
 		start_shell(envp);
 	else
