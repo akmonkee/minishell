@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/13 14:05:49 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/14 11:33:42 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,9 @@ getcmd
 panic (error function)*/
 
 void	start_shell(char **envp);
-//utils
+//utils/freecmd
+void	freecmd(t_cmd *cmd);
+//utils/utils
 int		ft_strchr(char *comp, char s);
 size_t	ft_strlen(char	*s);
 void	*ft_memset(void *b, int c, size_t len);

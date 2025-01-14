@@ -1,54 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   runpipe.c                                          :+:      :+:    :+:   */
+/*   freecmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/08 11:59:25 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/14 11:28:28 by msisto           ###   ########.fr       */
+/*   Created: 2025/01/14 11:30:33 by msisto            #+#    #+#             */
+/*   Updated: 2025/01/14 11:53:09 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	fork1()
+void	freecmd(t_cmd *cmd)
 {
-	int	pid;
-
-	pid = fork();
-	return (pid);
-}
-
-void	runpipe(t_cmd *cmd, char **envp)
-{
-	int			p[2];
 	t_pipecmd	*pcmd;
+	t_redircmd	*rcmd;
 
-	pcmd = (t_pipecmd *)cmd;
-	if (pipe(p) < 0)
-	{
-		write(2, "pipe\n", 5);
+	if (cmd->type == 0)
 		return ;
-	}
-	if (fork1() == 0)
+	if (cmd->type == PIPE)
 	{
-		close(1);
-		dup(p[1]);
-		close(p[0]);
-		close(p[1]);
-		runcmd(pcmd->left, envp);
+		pcmd = (t_pipecmd *)cmd;
+		freecmd(pcmd->left);
+		free(pcmd->left);
+		freecmd(pcmd->right);
+		free(pcmd->right);
 	}
-	if (fork1() == 0)
+	if(cmd->type == REDIR)
 	{
-		close(0);
-		dup(p[0]);
-		close(p[0]);
-		close(p[1]);
-		runcmd(pcmd->right, envp);
+		rcmd = (t_redircmd *)cmd;
+		freecmd(rcmd->cmd);
 	}
-	close(p[0]);
-	close(p[1]);
-	wait(NULL);
-	wait(NULL);
 }

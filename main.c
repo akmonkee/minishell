@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:21:33 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/13 13:56:21 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/14 11:41:34 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	start_shell(char **envp)
 			{
 				cmd = parsecmd(input);
 				runcmd(cmd, envp);
+				freecmd(cmd);
 				free(cmd);
 				free(input);
 				return ;
