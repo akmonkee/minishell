@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/14 11:33:42 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/14 12:30:36 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ panic (error function)*/
 
 void	start_shell(char **envp);
 //utils/freecmd
+void	freepipe(t_cmd *cmd);
 void	freecmd(t_cmd *cmd);
 //utils/utils
 int		ft_strchr(char *comp, char s);
