@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:21:33 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/14 13:07:27 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/14 14:16:41 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,21 @@ void	handle_sigint(int sig)
 	write(1, "minipierpaolo> ", 15);
 }
 
+void	parse_exe(char *input, char **envp)
+{
+	t_cmd	*cmd;
+
+	cmd = parsecmd(input);
+	runcmd(cmd, envp);
+	freecmd(cmd);
+	free(cmd);
+	free(input);
+}
+
 void	start_shell(char **envp)
 {
 	char	*input;
 	pid_t	pid;
-	t_cmd	*cmd;
 
 	input = NULL;
 	printf("%s", IMG);
@@ -39,7 +49,6 @@ void	start_shell(char **envp)
 		if (*input)
 		{
 			add_history(input);
-			cmd = NULL;
 			pid = fork();
 			if (pid == -1)
 			{
@@ -47,14 +56,7 @@ void	start_shell(char **envp)
 				return ;
 			}
 			if (pid == 0)
-			{
-				cmd = parsecmd(input);
-				runcmd(cmd, envp);
-				freecmd(cmd);
-				free(cmd);
-				free(input);
-				return ;
-			}
+				return (parse_exe(input, envp));
 			else
 				wait(NULL);
 		}

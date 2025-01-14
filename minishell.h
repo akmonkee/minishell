@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/14 12:59:55 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/14 14:22:49 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,9 @@ parsecmd
 getcmd
 panic (error function)*/
 
+//main
 void	handle_sigint(int sig);
+void	parse_exe(char *input, char **envp);
 void	start_shell(char **envp);
 //utils/freecmd
 void	freepipe(t_cmd *cmd);
