@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 11:57:08 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/13 16:08:30 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/15 13:23:12 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	runcmd(t_cmd *cmd, char	**envp)
 {
 	t_execcmd	*ecmd;
-	t_redircmd	*rcmd;
 
 	if (cmd == 0)
 	{
@@ -37,17 +36,5 @@ void	runcmd(t_cmd *cmd, char	**envp)
 	else if (cmd->type == PIPE)
 		runpipe(cmd, envp);
 	else if (cmd->type == REDIR)
-	{
-		rcmd = (t_redircmd *)cmd;
-		if (rcmd->mode == O_RDONLY)
-			close(0);
-		else if (rcmd->mode > O_RDONLY)
-			close(1);
-		if (open(rcmd->file, rcmd->mode, 0777) < 0)
-		{
-			write (2, "Error\n open failed\n", 19);
-			return ;
-		}
-		runcmd(rcmd->cmd, envp);
-	}
+		runredir(cmd, envp);
 }

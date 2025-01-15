@@ -6,13 +6,13 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 12:58:05 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/13 16:14:07 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/15 13:17:49 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_cmd	*redircmd(t_cmd *subcmd, char *file, char *efile, int mode)
+t_cmd	*redircmd(t_cmd *subcmd, char *file, int here_doc, int mode)
 {
 	t_redircmd	*cmd;
 
@@ -21,7 +21,7 @@ t_cmd	*redircmd(t_cmd *subcmd, char *file, char *efile, int mode)
 	cmd->type = REDIR;
 	cmd->cmd = subcmd;
 	cmd->file = file;
-	cmd->efile = efile;
+	cmd->here_doc = here_doc;
 	cmd->mode = mode;
 	if (mode == O_RDONLY)
 		cmd->fd = 0;
@@ -42,11 +42,13 @@ t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es)
 		if (gettoken(ps, es, &q, &eq) != 'a')
 			write(2, "Error\n missing file for redirection\n", 36);
 		if (tok == '<')
-			cmd = redircmd(cmd, q, eq, O_RDONLY);
+			cmd = redircmd(cmd, q, 0, O_RDONLY);
+		else if (tok == '-')
+			cmd = redircmd(cmd, q, 1, O_WRONLY|O_CREAT|O_TRUNC);
 		else if (tok == '>')
-			cmd = redircmd(cmd, q, eq, O_WRONLY|O_CREAT|O_TRUNC);
+			cmd = redircmd(cmd, q, 0, O_WRONLY|O_CREAT|O_TRUNC);
 		else if (tok == '+')
-			cmd = redircmd(cmd, q, eq, O_WRONLY|O_CREAT|O_APPEND);
+			cmd = redircmd(cmd, q, 0, O_WRONLY|O_CREAT|O_APPEND);
 	}
 	return (cmd);
 }

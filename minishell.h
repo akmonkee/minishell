@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/14 14:22:49 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/15 13:22:47 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ typedef struct s_redircmd
 	int			type;
 	t_cmd		*cmd;
 	char		*file;
-	char		*efile;
+	int			here_doc;
 	int			mode;
 	int			fd;
 }	t_redircmd;
@@ -136,8 +136,8 @@ int		ft_strchr(char *comp, char s);
 size_t	ft_strlen(char	*s);
 void	*ft_memset(void *b, int c, size_t len);
 //parse
-int			peek(char **ps, char *es, char *toks);
-int			gettoken(char **ps, char *es, char **q, char **eq);
+int		peek(char **ps, char *es, char *toks);
+int		gettoken(char **ps, char *es, char **q, char **eq);
 t_cmd	*parseline(char **ps, char *es);
 t_cmd	*parsecmd(char *s);
 //parse pipe
@@ -146,7 +146,7 @@ t_cmd	*parsepipe(char **ps, char *es);
 t_cmd	*execcmd();
 t_cmd	*parseexec(char **ps, char *es);
 //parseredirs
-t_cmd	*redircmd(t_cmd *subcmd, char *file, char *efile, int mode);
+t_cmd	*redircmd(t_cmd *subcmd, char *file, int here_doc, int mode);
 t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es);
 //nulterminate
 t_cmd	*nulterminate(t_cmd *cmd);
@@ -166,5 +166,7 @@ void	runcmd(t_cmd *cmd, char **envp);
 //runcmd/runpipe
 int		fork1();
 void	runpipe(t_cmd *cmd, char **envp);
+//runcmd/runredir
+void	runredir(t_cmd *cmd, char **envp);
 
 #endif

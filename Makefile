@@ -3,7 +3,7 @@ NAME = minishell
 SRC = main.c \
 parser/parse.c parser/parsepipe.c parser/parseexec.c parser/nulterminate.c parser/parseredirs.c \
 utils/utils.c utils/freecmd.c\
-runcmd/runcmd.c runcmd/pathfinder.c runcmd/fullexecmd.c runcmd/runpipe.c
+runcmd/runcmd.c runcmd/pathfinder.c runcmd/fullexecmd.c runcmd/runpipe.c runcmd/runredir.c
 
 OUT = $(SRC:.c=.o)
 

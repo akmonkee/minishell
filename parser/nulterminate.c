@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:55:37 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/06 11:44:47 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/15 13:16:17 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ t_cmd	*nulterminate(t_cmd *cmd)
 	{
 		rcmd = (t_redircmd *)cmd;
 		nulterminate(rcmd->cmd);
-		*rcmd->efile = 0;
 	}
 	else if(cmd->type == PIPE)
 	{
