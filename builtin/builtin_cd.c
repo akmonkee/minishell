@@ -12,15 +12,6 @@
 
 #include "../minishell.h"
 
-char	*extract_token(t_cmd *cur, int i, int j)
-{
-	i = go_next(0, cur->cmd);
-	j = i;
-	while (cur->cmd[i] != '\0' && cur->cmd[i] != ' ' && cur->cmd[i] != '+' && cur->cmd[i] != '=')
-		i++;
-	return (ft_substr(cur->cmd, j, i - j));
-}
-
 int	builtin_cd(t_main *main, t_cmd *cur, char *home, char **arg)
 {
 	free(cur->cmd);

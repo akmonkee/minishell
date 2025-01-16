@@ -96,3 +96,12 @@ char	**order(char **matrix, int i, int j, int l)
 	}
 	return (matrix);
 }
+
+char	*extract_token(t_cmd *cur, int i, int j)
+{
+	i = go_next(0, cur->cmd);
+	j = i;
+	while (cur->cmd[i] != '\0' && cur->cmd[i] != ' ' && cur->cmd[i] != '+' && cur->cmd[i] != '=')
+		i++;
+	return (ft_substr(cur->cmd, j, i - j));
+}
