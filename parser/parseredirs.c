@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 12:58:05 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/15 13:17:49 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/16 12:34:43 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es)
 	{
 		tok = gettoken(ps, es, 0, 0);
 		if (gettoken(ps, es, &q, &eq) != 'a')
+		{
 			write(2, "Error\n missing file for redirection\n", 36);
+			exit (1);
+		}
 		if (tok == '<')
 			cmd = redircmd(cmd, q, 0, O_RDONLY);
 		else if (tok == '-')

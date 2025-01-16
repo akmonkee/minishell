@@ -6,34 +6,32 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 13:19:27 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/15 13:56:49 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/16 10:59:40 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	here_doc(char *rule)
+void	here_doc(t_redircmd *rcmd, char *rule)
 {
 	char	*line;
 	int		fd;
 
-	fd = open("temp_file", O_TRUNC | O_CREAT | O_WRONLY, 0777);
+	fd = open("temp_file", rcmd->mode, 0777);
 	if (fd == -1)
-		ft_custom_error(5);
-	line = get_next_line(0, 1);
+		write(2, "Error\nfailed to create temp file\n", 33);
+	line = readline("> ");
 	while (line != NULL && ft_strnstr(line, rule, ft_strlen(rule)) == 0)
 	{
 		write(fd, line, ft_strlen(line));
 		free(line);
-		line = get_next_line(0, 1);
+		line = readline("> ");;
 	}
-	get_next_line(0, 0);
 	free(line);
 	close(fd);
 	fd = open("temp_file", O_RDONLY);
 	if (fd == -1)
-		ft_custom_error(2);
-	dup2(fd, STDIN_FILENO);
+		write(2, "Error\nfailed to open temp file\n", 31);
 	close(fd);
 	if (access("temp_file", R_OK) == 0)
 		unlink("temp_file");
@@ -46,12 +44,11 @@ void	runredir(t_cmd *cmd, char **envp)
 	rcmd = (t_redircmd *)cmd;
 	if (rcmd->mode == O_RDONLY)
 		close(0);
-	else if (rcmd->mode > O_RDONLY)
+	if (rcmd->mode > O_RDONLY)
 		close(1);
-	if (open(rcmd->file, rcmd->mode, 0777) < 0)
-	{
-		write (2, "Error\n open failed\n", 19);
-		return ;
-	}
+	if (rcmd->here_doc != 0)
+		here_doc(rcmd, rcmd->file);
+	else
+		open(rcmd->file, rcmd->mode, 0777);
 	runcmd(rcmd->cmd, envp);
 }

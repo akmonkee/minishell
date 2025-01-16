@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 10:53:56 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/13 14:34:41 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/16 12:35:24 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,19 @@ t_cmd	*parseexec(char **ps, char *es)
 	{
 		if ((tok = gettoken(ps, es, &q, &eq)) == 0)
 			break ;
-		//if (tok != 'a')
-			/*print error "syntax"*/
+		if (tok != 'a')
+		{
+			write(2, "Error\nsyntax\n", 13);
+			exit (1);
+		}
 		cmd->argv[argc] = q;
 		cmd->eargv[argc] = eq;
 		argc++;
-		//if (argc >= MAXARGS)
-			/*print error "too many args"*/
+		if (argc >= MAXARGS)
+		{
+			write(2, "Error\ntoo many args\n", 20);
+			exit (1);
+		}
 		ret = parseredirs(ret, ps, es);
 	}
 	cmd->argv[argc] = 0;

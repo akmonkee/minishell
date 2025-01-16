@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/15 13:22:47 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/16 09:43:24 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,7 @@ void	runcmd(t_cmd *cmd, char **envp);
 int		fork1();
 void	runpipe(t_cmd *cmd, char **envp);
 //runcmd/runredir
+void	here_doc(t_redircmd *rcmd, char *rule);
 void	runredir(t_cmd *cmd, char **envp);
 
 #endif
