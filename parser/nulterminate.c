@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:55:37 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/15 13:16:17 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/17 11:07:28 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 t_cmd	*nulterminate(t_cmd *cmd)
 {
 	int	i;
-	t_back_cmd	*bcmd;
 	t_execcmd	*ecmd;
-	t_listcmd	*lcmd;
 	t_pipecmd	*pcmd;
 	t_redircmd	*rcmd;
 
@@ -43,18 +41,6 @@ t_cmd	*nulterminate(t_cmd *cmd)
 		pcmd = (t_pipecmd *)cmd;
 		nulterminate(pcmd->left);
 		nulterminate(pcmd->right);
-	}
-	else if(cmd->type == LIST)
-	{
-		lcmd = (t_listcmd *)cmd;
-		nulterminate(lcmd->left);
-		nulterminate(lcmd->right);
-
-	}
-	else if(cmd->type == BACK)
-	{
-		bcmd = (t_back_cmd *)cmd;
-		nulterminate(bcmd->cmd);
 	}
 	return (cmd);
 }

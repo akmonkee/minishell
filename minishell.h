@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/16 09:43:24 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/17 11:05:30 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,13 @@
 ":,,,,,,::::::::::::,,,:;+++;;:.......\n"
 
 # define WHITE_SPACE " \t\r\n\v"
-# define SYMBOLS "<|>&;()"
+# define SYMBOLS "<|>"
 
 /*cmd type ids*/
 
 # define EXEC 1
 # define REDIR 2
 # define PIPE 3
-# define LIST 4
-# define BACK 5
 
 # define MAXARGS 10
 
@@ -93,36 +91,6 @@ typedef struct s_pipecmd
 	t_cmd	*left;
 	t_cmd	*right;
 }	t_pipecmd;
-
-typedef struct s_listcmd
-{
-	int			type;
-	t_cmd	*left;
-	t_cmd	*right;
-}	t_listcmd;
-
-typedef struct s_backcmd
-{
-	int			type;
-	t_cmd	*cmd;
-}	t_back_cmd;
-
-/*function delle t_da fare:
-pipecmd
-listcmd
-backcmd
-execcmd
-redircmd
-*/
-
-/*function da fare:
-parsecmd
-	parseline
-	parseredir
-	parseblock
-	parseexec
-getcmd
-panic (error function)*/
 
 //main
 void	handle_sigint(int sig);
