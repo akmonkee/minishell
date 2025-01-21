@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 12:58:05 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/21 12:42:18 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/21 16:08:57 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,28 +33,27 @@ t_cmd	*redircmd(t_cmd *subcmd, char *file, int here_doc, int mode)
 t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es)
 {
 	int		tok;
+	char	*name;
 	char	*q;
 	char	*eq;
 
 	while (peek(ps, es, "<>"))
 	{
-		tok = gettoken(ps, es, &q, &eq);
-		if (tok == '-')
-		{
-			cmd = redircmd(cmd, *ps, 1, O_WRONLY|O_CREAT|O_TRUNC);
-			return (cmd);
-		}
+		tok = gettoken(ps, es, 0, 0);
 		if (gettoken(ps, es, &q, &eq) != 'a')
 		{
 			write(2, "Error\n missing file for redirection\n", 36);
 			exit (1);
 		}
+		name = name_extractor(q, eq);
 		if (tok == '<')
-			cmd = redircmd(cmd, q, 0, O_RDONLY);
+			cmd = redircmd(cmd, name, 0, O_RDONLY);
+		else if (tok == '-')
+			cmd = redircmd(cmd, name, 1, O_WRONLY|O_CREAT|O_TRUNC);
 		else if (tok == '>')
-			cmd = redircmd(cmd, q, 0, O_WRONLY|O_CREAT|O_TRUNC);
+			cmd = redircmd(cmd, name, 0, O_WRONLY|O_CREAT|O_TRUNC);
 		else if (tok == '+')
-			cmd = redircmd(cmd, q, 0, O_WRONLY|O_CREAT|O_APPEND);
+			cmd = redircmd(cmd, name, 0, O_WRONLY|O_CREAT|O_APPEND);
 	}
 	return (cmd);
 }

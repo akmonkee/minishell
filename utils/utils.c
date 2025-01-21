@@ -6,11 +6,37 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 11:22:39 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/21 10:39:51 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/21 16:06:23 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+char	*name_extractor(char *q, char *eq)
+{
+	int		i;
+	char	*ret;
+	char	*start;
+
+	i = 0;
+	start = q;
+	while (start != eq)
+	{
+		i++;
+		start++;
+	}
+	start = q;
+	ret = malloc(i + 1);
+	i = 0;
+	while (start != eq)
+	{
+		ret[i] = *start;
+		i++;
+		start++;
+	}
+	ret[i] = '\0';
+	return (ret);
+}
 
 int	ft_strchr(char *comp, char s)
 {

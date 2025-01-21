@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/21 10:42:12 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/21 16:07:20 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ void	freecmd(t_cmd *cmd);
 void	handle_sigquit(int sig);
 void	handle_sigint(int sig);
 //utils/utils
+char	*name_extractor(char *q, char *eq);
 int		ft_strchr(char *comp, char s);
 size_t	ft_strlen(char	*s);
 void	*ft_memset(void *b, int c, size_t len);
