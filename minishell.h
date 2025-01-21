@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/21 16:27:39 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/21 16:57:28 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,29 +51,22 @@
 ":,,,,,,::::::::::::,,,:;+++;;:.......\n"
 
 # define WHITE_SPACE " \t\r\n\v"
-# define SYMBOLS "<|>&;()"
+# define SYMBOLS "<|>"
+# define BUFFER_SIZE 1
 
 /*cmd type ids*/
 
 # define EXEC 1
 # define REDIR 2
 # define PIPE 3
-# define LIST 4
-# define BACK 5
 
 # define MAXARGS 10
-
-extern int		g_code_exit;
 
 /*cmd structs*/
 
 typedef struct s_cmd
 {
-	int				type;
-	int				or;
-	int				pipe;
-	char			*cmd;
-	struct s_cmd	*next;
+	int	type;
 }	t_cmd;
 
 typedef struct s_execcmd
@@ -86,9 +79,9 @@ typedef struct s_execcmd
 typedef struct s_redircmd
 {
 	int			type;
-	struct cmd	*cmd;
+	t_cmd		*cmd;
 	char		*file;
-	char		*efile;
+	int			here_doc;
 	int			mode;
 	int			fd;
 }	t_redircmd;
@@ -96,70 +89,70 @@ typedef struct s_redircmd
 typedef struct s_pipecmd
 {
 	int			type;
-	struct cmd	*left;
-	struct cmd	*right;
+	t_cmd	*left;
+	t_cmd	*right;
 }	t_pipecmd;
 
-typedef struct s_listcmd
-{
-	int			type;
-	struct cmd	*left;
-	struct cmd	*right;
-}	t_listcmd;
-
-typedef struct s_backcmd
-{
-	int			type;
-	struct cmd	*cmd;
-}	t_back_cmd;
-
-typedef struct s_data
-{
-	char		*temp;
-	char		*temp2;
-	int			i;
-	int			j;
-	char		*env_var;
-	char		*env_name;
-	int			pipe;
-	int			pipe_1;
-	int			or;
-	int			or_1;
-	int			quote;
-	int			dquote;
-}				t_data;
-
-typedef struct s_data2
-{
-	char		**arg;
-	char		*t1;
-	char		*t2;
-	int			i;
-}				t_data2;
-
-typedef struct s_main
-{
-	t_cmd	*lcmd;
-	char	*input;
-	char	**env;
-	int		print;
-	int		npipe;
-	int		ncmd;
-	int		in;
-	int		out;
-}				t_main;
-
-//ARGS
-//env_expander.c
-char		*env_expander(t_main *main, t_cmd *cur, t_data data);
-//env_redirections.c
-char		**env_redir(char **matrix);
-//take_args.c
-void		rm_prefix(t_main *main, t_cmd *cur, int i);
-char		**take_args(t_main *main, t_cmd *cur, char *str);
-void		start_shell(t_main *main, char **envp);
-
-//BUILTIN
+//main
+void	parse_exe(char *input, char **envp);
+void	start_shell(char **envp);
+//utils/freecmd
+void	freepipe(t_cmd *cmd);
+void	freecmd(t_cmd *cmd);
+//utils/signal_utils
+void	handle_sigquit(int sig);
+void	handle_sigint(int sig);
+//utils/utils
+char	*name_extractor(char *q, char *eq);
+int		ft_strchr(char *comp, char s);
+size_t	ft_strlen(char	*s);
+void	*ft_memset(void *b, int c, size_t len);
+//parse
+int		peek(char **ps, char *es, char *toks);
+int		gettoken(char **ps, char *es, char **q, char **eq);
+t_cmd	*parseline(char **ps, char *es);
+t_cmd	*parsecmd(char *s);
+//parse pipe
+t_cmd	*parsepipe(char **ps, char *es);
+//parseexec
+t_cmd	*execcmd();
+t_cmd	*parseexec(char **ps, char *es);
+//parseredirs
+t_cmd	*redircmd(t_cmd *subcmd, char *file, int here_doc, int mode);
+t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es);
+//nulterminate
+t_cmd	*nulterminate(t_cmd *cmd);
+//runcmd/fullexecmd
+char	*ft_strjoin(char *path, char *cmd);
+void	mtxs_free(char **mtx);
+char	*cmd_check(char **path, char *command);
+void	ft_execute_command(char **command, char **envp);
+//runcmd/pathfinder
+char	*path_ex(char *string, int ex_len, int start);
+int		path_count(char *string, char c);
+char	**ft_split(char *string, char c, int index, int start);
+char	*ft_strnstr(const char *s, const char *to_find, size_t len);
+char	**path_finder(char **envp);
+//runcmd/runcmd
+void	runcmd(t_cmd *cmd, char **envp);
+//runcmd/runpipe
+int		fork1();
+void	runpipe(t_cmd *cmd, char **envp);
+//runcmd/runredir
+void	here_doc(t_redircmd *rcmd, char *rule);
+void	runredir(t_cmd *cmd, char **envp);
+//get_next_line
+char	*gnl_strjoin(char *line, char *buf);
+char	*str_clear(char *buf);
+char	*get_next_line(int fd, int i2);
+void	ft_in_array(char *buf);
+int		ft_strlen_g(const char *str);
+char	*print_out(char *ret);
+char	*update_ret(char *ret);
+char	*ft_strchr_g(const char *s, int c);
+char	*get_line(int fd, char *ret);
+char	*return_fun(char *output);
+/*//BUILTIN
 //builtin commands
 char		*extract_token(t_cmd *cur, int i, int j);
 int			builtin_cd(t_main *main, t_cmd *cur, char *home, char **arg);
@@ -169,66 +162,5 @@ int			builtin_exit(t_main *main, char *cmd, int i, int j);
 int			builtin_export(t_main *main, t_cmd *cur, t_data2 data);
 int			builtin_pwd(void);
 int			builtin_unset(t_main *main, t_cmd *cur, int j, char *str);
-
-//EXECUTE
-//exec_functions.c
-void	child_op(t_main *main, t_cmd *cur);
-void	sigbs(int sig);
-//exec.c
-void	execute(t_main *main, char *str, int i);
-
-//PANIC
-//panic.c
-int			malloc_p(char **m);
-int			file_p(char *file, int cmd);
-
-//UTILS
-//builtin_utils.c
-int			control_bt(t_main *main, t_cmd *cur);
-int			looking_for_env(t_main *main, char *cmd);
-char		*pick_env(t_main *main, char *env);
-char		**order(char **matrix, int i, int j, int l);
-//freeable.c
-void		free_all(t_main *main);
-int			super_free(t_main *main);
-int			free_matrix(char **matrix);
-int			free_str(char *str);
-//ft_atoi.c
-int			ft_isdigit(int c);
-int			ft_atoi(const char *s);
-//ft_itoa.c
-char		*ft_itoa(int nb);
-//ft_split.c
-char		**ft_split(char const *s, char c);
-//ft_strjoin.c
-char		*ft_strjoin(char const *s1, char const *s2);
-char		*ft_strjoin12f(char *s1, char *s2);
-char		*ft_strjoin1f(char *s1, char *s2);
-char		*ft_strjoin2f(char *s1, char *s2);
-//ft_substr.c
-char		*ft_substr(char const *s, unsigned int start, size_t len);
-char		*ft_strdup(void);
-//input_utils.c
-char		*get_command_f_histori(char *input);
-char		*get_command_f_0(void);
-//utils_bt.c
-char		*get_path(void);
-int			ft_matrixlen(char **matrix);
-//utils_get_args.c
-void		word_count(int *word, char *str, int *i, char c);
-char		*substr_extract(char *str, int *i, char c);
-char		*substr_extract2(char *str, int *i);
-void		which_utils(char *str, int *i, int *word, char **matrix);
-//utils.c
-int			ft_strchr(char *comp, char s);
-size_t		ft_strlen(char	*s);
-void		*ft_memset(void *b, int c, size_t len);
-void		ft_putstr_fd(char *s, int fd);
-int			ft_strncmp(const char *s1, const char *s2, size_t n);
-//utils2.c
-int			skip_space(int i, char *str);
-int			go_next(int i, char *str);
-char		**copy_matrix(char **matrix);
-char		*no_space(char *str);
-int			initialize_start(t_main *main, char **envp);
+*/
 #endif

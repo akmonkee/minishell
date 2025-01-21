@@ -3,40 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 11:22:39 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/21 16:06:23 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/09 17:18:39 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-char	*name_extractor(char *q, char *eq)
-{
-	int		i;
-	char	*ret;
-	char	*start;
-
-	i = 0;
-	start = q;
-	while (start != eq)
-	{
-		i++;
-		start++;
-	}
-	start = q;
-	ret = malloc(i + 1);
-	i = 0;
-	while (start != eq)
-	{
-		ret[i] = *start;
-		i++;
-		start++;
-	}
-	ret[i] = '\0';
-	return (ret);
-}
 
 int	ft_strchr(char *comp, char s)
 {
@@ -77,4 +51,25 @@ void	*ft_memset(void *b, int c, size_t len)
 		i++;
 	}
 	return (b);
+}
+
+void	ft_putstr_fd(char *s, int fd)
+{
+	write(fd, s, ft_strlen(s));
+}
+
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	if (n == 0)
+		return (0);
+	while (s1[i] && s2[i] && i < n - 1)
+	{
+		if (s1[i] != s2[i])
+			break ;
+		i++;
+	}
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
