@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 12:58:05 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/16 12:34:43 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/21 12:42:18 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,12 @@ t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es)
 
 	while (peek(ps, es, "<>"))
 	{
-		tok = gettoken(ps, es, 0, 0);
+		tok = gettoken(ps, es, &q, &eq);
+		if (tok == '-')
+		{
+			cmd = redircmd(cmd, *ps, 1, O_WRONLY|O_CREAT|O_TRUNC);
+			return (cmd);
+		}
 		if (gettoken(ps, es, &q, &eq) != 'a')
 		{
 			write(2, "Error\n missing file for redirection\n", 36);
@@ -46,8 +51,6 @@ t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es)
 		}
 		if (tok == '<')
 			cmd = redircmd(cmd, q, 0, O_RDONLY);
-		else if (tok == '-')
-			cmd = redircmd(cmd, q, 1, O_WRONLY|O_CREAT|O_TRUNC);
 		else if (tok == '>')
 			cmd = redircmd(cmd, q, 0, O_WRONLY|O_CREAT|O_TRUNC);
 		else if (tok == '+')

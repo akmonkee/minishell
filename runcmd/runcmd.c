@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 11:57:08 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/16 12:36:11 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/21 11:45:24 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	runcmd(t_cmd *cmd, char	**envp)
 {
 	t_execcmd	*ecmd;
 
-	if (cmd == 0)
+	if (!cmd)
 	{
 		write(2, "no parse tree\n", 14);
 		exit (1);

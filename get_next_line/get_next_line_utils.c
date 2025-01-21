@@ -1,54 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/27 11:22:39 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/21 10:39:51 by msisto           ###   ########.fr       */
+/*   Created: 2025/01/21 10:29:11 by msisto            #+#    #+#             */
+/*   Updated: 2025/01/21 10:41:40 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_strchr(char *comp, char s)
+void	ft_in_array(char *buf)
 {
 	int	i;
-	int	k;
 
 	i = 0;
-	while (comp[i])
+	while (i <= BUFFER_SIZE)
 	{
-		if (s == comp[i])
-			return (1);
+		buf[i] = '\0';
 		i++;
 	}
-	return (0);
 }
 
-size_t	ft_strlen(char	*s)
+char	*ft_strchr_g(const char *s, int c)
 {
 	size_t	i;
 
 	i = 0;
+	if (!s)
+		return (0);
+	if (c == '\0')
+		return ((char *)&s[ft_strlen_g(s)]);
 	while (s[i])
-		i++;
-	return (i);
-}
-
-void	*ft_memset(void *b, int c, size_t len)
-{
-	char	*s;
-	size_t	i;
-
-	s = NULL;
-	s = (char *)b;
-	i = 0;
-	while (i < len)
 	{
-		s[i] = c;
+		if (s[i] == (char) c)
+			return ((char *)(s + i));
 		i++;
 	}
-	return (b);
+	return (NULL);
+}
+
+char	*return_fun(char *output)
+{
+	if (output && *output)
+		return (output);
+	return (free(output), NULL);
 }

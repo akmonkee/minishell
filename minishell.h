@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/17 11:05:30 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/21 10:42:12 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@
 
 # define WHITE_SPACE " \t\r\n\v"
 # define SYMBOLS "<|>"
+# define BUFFER_SIZE 1
 
 /*cmd type ids*/
 
@@ -93,12 +94,14 @@ typedef struct s_pipecmd
 }	t_pipecmd;
 
 //main
-void	handle_sigint(int sig);
 void	parse_exe(char *input, char **envp);
 void	start_shell(char **envp);
 //utils/freecmd
 void	freepipe(t_cmd *cmd);
 void	freecmd(t_cmd *cmd);
+//utils/signal_utils
+void	handle_sigquit(int sig);
+void	handle_sigint(int sig);
 //utils/utils
 int		ft_strchr(char *comp, char s);
 size_t	ft_strlen(char	*s);
@@ -137,5 +140,16 @@ void	runpipe(t_cmd *cmd, char **envp);
 //runcmd/runredir
 void	here_doc(t_redircmd *rcmd, char *rule);
 void	runredir(t_cmd *cmd, char **envp);
+//get_next_line
+char	*gnl_strjoin(char *line, char *buf);
+char	*str_clear(char *buf);
+char	*get_next_line(int fd, int i2);
+void	ft_in_array(char *buf);
+int		ft_strlen_g(const char *str);
+char	*print_out(char *ret);
+char	*update_ret(char *ret);
+char	*ft_strchr_g(const char *s, int c);
+char	*get_line(int fd, char *ret);
+char	*return_fun(char *output);
 
 #endif

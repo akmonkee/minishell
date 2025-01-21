@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 10:53:56 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/16 12:35:24 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/21 11:56:39 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ t_cmd	*parseexec(char **ps, char *es)
 	ret = parseredirs(ret, ps, es);
 	while (!peek(ps, es, "|)&;"))
 	{
-		if ((tok = gettoken(ps, es, &q, &eq)) == 0)
+		tok = gettoken(ps, es, &q, &eq);
+		if (tok == 0)
 			break ;
 		if (tok != 'a')
 		{
