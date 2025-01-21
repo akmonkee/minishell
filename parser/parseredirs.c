@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 12:58:05 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/21 16:08:57 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/21 16:34:06 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,12 @@ t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es)
 		name = name_extractor(q, eq);
 		if (tok == '<')
 			cmd = redircmd(cmd, name, 0, O_RDONLY);
-		else if (tok == '-')
-			cmd = redircmd(cmd, name, 1, O_WRONLY|O_CREAT|O_TRUNC);
 		else if (tok == '>')
 			cmd = redircmd(cmd, name, 0, O_WRONLY|O_CREAT|O_TRUNC);
 		else if (tok == '+')
 			cmd = redircmd(cmd, name, 0, O_WRONLY|O_CREAT|O_APPEND);
+		else if (tok == '-')
+			cmd = redircmd(cmd, name, 1, O_WRONLY|O_CREAT|O_TRUNC);
 	}
 	return (cmd);
 }
