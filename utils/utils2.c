@@ -64,3 +64,13 @@ char	*no_space(char *str)
 		i++;
 	return (ft_substr(str, j, i - j));
 }
+
+int	initialize_start(t_main *main, char **envp)
+{
+	main->ncmd = 0;
+	main->env = copy_matrix(envp);
+	main->lcmd = NULL;
+	main->in = dup(STDIN_FILENO);
+	main->out = dup(STDOUT_FILENO);
+	return 0;
+}

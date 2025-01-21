@@ -75,7 +75,7 @@ int	builtin_export(t_main *main, t_cmd *cur, t_data2 data)
 {
 	char	**matrix;
 
-	data.arg = take_args(cur->cmd, main, cur);
+	data.arg = take_args(main, cur, cur->cmd);
 	if (malloc_p(data.arg) != 0 && ft_matrixlen(data.arg) > 1 && looking_for_env(main, data.t1) == 0)
 		main->env = supp_export3(main, cur, data.t1, data.i);
 	else if (malloc_p(data.arg) != 0 && ft_matrixlen(data.arg) == 1 && main->print == 1)

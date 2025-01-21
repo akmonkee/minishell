@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/13 15:51:52 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/21 16:27:39 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ char		**env_redir(char **matrix);
 //take_args.c
 void		rm_prefix(t_main *main, t_cmd *cur, int i);
 char		**take_args(t_main *main, t_cmd *cur, char *str);
-void		start_shell(char **envp);
+void		start_shell(t_main *main, char **envp);
 
 //BUILTIN
 //builtin commands
@@ -172,13 +172,10 @@ int			builtin_unset(t_main *main, t_cmd *cur, int j, char *str);
 
 //EXECUTE
 //exec_functions.c
-void		execute_cmd(t_execcmd *cmd);
-void		redircmd(t_redircmd *cmd);
-void		pipecmd(t_pipecmd *cmd);
-void		listcmd(t_listcmd *cmd);
-void		backcmd(t_back_cmd *cmd);
+void	child_op(t_main *main, t_cmd *cur);
+void	sigbs(int sig);
 //exec.c
-void		execute(t_cmd *cmd);
+void	execute(t_main *main, char *str, int i);
 
 //PANIC
 //panic.c
@@ -189,10 +186,11 @@ int			file_p(char *file, int cmd);
 //builtin_utils.c
 int			control_bt(t_main *main, t_cmd *cur);
 int			looking_for_env(t_main *main, char *cmd);
-char		*pick_env(t_main *main, char *cmd);
+char		*pick_env(t_main *main, char *env);
 char		**order(char **matrix, int i, int j, int l);
 //freeable.c
 void		free_all(t_main *main);
+int			super_free(t_main *main);
 int			free_matrix(char **matrix);
 int			free_str(char *str);
 //ft_atoi.c
@@ -210,6 +208,9 @@ char		*ft_strjoin2f(char *s1, char *s2);
 //ft_substr.c
 char		*ft_substr(char const *s, unsigned int start, size_t len);
 char		*ft_strdup(void);
+//input_utils.c
+char		*get_command_f_histori(char *input);
+char		*get_command_f_0(void);
 //utils_bt.c
 char		*get_path(void);
 int			ft_matrixlen(char **matrix);
@@ -229,4 +230,5 @@ int			skip_space(int i, char *str);
 int			go_next(int i, char *str);
 char		**copy_matrix(char **matrix);
 char		*no_space(char *str);
+int			initialize_start(t_main *main, char **envp);
 #endif

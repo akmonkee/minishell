@@ -51,17 +51,17 @@ int	looking_for_env(t_main *main, char *cmd)
 	return (0);
 }
 
-char	*pick_env(t_main *main, char *cmd)
+char	*pick_env(t_main *main, char *env)
 {
 	char	**str;
 	int		i;
 	char	*temp;
 
 	i = 0;
-	while (main->env[i])
+	while (main->env[i] != NULL)
 	{
 		str = ft_split(main->env[i], '=');
-		if (ft_matrixlen(main->env) >= 2 && !ft_strncmp(str[0], cmd, ft_strlen(cmd) + 1))
+		if (ft_matrixlen(main->env) >= 2 && ft_strncmp(str[0], env, ft_strlen(env) + 1) == 0)
 		{
 			temp = ft_strjoin(str[1], "\0");
 			free_matrix(str);

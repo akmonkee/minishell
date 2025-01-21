@@ -32,6 +32,16 @@ void	free_all(t_main *main)
 	main->ncmd = 0;
 }
 
+int	super_free(t_main *main)
+{
+	free_all(main);
+	rl_clear_history();
+	free_matrix(main->env);
+	close(main->in);
+	close(main->out);
+	return (0);
+}
+
 int	free_matrix(char **matrix)
 {
 	int	i;

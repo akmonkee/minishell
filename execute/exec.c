@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 15:06:29 by efoschi           #+#    #+#             */
-/*   Updated: 2025/01/16 10:09:43 by marvin           ###   ########.fr       */
+/*   Updated: 2025/01/21 15:55:21 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	child_pipe(t_main *main, t_cmd *cur, pid_t pid)
 {
 	int		fd[2];
 
-	check_pipe_fork(main, cur, fd, &pid);
+	//check_pipe_fork(main, cur, fd, &pid);
 	if (pid == 0)
 	{
 		close(fd[0]);
@@ -46,15 +46,7 @@ static void	child(t_main *main, t_cmd *cur)
 			g_code_exit = WEXITSTATUS(status);
 	}
 }
-static int	pipe_cmd(t_main *main, t_cmd *cur)
-{
-	builtin_dad(main, cur, clear_space(cur->cmd));
-	if (!(cur->or == 1 && g_code_exit == 0))
-	{
-		child_pipe(main, cur, 0);
-	}
-	return (0);
-}
+
 
 static void	exec_bt(t_main *main, t_cmd *cur, char *str)
 {
@@ -69,26 +61,36 @@ static void	exec_bt(t_main *main, t_cmd *cur, char *str)
 	free(str);
 }
 
+static int	pipe_cmd(t_main *main, t_cmd *cur)
+{
+	exec_bt(main, cur, no_space(cur->cmd));
+	if (!(cur->or == 1 && g_code_exit == 0))
+	{
+		child_pipe(main, cur, 0);
+	}
+	return (0);
+}
+
 //devo gestire l'execute dei vari comandi della shell
 void	execute(t_main *main, char *str, int i)
 {
 	t_cmd	*cur;
 
 	cur = main->lcmd;
-	str = skip_space(cur->cmd);
+	str = no_space(cur->cmd);
 	if (main->ncmd == 1 && ft_strncmp(str, "exit", 5) == 0 && free_str(str))
 		builtin_exit(main, cur->cmd, go_next(0, cur->cmd), 0);
 	free(str);
 	while (main->npipe == 0 && main->ncmd != i++)
 	{
 		exec_bt (main, cur, no_space(cur->cmd));
-		if (!(cur->or == 1 ** g_code_exit == 0))
+		if (!(cur->or == 1 && g_code_exit == 0))
 			child(main, cur);
 		cur = cur->next;
 		dup2(main->in, 0);
 		dup2(main->out, 1);
 	}
-	while (main->npipe != 0 && main->ncmd != i++ && /*pipe_cmd(main, cur) == 0*/)
+	while (main->npipe != 0 && main->ncmd != i++ /*&& pipe_cmd(main, cur) == 0*/)
 		cur = cur->next;
 	while (waitpid(-1, &i, 0) > 0)
 		;

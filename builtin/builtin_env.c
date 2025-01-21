@@ -20,7 +20,7 @@ int	builtin_env(t_main *main, t_cmd *cur)
 	char	**arg;
 
 	i = 0;
-	arg = take_args(cur->cmd, main, cur);
+	arg = take_args(main, cur, cur->cmd);
 	while (main->env[i] && main->print == 1)
 	{
 		str = ft_split(main->env[i], '=');
