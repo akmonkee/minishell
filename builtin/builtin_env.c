@@ -12,35 +12,31 @@
 
 #include "../minishell.h"
 
-int	builtin_env(t_main *main, t_cmd *cur)
+int	builtin_env(char **env, int print, t_execcmd *cmd)
 {
-	int	i;
+	int		i;
 	char	**str;
-	char	*temp;
-	char	**arg;
 
 	i = 0;
-	arg = take_args(main, cur, cur->cmd);
-	while (main->env[i] && main->print == 1)
+	while (env[i] && print == 1)
 	{
-		str = ft_split(main->env[i], '=');
-		temp = pick_env(main, str[0]);
-		if (temp)
-			printf("%s\n", main->env[i]);
-		free(temp);
+		str = ft_split(env[i], '=');
+		if (str[0] && str[1])
+			printf(%s\n, env[i]);
 		free_matrix(str);
 		i++;
 	}
-	free_matrix(arg);
 	return (1);
 }
 
-void	env2(t_main *main, int i)
+void	env2(char **env)
 {
+	int		i;
 	char	**str;
 	char	**matrix;
 
-	matrix = order(copy_matrix(main->env), 0, 0, ft_matrixlen(main->env));
+	i = 0;
+	matrix = order(copy_matrix(env), 0, 0, ft_matrixlen(env));
 	while (matrix[i])
 	{
 		str = ft_split(matrix[i], '=');

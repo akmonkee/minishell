@@ -33,15 +33,15 @@ int	control_bt(t_main *main, t_cmd *cur)
 	return (0);
 }
 
-int	looking_for_env(t_main *main, char *cmd)
+int	looking_for_env(char **env, char *cmd)
 {
 	char	**str;
 	int		i;
 
 	i = 0;
-	while (main->env[i])
+	while (env[i])
 	{
-		str = ft_split(main->env[i], '=');
+		str = ft_split(env[i], '=');
 		malloc_p(str);
 		if (ft_matrixlen(str) >= 1 && !ft_strncmp(str[0], cmd, ft_strlen(cmd) + 1))
 			return (free_matrix(str), 1);
@@ -51,17 +51,17 @@ int	looking_for_env(t_main *main, char *cmd)
 	return (0);
 }
 
-char	*pick_env(t_main *main, char *env)
+char	*pick_env(char **env, char *env_var)
 {
 	char	**str;
 	int		i;
 	char	*temp;
 
 	i = 0;
-	while (main->env[i] != NULL)
+	while (env[i] != NULL)
 	{
-		str = ft_split(main->env[i], '=');
-		if (ft_matrixlen(main->env) >= 2 && ft_strncmp(str[0], env, ft_strlen(env) + 1) == 0)
+		str = ft_split(env[i], '=');
+		if (ft_matrixlen(str) >= 2 && ft_strncmp(str[0], env_var, ft_strlen(env_var) + 1) == 0)
 		{
 			temp = ft_strjoin(str[1], "\0");
 			free_matrix(str);
@@ -70,10 +70,11 @@ char	*pick_env(t_main *main, char *env)
 		free_matrix(str);
 		i++;
 	}
-	temp = malloc (1);
+	temp = malloc(1);
 	temp[0] = '\0';
 	return (temp);
 }
+
 
 char	**order(char **matrix, int i, int j, int l)
 {
@@ -97,11 +98,12 @@ char	**order(char **matrix, int i, int j, int l)
 	return (matrix);
 }
 
-char	*extract_token(t_cmd *cur, int i, int j)
+char	*extract_token(const char *cmd, int i, int j)
 {
-	i = go_next(0, cur->cmd);
+	i = go_next(0, cmd);
 	j = i;
-	while (cur->cmd[i] != '\0' && cur->cmd[i] != ' ' && cur->cmd[i] != '+' && cur->cmd[i] != '=')
+	while (cmd[i] != '\0' && cmd[i] != ' ' && cmd[i] != '+' && cmd[i] != '=')
 		i++;
-	return (ft_substr(cur->cmd, j, i - j));
+	return (ft_substr(cmd, j, i - j));
 }
+

@@ -32,7 +32,7 @@ static int	supp_export1(t_cmd *cur, int *i)
 	return (j);
 }
 
-static char *supp_export2(t_main *main, t_cmd *cur, char *env, int i)
+static char	*supp_export2(char **env, t_cmd *cur, char *env_name, int i)
 {
 	int		j;
 	char	*temp;
@@ -43,7 +43,7 @@ static char *supp_export2(t_main *main, t_cmd *cur, char *env, int i)
 	{
 		i += 2;
 		j = supp_export1(cur, &i);
-		return (ft_strjoin12f(pick_env(main, env), ft_substr(cur->cmd, j, i - j)));
+		return (ft_strjoin12f(pick_env(env, env_name), ft_substr(cur->cmd, j, i - j)));
 	}
 	else if (cur->cmd[i] == '=')
 	{
@@ -56,46 +56,49 @@ static char *supp_export2(t_main *main, t_cmd *cur, char *env, int i)
 	return (temp);
 }
 
-static char	**supp_export3(t_main *main, t_cmd *cur, char *env, int i)
+static char **supp_export3(char **env, t_cmd *cur, char *env_name, int i)
 {
 	char	**matrix;
 
-	matrix = malloc((ft_matrixlen(main->env) + 2) * sizeof(char *));
+	matrix = malloc((ft_matrixlen(env) + 2) * sizeof(char *));
 	malloc_p(matrix);
-	while (main->env[++i] != NULL)
-		matrix[i] = ft_strjoin(main->env[i], "\0");
-	matrix[i] = ft_strjoin12f(ft_strjoin(env, "="), supp_export2(main, cur, env, go_next(0, cur->cmd)));
+	while (env[++i] != NULL)
+		matrix[i] = ft_strjoin(env[i], "\0");
+	matrix[i] = ft_strjoin12f(ft_strjoin(env_name, "="), supp_export2(env, cur, env_name, go_next(0, cur->cmd)));
 	i++;
 	matrix[i] = NULL;
-	free_matrix(main->env);
+	free_matrix(env);
 	return (matrix);
 }
 
-int	builtin_export(t_main *main, t_cmd *cur, t_data2 data)
+int builtin_export(char **env, t_cmd *cur)
 {
 	char	**matrix;
+	char	*env_name;
+	char	**args;
+	int		i;
 
-	data.arg = take_args(main, cur, cur->cmd);
-	if (malloc_p(data.arg) != 0 && ft_matrixlen(data.arg) > 1 && looking_for_env(main, data.t1) == 0)
-		main->env = supp_export3(main, cur, data.t1, data.i);
-	else if (malloc_p(data.arg) != 0 && ft_matrixlen(data.arg) == 1 && main->print == 1)
-		env2(main, 0);
+	i = 0;
+	args = take_args(cur, cur->cmd);
+	if (malloc_p(args) != 0 && ft_matrixlen(args) > 1 && looking_for_env(env, args[0]) == 0)
+		env = supp_export3(env, cur, args[0], i);
+	else if (malloc_p(args) != 0 && ft_matrixlen(args) == 1)
+		env2(env, 0);
 	else
 	{
-		while (main->env[++data.i] != NULL)
+		while (env[++i] != NULL)
 		{
-			matrix = ft_split(main->env[data.i], '=');
-			if (ft_strncmp(matrix[0], data.t1, ft_strlen(data.t1) + 1) == 0)
+			matrix = ft_split(env[i], '=');
+			if (ft_strncmp(matrix[0], args[0], ft_strlen(args[0]) + 1) == 0)
 			{
-				data.t2 = ft_strjoin12f(ft_strjoin(data.t1, "="),
-					supp_export2(main, cur, data.t1, go_next(0, cur->cmd)));
-				free(main->env[data.i]);
-				main->env[data.i] = ft_strjoin1f(data.t2, "\0");
+				env_name = ft_strjoin12f(ft_strjoin(args[0], "="),
+					supp_export2(env, cur, args[0], go_next(0, cur->cmd)));
+				free(env[i]);
+				env[i] = ft_strjoin1f(env_name, "\0");
 			}
 			free_matrix(matrix);
 		}
 	}
-	free_matrix(data.arg);
-	free(data.t1);
+	free_matrix(args);
 	return (1);
 }

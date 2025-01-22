@@ -12,12 +12,15 @@
 
 #include "../minishell.h"
 
-int	builtin_exit(t_main *main, char *cmd, int i, int j)
+int	builtin_exit(char *cmd, char **env, void (*free_all)(void))
 {
+	int		i;
+	int		j;
 	char	*str;
 
-	j = i;
-	while(cmd[i] != ' ' && cmd[i] != '\0' && ft_isdigit(cmd[i]))
+	i = 0;
+	j = 0;
+	while (cmd[i] != ' ' && cmd[i] != '\0' && ft_isdigit(cmd[i]) == 1)
 		i++;
 	rl_clear_history();
 	if (cmd[i] == ' ' || cmd[i] == '\0')
@@ -26,17 +29,18 @@ int	builtin_exit(t_main *main, char *cmd, int i, int j)
 		str = ft_substr(cmd, j, i - j);
 		i = ft_atoi(str);
 		free(str);
-		free_all(main);
-		free_matrix(main->env);
-		exit(i);
+		if (free_all)
+			free_all();
+		free_matrix(env);
+		exit (i);
 	}
 	else
 	{
-		free_all(main);
-		free_matrix(main->env);
-		write(2, "Panic: Numeric Value required\n", 30);
-		g_code_exit = 2;
-		exit(2);
+		if (free_all)
+			free_all();
+		free_matrix(env);
+		write (2, "Panic: Numeric Value Required\n", 30);
+		exit (2);
 	}
 	return (1);
 }

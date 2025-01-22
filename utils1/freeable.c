@@ -12,35 +12,36 @@
 
 #include "../minishell.h"
 
-void	free_all(t_main *main)
+void	free_all(t_cmd *lcmd, char *input, int *ncmd)
 {
 	t_cmd	*cur;
 	t_cmd	*next;
 
-	cur = main->lcmd;
-	while (cur->next)
+	cur = lcmd;
+	while (cur)
 	{
 		free(cur->cmd);
 		next = cur->next;
-		free(cur);
 		cur = next;
 	}
-	free(cur->cmd);
-	free(cur);
-	main->lcmd = NULL;
-	free(main->input);
-	main->ncmd = 0;
+	if (input)
+		free(input);
+	if (ncmd)
+		*ncmd = 0;
 }
 
-int	super_free(t_main *main)
+
+int	super_free(t_cmd *lcmd, char *input, int *ncmd, char **env, int in, int out)
 {
-	free_all(main);
+	free_all(lcmd, input, ncmd);
 	rl_clear_history();
-	free_matrix(main->env);
-	close(main->in);
-	close(main->out);
+	free_matrix(env);
+	close(in);
+	close(out);
+
 	return (0);
 }
+
 
 int	free_matrix(char **matrix)
 {
