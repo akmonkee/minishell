@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 13:19:27 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/21 14:26:20 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/23 10:57:24 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,13 @@ void	here_doc(t_redircmd *rcmd, char *rule)
 		write(2, "Error\nfailed to create temp file\n", 33);
 	write(1, "> ", 2);
 	line = get_next_line(0, 1);
-	while (line != NULL && ft_strnstr(line, rule, ft_strlen(rule)) == 0)
+	while (line != NULL && ft_strnstr(line, rule, ft_strlen_g(rule)) == 0)
 	{
-		write(fd, line, ft_strlen(line));
+		write(fd, line, ft_strlen_g(line));
 		free(line);
 		write(1, "> ", 2);
 		line = get_next_line(0, 1);
 	}
-	get_next_line(0, 0);
 	free(line);
 	close(fd);
 	fd = open("temp_file", O_RDONLY);
