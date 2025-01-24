@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 13:19:27 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/23 10:57:24 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/24 12:45:25 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	here_doc(t_redircmd *rcmd, char *rule)
 	fd = open("temp_file", O_RDONLY);
 	if (fd == -1)
 		write(2, "Error\nfailed to open temp file\n", 31);
+	dup2(fd, STDIN_FILENO);
 	close(fd);
 	if (access("temp_file", R_OK) == 0)
 		unlink("temp_file");
@@ -49,7 +50,7 @@ void	runredir(t_cmd *cmd, char **envp)
 	if (rcmd->mode > O_RDONLY && rcmd->here_doc == 0)
 		close(1);
 	if (rcmd->here_doc == 1)
-		here_doc(rcmd, rcmd->file);
+		runcmd(rcmd->cmd, envp);
 	else
 		open(rcmd->file, rcmd->mode, 0777);
 	runcmd(rcmd->cmd, envp);

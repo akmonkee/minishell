@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:21:33 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/17 11:37:11 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/24 12:49:48 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	parse_exe(char *input, char **envp)
 	t_cmd	*cmd;
 
 	cmd = parsecmd(input);
+	doc_cmd(cmd);
 	runcmd(cmd, envp);
 	freecmd(cmd);
 	free(cmd);

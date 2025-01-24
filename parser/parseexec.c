@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 10:53:56 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/21 15:15:37 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/24 12:16:45 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ t_cmd	*parseexec(char **ps, char *es)
 	t_execcmd	*cmd;
 	t_cmd	*ret;
 
-	//if (peek(ps, es, "("))
-		/*parseblock*/
 	ret = execcmd();
 	cmd = (t_execcmd*)ret;
 	argc = 0;
