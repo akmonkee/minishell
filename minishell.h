@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/24 12:46:09 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/29 10:31:40 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ void	freecmd(t_cmd *cmd);
 //utils/signal_utils
 void	handle_sigquit(int sig);
 void	handle_sigint(int sig);
+//utils/quote_utils
+char	*quote_extractor(char *q, char *eq);
 //utils/utils
 char	*name_extractor(char *q, char *eq);
 int		ft_strchr(char *comp, char s);
@@ -112,6 +114,8 @@ int		peek(char **ps, char *es, char *toks);
 int		gettoken(char **ps, char *es, char **q, char **eq);
 t_cmd	*parseline(char **ps, char *es);
 t_cmd	*parsecmd(char *s);
+//parse quotes
+char	single_quote(char *s, char *es);
 //parse pipe
 t_cmd	*parsepipe(char **ps, char *es);
 //parseexec

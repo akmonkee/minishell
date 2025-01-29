@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 10:53:56 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/24 12:16:45 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/29 10:49:12 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,15 @@ t_cmd	*parseexec(char **ps, char *es)
 		tok = gettoken(ps, es, &q, &eq);
 		if (tok == 0)
 			break ;
-		if (tok != 'a')
+		else if (tok != 'a' && tok != 39)
 		{
 			write(2, "Error\nsyntax\n", 13);
 			exit (1);
 		}
-		cmd->argv[argc] = q;
+		if (tok == 39)
+			cmd->argv[argc] = quote_extractor(q, eq);
+		else
+			cmd->argv[argc] = q;
 		cmd->eargv[argc] = eq;
 		argc++;
 		if (argc >= MAXARGS)
