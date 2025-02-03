@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 10:53:56 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/29 10:49:12 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/31 11:45:05 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ t_cmd	*parseexec(char **ps, char *es)
 			write(2, "Error\nsyntax\n", 13);
 			exit (1);
 		}
-		if (tok == 39)
-			cmd->argv[argc] = quote_extractor(q, eq);
+		if (check_singleq(q))
+			cmd->argv[argc] = quote_man(q, eq);
 		else
 			cmd->argv[argc] = q;
 		cmd->eargv[argc] = eq;

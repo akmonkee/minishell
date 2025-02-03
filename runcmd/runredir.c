@@ -6,11 +6,27 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 13:19:27 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/24 12:45:25 by msisto           ###   ########.fr       */
+/*   Updated: 2025/02/03 12:09:50 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	eof_checker(char *line, char *rule)
+{
+	int	i;
+
+	i = 0;
+	while (line[i] != '\n' || rule[i] != '\0')
+	{
+		if (line[i] != rule[i])
+			return (0);
+		i++;
+	}
+	if (line[i] == '\n' && rule[i] == '\0')
+		return (1);
+	return (0);
+}
 
 void	here_doc(t_redircmd *rcmd, char *rule)
 {
@@ -22,7 +38,7 @@ void	here_doc(t_redircmd *rcmd, char *rule)
 		write(2, "Error\nfailed to create temp file\n", 33);
 	write(1, "> ", 2);
 	line = get_next_line(0, 1);
-	while (line != NULL && ft_strnstr(line, rule, ft_strlen_g(rule)) == 0)
+	while (line != NULL && eof_checker(line, rule) == 0)
 	{
 		write(fd, line, ft_strlen_g(line));
 		free(line);

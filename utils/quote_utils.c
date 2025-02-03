@@ -6,21 +6,35 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 10:10:31 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/29 10:49:09 by msisto           ###   ########.fr       */
+/*   Updated: 2025/01/31 11:48:31 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*quote_extractor(char *q, char *eq)
+int	check_singleq(char *q)
 {
-	int		i;
-	char	*ret;
-	char	*start;
+	int	i;
 
 	i = 0;
+	while (q[i] != '\0' && q[i] != ' ')
+	{
+		if (q[i] == 39)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+char	*quote_man(char *q, char *eq)
+{
+	char	*ret;
+	char	*start;
+	int		i;
+
 	start = q;
-	while (start != eq)
+	i = 0;
+	while (start < eq)
 	{
 		if (*start != 39)
 			i++;
@@ -29,7 +43,7 @@ char	*quote_extractor(char *q, char *eq)
 	start = q;
 	ret = malloc(i + 1);
 	i = 0;
-	while (start != eq)
+	while (start < eq)
 	{
 		if (*start != 39)
 		{

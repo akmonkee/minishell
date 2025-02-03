@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/29 10:31:40 by msisto           ###   ########.fr       */
+/*   Updated: 2025/02/03 11:33:36 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,8 @@ void	freecmd(t_cmd *cmd);
 void	handle_sigquit(int sig);
 void	handle_sigint(int sig);
 //utils/quote_utils
-char	*quote_extractor(char *q, char *eq);
+int		check_singleq(char *q);
+char	*quote_man(char *q, char *eq);
 //utils/utils
 char	*name_extractor(char *q, char *eq);
 int		ft_strchr(char *comp, char s);
@@ -144,6 +145,7 @@ void	runcmd(t_cmd *cmd, char **envp);
 int		fork1();
 void	runpipe(t_cmd *cmd, char **envp);
 //runcmd/runredir
+int		eof_checker(char *line, char *rule);
 void	here_doc(t_redircmd *rcmd, char *rule);
 void	runredir(t_cmd *cmd, char **envp);
 //get_next_line
