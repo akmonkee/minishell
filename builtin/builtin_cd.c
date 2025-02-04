@@ -12,11 +12,11 @@
 
 #include "../minishell.h"
 
-int builtin_cd(t_cmd *cur, char *home, char **arg, char **env)
+int builtin_cd(t_cmd *cmd, char *home, char **arg, char **env)
 {
-	free(cur->cmd);
-	cur->cmd = ft_strjoin2f("export OLDPWD=", get_path());
-	builtin_export(env, cur, (t_data2){0, extract_token(cur, 0, 0), 0, -1});
+	free(cmd->cmd);
+	cmd->cmd = ft_strjoin2f("export OLDPWD=", get_path());
+	builtin_export(env, cmd);
 	if (malloc_p(arg) == 1 && ft_matrixlen(arg) == 2)
 	{
 		if (chdir(arg[1]) != 0)
@@ -33,11 +33,11 @@ int builtin_cd(t_cmd *cur, char *home, char **arg, char **env)
 			return (1);
 		}
 	}
-	free(cur->cmd);
-	cur->cmd = ft_strjoin2f("export PWD=", get_path());
-	builtin_export(env, cur, (t_data2){0, extract_token(cur, 0, 0), 0, -1});
-	free(cur->cmd);
-	cur->cmd = ft_strjoin("cd", "\0");
+	free(cmd->cmd);
+	cmd->cmd = ft_strjoin2f("export PWD=", get_path());
+	builtin_export(env, cmd);
+	free(cmd->cmd);
+	cmd->cmd = ft_strjoin("cd", "\0");
 	free_matrix(arg);
 	free(home);
 	return (1);

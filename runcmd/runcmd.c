@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   runcmd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 11:57:08 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/21 15:14:57 by msisto           ###   ########.fr       */
+/*   Updated: 2025/02/04 11:50:34 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,13 @@ void	runcmd(t_cmd *cmd, char	**envp)
 {
 	t_execcmd	*ecmd;
 
+
+	if (cmd->type == EXEC)
+	{
+		t_execcmd *ecmd = (t_execcmd *)cmd;
+		if (ecmd->argv[0] && control_bt(ecmd->argv[0], cmd))
+		exit (0);
+	}
 	if (!cmd)
 	{
 		write(2, "no parse tree\n", 14);

@@ -5,100 +5,69 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/13 14:16:06 by marvin            #+#    #+#             */
-/*   Updated: 2025/01/13 14:16:06 by marvin           ###   ########.fr       */
+/*   Created: 2025/01/24 11:12:47 by marvin            #+#    #+#             */
+/*   Updated: 2025/01/24 11:12:47 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	supp_export1(t_cmd *cur, int *i)
-{
-	int	j;
-
-	if (cur->cmd[*i] == '\'' || cur->cmd[*i] == '\"')
+// Funzione di utilità per copiare una stringa
+static void	ft_strcpy(char *dest, const char *src) {
+	while (*src)
 	{
-		(*i)++;
-		j = *i;
-		while (cur->cmd[j] != '\0' && cur->cmd[j] != '\'' && cur->cmd[j] != '\"')
-			(*i)++;
+		*dest++ = *src++;
 	}
-	else
-	{
-		j = *i;
-		while (cur->cmd[*i] != '\0' && cur->cmd[*i] != ' ')
-			(*i)++;
-	}
-	return (j);
+	*dest = '\0';
 }
 
-static char	*supp_export2(char **env, t_cmd *cur, char *env_name, int i)
+// Funzione di utilità per concatenare due stringhe
+static void	ft_strcat(char *dest, const char *src)
 {
-	int		j;
-	char	*temp;
-
-	while (cur->cmd[i] && cur->cmd[i] != '=' && cur->cmd[i] != '+')
-		i++;
-	if (cur->cmd[i] == '+')
+	while (*dest)
 	{
-		i += 2;
-		j = supp_export1(cur, &i);
-		return (ft_strjoin12f(pick_env(env, env_name), ft_substr(cur->cmd, j, i - j)));
+		dest++;
 	}
-	else if (cur->cmd[i] == '=')
+	while (*src)
 	{
-		i += 1;
-		j = supp_export1(cur, &i);
-		return (ft_substr(cur->cmd, j, i - j));
+		*dest++ = *src++;
 	}
-	temp = malloc(1);
-	temp[0] = '\0';
-	return (temp);
+	*dest = '\0';
 }
 
-static char **supp_export3(char **env, t_cmd *cur, char *env_name, int i)
+// Funzione per aggiungere o aggiornare una variabile d'ambiente
+int	builtin_export(char *arg)
 {
-	char	**matrix;
-
-	matrix = malloc((ft_matrixlen(env) + 2) * sizeof(char *));
-	malloc_p(matrix);
-	while (env[++i] != NULL)
-		matrix[i] = ft_strjoin(env[i], "\0");
-	matrix[i] = ft_strjoin12f(ft_strjoin(env_name, "="), supp_export2(env, cur, env_name, go_next(0, cur->cmd)));
-	i++;
-	matrix[i] = NULL;
-	free_matrix(env);
-	return (matrix);
-}
-
-int builtin_export(char **env, t_cmd *cur)
-{
-	char	**matrix;
-	char	*env_name;
-	char	**args;
-	int		i;
-
-	i = 0;
-	args = take_args(cur, cur->cmd);
-	if (malloc_p(args) != 0 && ft_matrixlen(args) > 1 && looking_for_env(env, args[0]) == 0)
-		env = supp_export3(env, cur, args[0], i);
-	else if (malloc_p(args) != 0 && ft_matrixlen(args) == 1)
-		env2(env, 0);
-	else
-	{
-		while (env[++i] != NULL)
-		{
-			matrix = ft_split(env[i], '=');
-			if (ft_strncmp(matrix[0], args[0], ft_strlen(args[0]) + 1) == 0)
-			{
-				env_name = ft_strjoin12f(ft_strjoin(args[0], "="),
-					supp_export2(env, cur, args[0], go_next(0, cur->cmd)));
-				free(env[i]);
-				env[i] = ft_strjoin1f(env_name, "\0");
-			}
-			free_matrix(matrix);
-		}
+	if (arg == NULL) {
+		write(STDERR_FILENO, "Usage: export VAR=VALUE\n", 24);
+		return 1;
 	}
-	free_matrix(args);
-	return (1);
+	char *equal_sign = strchr(arg, '=');
+	if (equal_sign == NULL) {
+		write(STDERR_FILENO, "Usage: export VAR=VALUE\n", 24);
+		return 1;
+	}
+	*equal_sign = '\0';
+	char *var = arg;
+	char *value = equal_sign + 1;
+	// Costruisce la stringa VAR=VALUE
+	size_t var_len = strlen(var);
+	size_t value_len = strlen(value);
+	char *env_entry = malloc(var_len + value_len + 2);
+	if (env_entry == NULL) {
+		write(STDERR_FILENO, "Error: malloc failed\n", 21);
+		return 1;
+	}
+    // Copia var e value in env_entry
+	ft_strcpy(env_entry, var);
+	ft_strcat(env_entry, "=");
+	ft_strcat(env_entry, value);
+    // Aggiunge o aggiorna la variabile d'ambiente
+	if (putenv(env_entry) != 0) {
+		write(STDERR_FILENO, "Error: putenv failed\n", 21);
+		free(env_entry);
+		return 1;
+	}
+    // Non liberare env_entry, poiché putenv utilizza il puntatore direttamente
+	return 0;
 }

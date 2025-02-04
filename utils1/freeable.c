@@ -20,7 +20,7 @@ void	free_all(t_cmd *lcmd, char *input, int *ncmd)
 	cur = lcmd;
 	while (cur)
 	{
-		free(cur->cmd);
+		free(cmd->cmd);
 		next = cur->next;
 		cur = next;
 	}
