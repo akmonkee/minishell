@@ -6,13 +6,13 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 11:57:08 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/31 11:12:12 by msisto           ###   ########.fr       */
+/*   Updated: 2025/02/06 10:21:53 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	doc_cmd(t_cmd *cmd)
+void	doc_cmd(t_cmd *cmd, char **envp)
 {
 	t_pipecmd	*pcmd;
 	t_redircmd	*rcmd;
@@ -29,16 +29,14 @@ void	doc_cmd(t_cmd *cmd)
 	else if (cmd->type == PIPE)
 	{
 		pcmd = (t_pipecmd *)cmd;
-		doc_cmd(pcmd->left);
-		doc_cmd(pcmd->right);
+		doc_cmd(pcmd->left, envp);
+		doc_cmd(pcmd->right, envp);
 	}
 	else if (cmd->type == REDIR)
 	{
 		rcmd = (t_redircmd *)cmd;
 		if (rcmd->here_doc == 0)
 			return ;
-		else
-			here_doc(rcmd, rcmd->file);
 	}
 	return ;
 }

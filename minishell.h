@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/02/03 11:33:36 by msisto           ###   ########.fr       */
+/*   Updated: 2025/02/05 13:25:23 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ void	freecmd(t_cmd *cmd);
 void	handle_sigquit(int sig);
 void	handle_sigint(int sig);
 //utils/quote_utils
+int		parse_squote(char *s, char *es);
 int		check_singleq(char *q);
 char	*quote_man(char *q, char *eq);
 //utils/utils
@@ -139,7 +140,7 @@ char	**ft_split(char *string, char c, int index, int start);
 char	*ft_strnstr(const char *s, const char *to_find, size_t len);
 char	**path_finder(char **envp);
 //runcmd/runcmd
-void	doc_cmd(t_cmd *cmd);
+void	doc_cmd(t_cmd *cmd, char **envp);
 void	runcmd(t_cmd *cmd, char **envp);
 //runcmd/runpipe
 int		fork1();

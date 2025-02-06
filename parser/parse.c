@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 11:17:55 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/31 11:02:21 by msisto           ###   ########.fr       */
+/*   Updated: 2025/02/04 13:26:22 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,20 @@ int	gettoken(char **ps, char *es, char **q, char **eq)
 	{
 		ret = 'a';
 		while (s < es && !ft_strchr(WHITE_SPACE, *s) && !ft_strchr(SYMBOLS, *s))
+		{
+			if(parse_squote(s, es) == 1)
+			{
+				s++;
+				while (s < es)
+				{
+					if (*s == 39)
+						break ;
+					s++;
+				}
+			}
 			s++;
+		}
+
 	}
 	if (eq)
 		*eq = s;

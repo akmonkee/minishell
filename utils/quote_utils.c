@@ -6,11 +6,29 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 10:10:31 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/31 11:48:31 by msisto           ###   ########.fr       */
+/*   Updated: 2025/02/04 13:25:22 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	parse_squote(char *s, char *es)
+{
+	char	*st;
+
+	st = s;
+	if (*st == 39)
+	{
+		st++;
+		while (st < es)
+		{
+			if (*st == 39)
+				return (1);
+			st++;
+		}
+	}
+	return (0);
+}
 
 int	check_singleq(char *q)
 {
