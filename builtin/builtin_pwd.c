@@ -12,13 +12,15 @@
 
 #include "../minishell.h"
 
-int builtin_pwd(void)
+int builtin_pwd(char **envp)
 {
-	char	cwd[1024];
+	char	**var;
+	int		i;
 
-	if(getcwd(cwd, sizeof(cwd)) != NULL)
-		printf("%s\n", cwd);
-	else
-		perror("getcwd() error");
-	return (1);
+	i = 0;
+	while (!ft_strnstr(envp[i], "PWD", 3))
+		i++;
+	var = ft_split (envp[i], '=', 0, 0);
+	printf("%s\n", var[1]);
+	mtxs_free(var);
 }

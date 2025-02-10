@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/02/04 11:52:02 by marvin           ###   ########.fr       */
+/*   Updated: 2025/02/10 15:11:40 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@
 
 # define MAXARGS 10
 
+extern int	g_exit_code;
+
 /*cmd structs*/
 
 typedef struct s_cmd
@@ -107,6 +109,10 @@ char	*name_extractor(char *q, char *eq);
 int		ft_strchr(char *comp, char s);
 size_t	ft_strlen(char	*s);
 void	*ft_memset(void *b, int c, size_t len);
+int		mtx_len(char **mtx);
+//utils/utils_2
+int	ft_strncmp(const char *s1, const char *s2, size_t n);
+int	ft_atoi(const char *s);
 //parse
 int		peek(char **ps, char *es, char *toks);
 int		gettoken(char **ps, char *es, char **q, char **eq);
@@ -154,15 +160,12 @@ char	*get_line(int fd, char *ret);
 char	*return_fun(char *output);
 //BUILTIN
 //builtin commands
-// char		*extract_token(t_cmd *cur, int i, int j);
-// int			builtin_cd(t_main *main, t_cmd *cur, char *home, char **arg);
-// int			builtin_env(t_main *main, t_cmd *cur);
-// void		env2(t_main *main, int i);
-// int			builtin_exit(t_main *main, char *cmd, int i, int j);
-int		builtin_export(char *arg)
-int		builtin_pwd(void);
-// int			builtin_unset(t_main *main, t_cmd *cur, int j, char *str);
-int		control_bt(char *input, t_cmd *cur);
-int		is_builtin(char *cmd);
+int		builtin_cd(char *input, char **env);
+int		builtin_env(char **env, int flag);
+int		builtin_exit(char *input);
+int		builtin_export(char *input, char **env);
+int		builtin_pwd(char **envp);
+int		builtin_unset(char **env, t_cmd *cmd, char *str);
+int		control_bt(char *input, char **env);
 
 #endif

@@ -12,34 +12,16 @@
 
 #include "../minishell.h"
 
-int builtin_cd(t_cmd *cmd, char *home, char **arg, char **env)
+int builtin_cd(char *input, char **env)
 {
-	free(cmd->cmd);
-	cmd->cmd = ft_strjoin2f("export OLDPWD=", get_path());
-	builtin_export(env, cmd);
-	if (malloc_p(arg) == 1 && ft_matrixlen(arg) == 2)
+	while (*input != 92 && *input != '\0')
+		input++;
+	chdir(input);
+	if (chdir(input) == -1)
 	{
-		if (chdir(arg[1]) != 0)
-		{
-			write(2, "Panic: Unable to change directory\n", 32);
-			return (1);
-		}
+		printf("cd: %s: No such file or directory\n", input);
+		return (1);
 	}
-	else if (malloc_p(arg) == 1 && ft_matrixlen(arg) == 1)
-	{
-		if (chdir(home) != 0)
-		{
-			write(2, "Panic: Unable to change to home directory\n", 41);
-			return (1);
-		}
-	}
-	free(cmd->cmd);
-	cmd->cmd = ft_strjoin2f("export PWD=", get_path());
-	builtin_export(env, cmd);
-	free(cmd->cmd);
-	cmd->cmd = ft_strjoin("cd", "\0");
-	free_matrix(arg);
-	free(home);
-	return (1);
+	return (0);
 }
 

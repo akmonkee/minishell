@@ -12,35 +12,18 @@
 
 #include "../minishell.h"
 
-int	builtin_exit(char *cmd, char **env, void (*free_all)(void))
+int	builtin_exit(char *input)
 {
-	int		i;
-	int		j;
-	char	*str;
+	char	**var;
+	int		n;
 
-	i = 0;
-	j = 0;
-	while (cmd[i] != ' ' && cmd[i] != '\0' && ft_isdigit(cmd[i]) == 1)
-		i++;
-	rl_clear_history();
-	if (cmd[i] == ' ' || cmd[i] == '\0')
+	n = 0;
+	var = ft_split(input, ' ', 0, 0);
+	if (var[1] != NULL)
 	{
-		printf("exit\n");
-		str = ft_substr(cmd, j, i - j);
-		i = ft_atoi(str);
-		free(str);
-		if (free_all)
-			free_all();
-		free_matrix(env);
-		exit (i);
+		n = ft_atoi(var[1]);
+		g_exit_code = (unsigned char)n;
 	}
-	else
-	{
-		if (free_all)
-			free_all();
-		free_matrix(env);
-		write (2, "Panic: Numeric Value Required\n", 30);
-		exit (2);
-	}
-	return (1);
+	mtxs_free(var);
+	exit(g_exit_code);
 }
