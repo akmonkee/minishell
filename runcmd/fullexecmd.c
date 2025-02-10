@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:35:28 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/14 12:07:52 by msisto           ###   ########.fr       */
+/*   Updated: 2025/02/07 14:34:38 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,13 @@ void	ft_execute_command(char **command, char **envp)
 	exe_path = cmd_check(path, command[0]);
 	mtxs_free(path);
 	if (!exe_path)
+	{
+		mtxs_free(envp);
 		return ;
+	}
 	if (execve(exe_path, command, envp) == -1)
+	{
+		mtxs_free(envp);
 		free(exe_path);
+	}
 }

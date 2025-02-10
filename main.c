@@ -6,13 +6,40 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:21:33 by msisto            #+#    #+#             */
-/*   Updated: 2025/02/06 10:14:16 by msisto           ###   ########.fr       */
+/*   Updated: 2025/02/07 14:37:52 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+char	**env_cloner(char **envp)
+{
+	char	**ret;
+	int		i;
+	int		k;
 
+	i = 0;
+	while (envp[i] != NULL)
+		i++;
+	ret = malloc((i + 1) * sizeof(char *));
+	if (ret == NULL)
+		return (NULL);
+	i = 0;
+	while (envp[i] != NULL)
+	{
+		k = 0;
+		ret[i] = malloc(ft_strlen_g(envp[i]) + 1);
+		while (k < ft_strlen_g(envp[i]))
+		{
+			ret[i][k] = envp[i][k];
+			k++;
+		}
+		ret[i][k] = '\0';
+		i++;
+	}
+	ret[i] = NULL;
+	return (ret);
+}
 
 void	parse_exe(char *input, char **envp)
 {
@@ -24,6 +51,7 @@ void	parse_exe(char *input, char **envp)
 	freecmd(cmd);
 	free(cmd);
 	free(input);
+	mtxs_free(envp);
 }
 
 void	start_shell(char **envp)
@@ -39,6 +67,7 @@ void	start_shell(char **envp)
 		if (!input)
 		{
 			printf("Pierpaolo dismissed you...\n");
+			mtxs_free(envp);
 			rl_clear_history();
 			break ;
 		}
@@ -70,7 +99,7 @@ int	main(int ac, char **av, char *envp[])
 	signal(SIGQUIT, handle_sigquit);
 	signal(SIGINT, handle_sigint);
 	if (isatty(STDIN_FILENO))
-		start_shell(envp);
+		start_shell(env_cloner(envp));
 	else
 	{
 		write(2, "Error: Not running in a terminal.\n", 34);
