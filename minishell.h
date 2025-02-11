@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/02/10 15:11:40 by marvin           ###   ########.fr       */
+/*   Updated: 2025/02/11 10:53:01 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,7 @@ char	*return_fun(char *output);
 int		builtin_cd(char *input, char **env);
 int		builtin_env(char **env, int flag);
 int		builtin_exit(char *input);
+void	var_extractor(char *var, char *input);
 int		builtin_export(char *input, char **env);
 int		builtin_pwd(char **envp);
 int		builtin_unset(char **env, t_cmd *cmd, char *str);
