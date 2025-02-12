@@ -26,56 +26,71 @@ static int check_option_n(char *str)
 		return (1);
 	return (0);
 }
+
+static void	*ft_memcpy(void *dst, const void *src, size_t n)
+{
+	unsigned char		*ptr1;
+	const unsigned char	*ptr2;
+
+	if (!dst && !src)
+		return (NULL);
+	ptr1 = (unsigned char *)dst;
+	ptr2 = (unsigned char *)src;
+	while (n-- > 0)
+		*(ptr1++) = *(ptr2++);
+	return ((void *)dst);
+}
+
 static void print_with_env(char *str)
 {
-    int     i;
-    int     len;
-    char    *var_name;
-    char    *env_value;
+	int i;
+	int len;
+	int start;
+	int end;
+	char *var_name;
+	char *env_value;
 
-    if (!str)
-        return;
+	if (!str)
+		return;
 
-    len = strlen(str);
-    if (len == 0)  // Gestisci stringhe vuote
-        return;
+	len = strlen(str);
+	if (len == 0)
+		return;
 
-    i = 0;
-    while (i < len)
-    {
-        if (str[i] == '$' && i + 1 < len)
-        {
-            int start = i + 1;
-            int end = start;
-
-            while (end < len && (str[end] == '_' ||
-                  (str[end] >= 'A' && str[end] <= 'Z') ||
-                  (str[end] >= 'a' && str[end] <= 'z') ||
-                  (str[end] >= '0' && str[end] <= '9')))
-            {
-                end++;
-            }
-
-            if (end > start)
-            {
-                int var_len = end - start;
-                var_name = (char *)malloc(sizeof(char) * (var_len + 1));
-                if (var_name)
-                {
-                    memcpy(var_name, str + start, var_len);
-                    var_name[var_len] = '\0';
-                    env_value = getenv(var_name);
-                    if (env_value)
-                        printf("%s", env_value);
-                    free(var_name);
-                    i = end;
-                    continue;
-                }
-            }
-        }
-        printf("%c", str[i]);
-        i++;
-    }
+	i = 0;
+	while (i < len)
+	{
+		if (str[i] == '$' && i + 1 < len)
+		{
+			start = i + 1;
+			end = start;
+			while (end < len && (str[end] == '_' ||
+								 (str[end] >= 'A' && str[end] <= 'Z') ||
+								 (str[end] >= 'a' && str[end] <= 'z') ||
+								 (str[end] >= '0' && str[end] <= '9')))
+			{
+				end++;
+			}
+			if (end > start)
+			{
+				int var_len = end - start;
+				var_name = (char *)malloc(sizeof(char) * (var_len + 1));
+				if (var_name)
+				{
+					ft_memcpy(var_name, str + start, var_len);
+					var_name[var_len] = '\0';
+					env_value = getenv(var_name);
+					if (env_value)
+						printf("%s", env_value);
+					free(var_name);
+					i = end;
+					continue;
+				}
+			}
+		}
+		printf("%c", str[i]);
+		i++;
+	}
 }
 
 int builtin_echo(char **args)
