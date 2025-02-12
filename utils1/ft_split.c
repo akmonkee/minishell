@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-static int	ft_count_words(char const *s, char c)
+int	ft_count_words(char const *s, char c)
 {
 	int		i;
 	int		count;
@@ -49,18 +49,28 @@ char	**ft_split(char const *s, char c)
 
 	if (s == NULL)
 		return (NULL);
+	printf("String to split: %s\n", s);		//dbug
+	printf("Delimiter: %c\n", c);	//dbug
+
 	matrix = malloc(sizeof(char *) * (ft_count_words(s, c) + 1));
 	if (matrix == NULL)
 		return (NULL);
+	printf("Words count: %d\n", ft_count_words(s, c));	//dbug
+
 	i = 0;
 	j = 0;
 	while (s[i])
 	{
 		i = skip_char(i, s, c);
+		printf("After skip char: i = %d\n", i);	//dbug
 		k = i;
 		while (s[i] && s[i] != c)
 			i++;
+		printf("Word length: %d\n", i - k);	//dbug
+
 		matrix[j] = ft_substr(s, k, i - k);
+		printf("Word: %s\n", matrix[j]);	//dbug
+
 		i = skip_char(i, s, c);
 		j++;
 	}

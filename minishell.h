@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: efoschi <efoschi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/02/11 10:53:01 by marvin           ###   ########.fr       */
+/*   Updated: 2025/02/12 11:55:32 by efoschi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,7 @@ char	*return_fun(char *output);
 //BUILTIN
 //builtin commands
 int		builtin_cd(char *input, char **env);
+int		builtin_echo(char **args);
 int		builtin_env(char **env, int flag);
 int		builtin_exit(char *input);
 void	var_extractor(char *var, char *input);
@@ -168,5 +169,8 @@ int		builtin_export(char *input, char **env);
 int		builtin_pwd(char **envp);
 int		builtin_unset(char **env, t_cmd *cmd, char *str);
 int		control_bt(char *input, char **env);
+int		ft_count_words(char const *s, char c);
+char	**ft_split_bt(char const *s, char c);
+char	*ft_substr(const char *s, unsigned int start, size_t len);
 
 #endif
