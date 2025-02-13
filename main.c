@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:21:33 by msisto            #+#    #+#             */
-/*   Updated: 2025/02/13 11:39:10 by msisto           ###   ########.fr       */
+/*   Updated: 2025/02/13 13:57:05 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ void	start_shell(char **envp)
 		if (!input)
 		{
 			printf("Pierpaolo dismissed you...\n");
-			mtxs_free(envp);
 			rl_clear_history();
 			break ;
 		}
