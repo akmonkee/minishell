@@ -1,10 +1,11 @@
 NAME = minishell
 
 SRC = main.c \
-parser/parse.c parser/parsepipe.c parser/parseexec.c parser/nulterminate.c parser/parseredirs.c parser/parsequotes.c\
-utils/utils.c utils/freecmd.c utils/signal_utils.c utils/quote_utils.c\
+parser/parse.c parser/parsepipe.c parser/parseexec.c parser/nulterminate.c parser/parseredirs.c parser/parsequotes.c \
+utils/utils.c utils/utils_2.c utils/freecmd.c utils/signal_utils.c utils/quote_utils.c utils/builtin_utils.c \
 runcmd/runcmd.c runcmd/pathfinder.c runcmd/fullexecmd.c runcmd/runpipe.c runcmd/runredir.c \
-get_next_line/get_next_line.c get_next_line/get_next_line_utils.c
+builtin/builtin_cd.c builtin/builtin_env.c builtin/builtin_exit.c builtin/builtin_export.c builtin/builtin_pwd.c \
+get_next_line/get_next_line.c get_next_line/get_next_line_utils.c \
 
 OUT = $(SRC:.c=.o)
 

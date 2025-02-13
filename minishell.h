@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/02/07 14:38:21 by msisto           ###   ########.fr       */
+/*   Updated: 2025/02/12 11:49:43 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,13 @@
 
 # define MAXARGS 10
 
+extern int g_exit_code;
+
 /*cmd structs*/
 
 typedef struct s_cmd
 {
-	int	type;
+	int		type;
 }	t_cmd;
 
 typedef struct s_execcmd
@@ -78,17 +80,17 @@ typedef struct s_execcmd
 
 typedef struct s_redircmd
 {
-	int			type;
-	t_cmd		*cmd;
-	char		*file;
-	int			here_doc;
-	int			mode;
-	int			fd;
+	int		type;
+	t_cmd	*cmd;
+	char	*file;
+	int		here_doc;
+	int		mode;
+	int		fd;
 }	t_redircmd;
 
 typedef struct s_pipecmd
 {
-	int			type;
+	int		type;
 	t_cmd	*left;
 	t_cmd	*right;
 }	t_pipecmd;
@@ -112,6 +114,15 @@ char	*name_extractor(char *q, char *eq);
 int		ft_strchr(char *comp, char s);
 size_t	ft_strlen(char	*s);
 void	*ft_memset(void *b, int c, size_t len);
+int		mtx_len(char **mtx);
+//utils/utils_2
+char	*var_ex(char *str, char c);
+int		varcmp(char *str1, char *str2, int n);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+int		ft_isdigit(int c);
+int		ft_atoi(const char *s);
+//utils/builtin_utils
+int		control_bt(char *input, char **env);
 //parse
 int		peek(char **ps, char *es, char *toks);
 int		gettoken(char **ps, char *es, char **q, char **eq);
@@ -150,6 +161,16 @@ void	runpipe(t_cmd *cmd, char **envp);
 int		eof_checker(char *line, char *rule);
 void	here_doc(t_redircmd *rcmd, char *rule);
 void	runredir(t_cmd *cmd, char **envp);
+//builtin/
+int		builtin_cd(char *input, char **env);
+int		builtin_env(char **env, int flag);
+int		builtin_exit(char *input);
+int		builtin_pwd(char **envp);
+//builtin/export
+void	export_ccc(char *var, char **env);
+char	**ft_realloc(char **mtx, int size);
+void	var_extractor(char *var, char *input);
+int		builtin_export(char *input, char **env);
 //get_next_line
 char	*gnl_strjoin(char *line, char *buf);
 char	*str_clear(char *buf);

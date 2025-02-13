@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 13:19:27 by msisto            #+#    #+#             */
-/*   Updated: 2025/02/07 13:57:42 by msisto           ###   ########.fr       */
+/*   Updated: 2025/02/13 11:10:56 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,15 @@ int	eof_checker(char *line, char *rule)
 	int	i;
 
 	i = 0;
-	while (line[i] != '\n' || rule[i] != '\0')
+	if (!line)
+		return (1);
+	while (line[i] != '\0' || line[i] != '\n' || rule[i] != '\0')
 	{
 		if (line[i] != rule[i])
 			return (0);
 		i++;
 	}
-	if (line[i] == '\n' && rule[i] == '\0')
+	if ((line[i] == '\n'|| line[i] == '\0') && rule[i] == '\0')
 		return (1);
 	return (0);
 }
@@ -35,13 +37,17 @@ void	here_doc(t_redircmd *rcmd, char *rule)
 
 	fd = open("temp_file", rcmd->mode, 0777);
 	if (fd == -1)
-		write(2, "Error\nfailed to create temp file\n", 33);
-	line = get_next_line(0, 1);
-	while (line != NULL && eof_checker(line, rule) == 0)
+	write(2, "Error\nfailed to create temp file\n", 33);
+	while (1)
 	{
-		write(fd, line, ft_strlen_g(line));
-		free(line);
-		line = get_next_line(0, 1);
+		line = readline("> ");
+		if (eof_checker(line, rule) == 1 || !line)
+			break ;
+		if (line)
+		{
+			write(fd, line, ft_strlen_g(line));
+			free(line);
+		}
 	}
 	free(line);
 	close(fd);

@@ -6,11 +6,13 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:21:33 by msisto            #+#    #+#             */
-/*   Updated: 2025/02/07 14:37:52 by msisto           ###   ########.fr       */
+/*   Updated: 2025/02/13 11:39:10 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	g_exit_code;
 
 char	**env_cloner(char **envp)
 {
@@ -46,7 +48,6 @@ void	parse_exe(char *input, char **envp)
 	t_cmd	*cmd;
 
 	cmd = parsecmd(input);
-	//doc_cmd(cmd, envp);
 	runcmd(cmd, envp);
 	freecmd(cmd);
 	free(cmd);
@@ -74,16 +75,19 @@ void	start_shell(char **envp)
 		if (*input)
 		{
 			add_history(input);
-			pid = fork();
-			if (pid == -1)
+			if (control_bt(input, envp) == 1)
 			{
-				write(2, "fork non riuscito\n", 18);
-				return ;
+				pid = fork();
+				if (pid == -1)
+				{
+					write(2, "fork non riuscito\n", 18);
+					return ;
+				}
+				if (pid == 0)
+					return (parse_exe(input, envp));
+				else
+					wait(NULL);
 			}
-			if (pid == 0)
-				return (parse_exe(input, envp));
-			else
-				wait(NULL);
 		}
 		free(input);
 	}
