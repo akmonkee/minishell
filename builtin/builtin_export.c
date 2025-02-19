@@ -12,84 +12,104 @@
 
 #include "../minishell.h"
 
-char **ft_realloc(char **mtx, int size)
+void	export_ccc(char *var, char **env)
 {
-	char **ret;
-	int i;
+	char	*ex_var;
+	char	*ex_env;
+	int		i;
+	int		k;
 
-	if (!mtx)
-		return (NULL);
-	ret = malloc((size + 1) * sizeof(char *));
-	if (!ret)
-		return (NULL);
 	i = 0;
-	while (i < size && mtx[i])
+	ex_var = var_ex(var, '=');
+	while (env[i] != NULL)
 	{
-		ret[i] = ft_strdup(mtx[i]);
-		if (!ret[i])
+		ex_env = var_ex(env[i], '=');
+		if (varcmp(ex_var, ex_env, ft_strlen_g(ex_var)) == 1)
 		{
-			while (--i >= 0)
-				free(ret[i]);
-			free(ret);
-			return (NULL);
+			free(env[i]);
+			env[i] = malloc(ft_strlen_g(var) + 1);
+			k = 0;
+			while (var[k])
+			{
+				env[i][k] = var[k];
+				k++;
+			}
+			env[i][k] = '\0';
 		}
+		free(ex_env);
+		i++;
+	}
+	free(ex_var);
+}
+
+void	**ft_realloc(char **mtx, int size)
+{
+	char	**ret;
+	int		i;
+	int		mtx_l;
+
+	i = 0;
+	mtx_l = mtx_len(mtx);
+	ret = malloc((size + 1) * sizeof(char *));
+	if (ret == NULL)
+		return (NULL);
+	while (i < size)
+	{
+		if (i < mtx_l)
+			ret[i] = strdup(mtx[i]);
+		else
+		{
+			ret[i] = malloc(1);
+			ret[i][0] = '\0';
+		}
+		//printf("%s\n", ret[i]);
 		i++;
 	}
 	ret[i] = NULL;
 	mtxs_free(mtx);
-	return (ret);
+	return ((void **)ret);
 }
 
-char *var_extractor(const char *var)
+void	var_extractor(char *var, char *input)
 {
-	char *input;
-	int i;
+	int	i;
 
-	if (!var)
-		return (NULL);
-	input = malloc(ft_strlen(var) + 1);
-	if (!input)
-		return (NULL);
 	i = 0;
-	while (var[i])
+	input = malloc(ft_strlen(var) + 1);
+	if (input == NULL)
+		return ;
+	while (var[i] != '\0')
 	{
 		input[i] = var[i];
 		i++;
 	}
-	input[i] = '\0';
-	return (input);
 }
 
-int builtin_export(char *input, char **env)
+int	builtin_export(char *input, char **env)
 {
-	char **var;
-	char **tmp;
-	char *check;
-	int i;
+	char	**var;
+	int		i;
 
-	i = 0;
+	i = 1;
 	var = ft_split(input, ' ', 0, 0);
-	if (var[1] == NULL)
+	if (var[i] == NULL)
 	{
 		builtin_env(env, 1);
+		mtxs_free(var);
 		return (0);
 	}
-	if (ft_strnstr(var[i], "=", 1) != 0)
-		return (1);
-	check = name_extractor(var[i], ft_strchr(var[i], '='));
-	while (env[i] != NULL)
+	while (var[i] != NULL)
 	{
-		if (ft_strncmp(env[i], check, ft_strlen(check)) == 0)
-			break;
+		if (ft_strnstr(var[i], "=", ft_strlen_g(var[i])) != 0)
+			export_ccc(var[i], env);
 		i++;
 	}
-	tmp = ft_realloc(env, mtx_len(env) + mtx_len(var));
+	env = (char **)ft_realloc(env, mtx_len(env) + mtx_len(var) - 1);
 	while (i < mtx_len(var))
 	{
-		var_extractor(var[i], tmp[mtx_len(tmp) - mtx_len(var) + i]);
+		var_extractor(var[i], env[mtx_len(env) - mtx_len(var) + i]);
 		i++;
 	}
-	env = tmp;
 	mtxs_free(var);
 	return (0);
 }

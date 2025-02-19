@@ -28,9 +28,18 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
 
-int	ft_isdigit(int c)
+int ft_strcpy(char *dest, const char *src)
 {
-	return (c >= '0' && c <= '9');
+	int i;
+
+	i = 0;
+	while (src[i])
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (i);
 }
 
 int	ft_atoi(const char *s)
@@ -60,4 +69,44 @@ int	ft_atoi(const char *s)
 		i++;
 	}
 	return (res * sign);
+}
+
+char	*var_ex(char *str, char c)
+{
+	int		i;
+	char	*ret;
+
+	i = 0;
+	while (str[i] != c && str[i])
+		i++;
+	ret = malloc(i + 1);
+	if (!ret)
+		return(NULL);
+	i = 0;
+	while (str[i] != c)
+	{
+		ret[i] = str[i];
+		i++;
+	}
+	ret[i] = '\0';
+	return (ret);
+}
+
+int	varcmp(char *str1, char *str2, int n)
+{
+	int		i;
+
+	i = 0;
+	if (!n)
+		return (0);
+	if (ft_strlen_g(str1) > ft_strlen_g(str2))
+		return (0);
+	if (ft_strlen_g(str1) < ft_strlen_g(str2))
+		return (0);
+	while (str1[i] == str2[i] && i < n && str1[i] && str2[i])
+		i++;
+	if (str1[i] != str2[i])
+		return(0);
+	else
+		return (1);
 }

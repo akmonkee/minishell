@@ -125,8 +125,8 @@ int control_bt(char *input, char **env)
 		ret = builtin_env(env, 0);
 	else if (ft_strncmp(args[0], "exit", 4) == 0)
 		ret = builtin_exit(input);
-	// else if (ft_strncmp(args[0], "export", 6) == 0)
-	// 	ret = builtin_export(input, env);
+	else if (ft_strncmp(args[0], "export", 6) == 0)
+		ret = builtin_export(input, env);
 	// else if (ft_strncmp(args[0], "unset", 5) == 0)
 	// {
 	// 	if (args[1])
