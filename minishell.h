@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efoschi <efoschi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/02/18 15:12:42 by efoschi          ###   ########.fr       */
+/*   Updated: 2025/02/21 11:56:19 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,11 +111,11 @@ size_t	ft_strlen(char	*s);
 void	*ft_memset(void *b, int c, size_t len);
 int		mtx_len(char **mtx);
 //utils/utils_2
-int	ft_strncmp(const char *s1, const char *s2, size_t n);
-int	ft_atoi(const char *s);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+int		ft_atoi(const char *s);
 char	*var_ex(char *str, char c);
-int	varcmp(char *s1, char *s2, int n);
-int	ft_strcpy(char *dest, const char *src);
+int		varcmp(char *s1, char *s2, int n);
+int		ft_strcpy(char *dest, const char *src);
 //parse
 int		peek(char **ps, char *es, char *toks);
 int		gettoken(char **ps, char *es, char **q, char **eq);
@@ -168,6 +168,9 @@ int		builtin_echo(char **args);
 int		builtin_env(char **env, int flag);
 int		builtin_exit(char *input);
 void	var_extractor(char *var, char *input);
+char	*a_var_update(char *var, char *env);
+void	**export_ccc(char *var, char **env);
+void	**ft_realloc(char **mtx, int size);
 int		builtin_export(char *input, char **env);
 int		builtin_pwd(char **envp);
 int		builtin_unset(char **env, t_cmd *cmd, char *str);

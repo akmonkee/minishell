@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efoschi <efoschi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 11:57:54 by efoschi           #+#    #+#             */
-/*   Updated: 2025/02/11 11:57:58 by efoschi          ###   ########.fr       */
+/*   Updated: 2025/02/21 12:00:23 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	start_shell(char **envp)
 	printf("%s", IMG);
 	while (1)
 	{
+		printf("in main %p\n", envp);
 		input = readline("minipierpaolo> ");
 		if (!input)
 		{
