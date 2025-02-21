@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/02/21 11:56:19 by msisto           ###   ########.fr       */
+/*   Updated: 2025/02/21 12:47:41 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,12 @@ int		ft_strchr(char *comp, char s);
 size_t	ft_strlen(char	*s);
 void	*ft_memset(void *b, int c, size_t len);
 int		mtx_len(char **mtx);
+//utils/builtin_utils
+char	*ft_substr(const char *s, unsigned int start, size_t len);
+int		ft_count_words(char const *s, char c);
+char	**ft_split_bt(char const *s, char c);
+void	**exe_bt(char *input, char **env);
+int		control_bt(char *input, char **env);
 //utils/utils_2
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_atoi(const char *s);
@@ -167,16 +173,13 @@ int		builtin_cd(char *input, char **env);
 int		builtin_echo(char **args);
 int		builtin_env(char **env, int flag);
 int		builtin_exit(char *input);
+int		builtin_pwd(char **envp);
+int		builtin_unset(char **env, t_cmd *cmd, char *str);
+//builtin/export
+int		builtin_export(char *input, char **env);
 void	var_extractor(char *var, char *input);
 char	*a_var_update(char *var, char *env);
 void	**export_ccc(char *var, char **env);
 void	**ft_realloc(char **mtx, int size);
-int		builtin_export(char *input, char **env);
-int		builtin_pwd(char **envp);
-int		builtin_unset(char **env, t_cmd *cmd, char *str);
-int		control_bt(char *input, char **env);
-int		ft_count_words(char const *s, char c);
-char	**ft_split_bt(char const *s, char c);
-char	*ft_substr(const char *s, unsigned int start, size_t len);
 
 #endif

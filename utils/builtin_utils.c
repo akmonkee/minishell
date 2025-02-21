@@ -105,16 +105,15 @@ char **ft_split_bt(char const *s, char c)
 	return (matrix);
 }
 
-int control_bt(char *input, char **env)
+/*void	**exe_bt(char *input, char **env)
 {
 	char **args;
-	int ret;
 
 	if (!input)
-		return (1);
+		ret = 1;
 	args = ft_split_bt(input, ' ');
 	if (!args)
-		return (1);
+		ret = 1;
 	if (ft_strncmp(args[0], "pwd", 3) == 0)
 		ret = builtin_pwd(env);
 	else if (ft_strncmp(args[0], "cd", 2) == 0)
@@ -138,4 +137,38 @@ int control_bt(char *input, char **env)
 		ret = 1;
 	mtxs_free(args);
 	return (ret);
+}*/
+
+int	control_bt(char *input, char **env)
+{
+	char	**args;
+	int		ret;
+
+	ret = 0;
+	if (!input)
+		return (1);
+	args = ft_split_bt(input, ' ');
+	if (!args)
+		return (1);
+	if (ft_strncmp(args[0], "pwd", 3) == 0)
+		ret = 1;
+	else if (ft_strncmp(args[0], "cd", 2) == 0)
+		ret = 1;
+	else if (ft_strncmp(args[0], "echo", 4) == 0)
+		ret = 1;
+	else if (ft_strncmp(args[0], "env", 3) == 0)
+		ret = 1;
+	else if (ft_strncmp(args[0], "exit", 4) == 0)
+		ret = 1;
+	else if (ft_strncmp(args[0], "export", 6) == 0)
+		ret = 1;
+	// else if (ft_strncmp(args[0], "unset", 5) == 0)
+	// {
+	// 	if (args[1])
+	// 		ret =args[1]);
+	// 	else
+	// 		ret =(args);
+	mtxs_free(args);
+	return (ret);
 }
+
