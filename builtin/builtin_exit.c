@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-int	builtin_exit(char *input)
+void	builtin_exit(char *input)
 {
 	char	**var;
 	int		n;

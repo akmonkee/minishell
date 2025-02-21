@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-int builtin_pwd(char **envp)
+void	builtin_pwd(char **envp)
 {
 	char	**var;
 	int		i;

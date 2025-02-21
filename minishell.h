@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/02/21 12:47:41 by msisto           ###   ########.fr       */
+/*   Updated: 2025/02/21 13:04:57 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,17 +169,16 @@ char	*get_line(int fd, char *ret);
 char	*return_fun(char *output);
 //BUILTIN
 //builtin commands
-int		builtin_cd(char *input, char **env);
-int		builtin_echo(char **args);
-int		builtin_env(char **env, int flag);
-int		builtin_exit(char *input);
-int		builtin_pwd(char **envp);
-int		builtin_unset(char **env, t_cmd *cmd, char *str);
+void	**builtin_cd(char *input, char **env);
+void	builtin_echo(char **args);
+void	builtin_env(char **env, int flag);
+void	builtin_exit(char *input);
+void	builtin_pwd(char **envp);
+void	**builtin_unset(char **env, t_cmd *cmd, char *str);
 //builtin/export
-int		builtin_export(char *input, char **env);
-void	var_extractor(char *var, char *input);
 char	*a_var_update(char *var, char *env);
 void	**export_ccc(char *var, char **env);
 void	**ft_realloc(char **mtx, int size);
+void	**builtin_export(char *input, char **env);
 
 #endif

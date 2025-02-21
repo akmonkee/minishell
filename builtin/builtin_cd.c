@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-int builtin_cd(char *input, char **env)
+void	**builtin_cd(char *input, char **env)
 {
 	while (*input != 92 && *input != '\0')
 		input++;
@@ -20,8 +20,8 @@ int builtin_cd(char *input, char **env)
 	if (chdir(input) == -1)
 	{
 		printf("cd: %s: No such file or directory\n", input);
-		return (1);
+		return (NULL);
 	}
-	return (0);
+	return (NULL);
 }
 

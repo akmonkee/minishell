@@ -93,7 +93,7 @@ static void print_with_env(char *str)
 	}
 }
 
-int builtin_echo(char **args)
+void	builtin_echo(char **args)
 {
 	int i;
 	int option_n;
@@ -101,7 +101,7 @@ int builtin_echo(char **args)
 	if (!args[1])
 	{
 		printf("\n");
-		return (0);
+		return ;
 	}
 	i = 1;
 	option_n = 0;
@@ -120,5 +120,5 @@ int builtin_echo(char **args)
 	}
 	if (!option_n)
 		printf("\n");
-	return (0);
+	return ;
 }

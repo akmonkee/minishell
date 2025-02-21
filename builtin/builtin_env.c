@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-int	builtin_env(char **env, int flag)
+void	builtin_env(char **env, int flag)
 {
 	int	i;
 
@@ -24,5 +24,5 @@ int	builtin_env(char **env, int flag)
 		printf("%s\n", env[i]);
 		i++;
 	}
-	return (0);
+	return ;
 }

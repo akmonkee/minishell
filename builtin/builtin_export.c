@@ -53,7 +53,6 @@ void	**export_ccc(char *var, char **env)
 	}
 	free(ex_var);
 	tmp = (char **)ft_realloc(env, mtx_len(env) + 1);
-	mtxs_free(env);
 	return ((void**)tmp);
 }
 
@@ -83,7 +82,7 @@ void	**ft_realloc(char **mtx, int size)
 	return ((void **)ret);
 }
 
-int	builtin_export(char *input, char **env)
+void	**builtin_export(char *input, char **env)
 {
 	char	**var;
 	int		i;
@@ -94,16 +93,14 @@ int	builtin_export(char *input, char **env)
 	{
 		builtin_env(env, 1);
 		mtxs_free(var);
-		return (0);
+		return ((void **)env);
 	}
-	printf("pre realloc %p\n", env);
 	while (var[i] != NULL)
 	{
 		if (ft_strnstr(var[i], "=", ft_strlen_g(var[i])) != 0)
 			env = (char **)export_ccc(var[i], env);
 		i++;
 	}
-	printf("post realloc %p\n", env);
 	mtxs_free(var);
-	return (0);
+	return ((void **)env);
 }
