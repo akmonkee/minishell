@@ -62,6 +62,11 @@ static void print_with_env(char *str)
 	{
 		if (str[i] == '$' && i + 1 < len)
 		{
+			if (str[i + 1] == '?')
+			{
+				printf("%d", g_exit_code);
+				i += 2;
+			}
 			start = i + 1;
 			end = start;
 			while (end < len && (str[end] == '_' ||

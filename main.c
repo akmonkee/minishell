@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 11:57:54 by efoschi           #+#    #+#             */
-/*   Updated: 2025/02/24 14:41:33 by msisto           ###   ########.fr       */
+/*   Updated: 2025/02/24 15:27:17 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	parse_exe(char *input, char **envp)
 	t_cmd	*cmd;
 
 	cmd = parsecmd(input);
-	//doc_cmd(cmd, envp);
 	runcmd(cmd, envp);
 	freecmd(cmd);
 	free(cmd);
@@ -81,7 +80,6 @@ void	start_shell(char **envp)
 			add_history(input);
 			if (control_bt(input, env) == 1)
 			{
-				printf("pre %p\n", env);
 				tmp = (char **)exe_bt(input, env);
 				if (tmp)
 				{
@@ -89,7 +87,6 @@ void	start_shell(char **envp)
 					env = env_cloner(tmp);
 					mtxs_free (tmp);
 				}
-				printf("post %p\n", env);
 			}
 			else
 			{

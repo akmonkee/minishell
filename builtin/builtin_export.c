@@ -99,6 +99,12 @@ void	**builtin_export(char *input, char **env)
 	tmp = env_cloner(env);
 	while (var[i] != NULL)
 	{
+		if ((var[i][0] >= 33 && var[i][0] <= 64) || (var[i][0] >= 91 && var[i][0] <= 96) || (var[i][0] >= 123 && var[i][0] <= 126))
+		{
+			perror("not a valid identifier\n");
+			g_exit_code = 1;
+			break ;
+		}
 		if (ft_strnstr(var[i], "=", ft_strlen_g(var[i])) != 0)
 			tmp = (char **)export_ccc(var[i], tmp);
 		i++;
