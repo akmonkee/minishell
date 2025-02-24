@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 11:57:54 by efoschi           #+#    #+#             */
-/*   Updated: 2025/02/24 13:52:31 by msisto           ###   ########.fr       */
+/*   Updated: 2025/02/24 14:41:33 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ void	start_shell(char **envp)
 				if (tmp)
 				{
 					mtxs_free(env);
-					env = tmp;
+					env = env_cloner(tmp);
+					mtxs_free (tmp);
 				}
 				printf("post %p\n", env);
 			}

@@ -52,15 +52,9 @@ void	**export_ccc(char *var, char **env)
 		i++;
 	}
 	free(ex_var);
-	tmp = (char **)ft_realloc(env, mtx_len(env) + 1);
-	i = 0;
-	tmp[mtx_len(env)] = malloc(ft_strlen_g(var) + 1);
-	while (i < ft_strlen_g(var))
-	{
-		tmp[mtx_len(env)][i] = var[i];
-		i++;
-	}
-	tmp[mtx_len(env)][i] = '\0';
+	i = mtx_len(env);
+	tmp = (char **)ft_realloc(env, i + 1);
+	tmp[i] = strdup(var);
 	return ((void**)tmp);
 }
 
@@ -78,24 +72,23 @@ void	**ft_realloc(char **mtx, int size)
 	while (i < size)
 	{
 		if (i < mtx_l)
-			ret[i] = strdup(mtx[i]);
+			ret[i] = mtx[i];
 		else
 			ret[i] = NULL;
 		i++;
 	}
 	ret[i] = NULL;
+	free(mtx);
 	return ((void **)ret);
 }
 
 void	**builtin_export(char *input, char **env)
 {
 	char	**var;
-	char	**tmp1;
-	char	**tmp2;
+	char	**tmp;
 	int		i;
 
 	i = 1;
-	tmp2 = NULL;
 	var = ft_split(input, ' ', 0, 0);
 	if (var[i] == NULL)
 	{
@@ -103,27 +96,13 @@ void	**builtin_export(char *input, char **env)
 		mtxs_free(var);
 		return ((void **)env);
 	}
-	tmp1 = env_cloner(env);
+	tmp = env_cloner(env);
 	while (var[i] != NULL)
 	{
 		if (ft_strnstr(var[i], "=", ft_strlen_g(var[i])) != 0)
-		{
-			if (!tmp2)
-			{
-				tmp2 = (char **)export_ccc(var[i], tmp1);
-				mtxs_free(tmp1);
-			}
-			else if (!tmp1)
-			{
-				tmp1 = (char **)export_ccc(var[i], tmp2);
-				mtxs_free(tmp2);
-			}
-		}
+			tmp = (char **)export_ccc(var[i], tmp);
 		i++;
 	}
 	mtxs_free(var);
-	if (!tmp1)
-		return ((void **)tmp2);
-	else
-		return ((void **)tmp1);
+	return ((void **)tmp);
 }
