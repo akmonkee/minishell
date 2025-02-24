@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 11:57:54 by efoschi           #+#    #+#             */
-/*   Updated: 2025/02/21 15:14:41 by msisto           ###   ########.fr       */
+/*   Updated: 2025/02/24 13:52:31 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,12 @@ void	parse_exe(char *input, char **envp)
 void	start_shell(char **envp)
 {
 	char	**tmp;
+	char	**env;
 	char	*input;
 	pid_t	pid;
 
 	input = NULL;
+	env = env_cloner(envp);
 	printf("%s", IMG);
 	while (1)
 	{
@@ -70,21 +72,23 @@ void	start_shell(char **envp)
 		if (!input)
 		{
 			printf("Pierpaolo dismissed you...\n");
-			mtxs_free(envp);
+			mtxs_free(env);
 			rl_clear_history();
 			break ;
 		}
 		if (*input)
 		{
 			add_history(input);
-			if (control_bt(input, envp) == 1)
+			if (control_bt(input, env) == 1)
 			{
-				tmp = (char **)exe_bt(input, envp);
+				printf("pre %p\n", env);
+				tmp = (char **)exe_bt(input, env);
 				if (tmp)
 				{
-					mtxs_free(envp);
-					envp = tmp;
+					mtxs_free(env);
+					env = tmp;
 				}
+				printf("post %p\n", env);
 			}
 			else
 			{
@@ -95,7 +99,7 @@ void	start_shell(char **envp)
 					return ;
 				}
 				if (pid == 0)
-					return (parse_exe(input, envp));
+					return (parse_exe(input, env));
 				else
 					wait(NULL);
 			}
@@ -114,7 +118,7 @@ int	main(int ac, char **av, char *envp[])
 	signal(SIGQUIT, handle_sigquit);
 	signal(SIGINT, handle_sigint);
 	if (isatty(STDIN_FILENO))
-		start_shell(env_cloner(envp));
+		start_shell(envp);
 	else
 	{
 		write(2, "Error: Not running in a terminal.\n", 34);

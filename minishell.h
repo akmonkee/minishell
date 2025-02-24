@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/02/21 13:04:57 by msisto           ###   ########.fr       */
+/*   Updated: 2025/02/24 13:28:21 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ typedef struct s_pipecmd
 }	t_pipecmd;
 
 //main
+char	**env_cloner(char **envp);
 void	parse_exe(char *input, char **envp);
 void	start_shell(char **envp);
 //utils/freecmd

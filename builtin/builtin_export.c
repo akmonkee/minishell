@@ -52,7 +52,6 @@ void	**export_ccc(char *var, char **env)
 		i++;
 	}
 	free(ex_var);
-	/*need to move it*/
 	tmp = (char **)ft_realloc(env, mtx_len(env) + 1);
 	i = 0;
 	tmp[mtx_len(env)] = malloc(ft_strlen_g(var) + 1);
@@ -91,9 +90,12 @@ void	**ft_realloc(char **mtx, int size)
 void	**builtin_export(char *input, char **env)
 {
 	char	**var;
+	char	**tmp1;
+	char	**tmp2;
 	int		i;
 
 	i = 1;
+	tmp2 = NULL;
 	var = ft_split(input, ' ', 0, 0);
 	if (var[i] == NULL)
 	{
@@ -101,15 +103,27 @@ void	**builtin_export(char *input, char **env)
 		mtxs_free(var);
 		return ((void **)env);
 	}
+	tmp1 = env_cloner(env);
 	while (var[i] != NULL)
 	{
 		if (ft_strnstr(var[i], "=", ft_strlen_g(var[i])) != 0)
 		{
-			/*cant add multiple variable, need to add all the variable that can be added at once*/
-			env = (char **)export_ccc(var[i], env);
+			if (!tmp2)
+			{
+				tmp2 = (char **)export_ccc(var[i], tmp1);
+				mtxs_free(tmp1);
+			}
+			else if (!tmp1)
+			{
+				tmp1 = (char **)export_ccc(var[i], tmp2);
+				mtxs_free(tmp2);
+			}
 		}
 		i++;
 	}
 	mtxs_free(var);
-	return ((void **)env);
+	if (!tmp1)
+		return ((void **)tmp2);
+	else
+		return ((void **)tmp1);
 }
