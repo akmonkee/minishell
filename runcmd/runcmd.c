@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 11:57:08 by msisto            #+#    #+#             */
-/*   Updated: 2025/02/06 10:21:53 by msisto           ###   ########.fr       */
+/*   Updated: 2025/02/20 13:59:50 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,9 @@ void	doc_cmd(t_cmd *cmd, char **envp)
 	else if (cmd->type == REDIR)
 	{
 		rcmd = (t_redircmd *)cmd;
-		if (rcmd->here_doc == 0)
-			return ;
+		if (rcmd->here_doc == 1)
+			here_doc(rcmd, rcmd->file);
 	}
-	return ;
 }
 
 void	runcmd(t_cmd *cmd, char	**envp)

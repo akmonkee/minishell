@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_pwd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: efoschi <efoschi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/11 11:53:56 by msisto            #+#    #+#             */
-/*   Updated: 2025/02/11 11:53:56 by msisto           ###   ########.fr       */
+/*   Created: 2025/02/11 11:59:21 by efoschi           #+#    #+#             */
+/*   Updated: 2025/02/11 11:59:21 by efoschi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	builtin_pwd(char **envp)
+void	builtin_pwd(char **envp)
 {
 	char	**var;
 	int		i;
@@ -23,5 +23,4 @@ int	builtin_pwd(char **envp)
 	var = ft_split (envp[i], '=', 0, 0);
 	printf("%s\n", var[1]);
 	mtxs_free(var);
-	return (0);
 }

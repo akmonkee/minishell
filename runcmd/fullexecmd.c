@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:35:28 by msisto            #+#    #+#             */
-/*   Updated: 2025/02/13 13:56:27 by msisto           ###   ########.fr       */
+/*   Updated: 2025/02/20 10:44:49 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,19 @@ char	*ft_strjoin(char *path, char *cmd)
 	return (fcmd);
 }
 
+void	ffree(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		str[i] = '\0';
+		i++;
+	}
+	free(str);
+}
+
 void	mtxs_free(char **mtx)
 {
 	int	i;
@@ -43,7 +56,7 @@ void	mtxs_free(char **mtx)
 		return ;
 	while (mtx[i])
 	{
-		free(mtx[i]);
+		ffree(mtx[i]);
 		i++;
 	}
 	free(mtx);

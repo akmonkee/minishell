@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: efoschi <efoschi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/11 11:53:31 by msisto            #+#    #+#             */
-/*   Updated: 2025/02/11 11:53:31 by msisto           ###   ########.fr       */
+/*   Created: 2025/02/11 11:59:13 by efoschi           #+#    #+#             */
+/*   Updated: 2025/02/11 11:59:13 by efoschi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	builtin_exit(char *input)
+void	builtin_exit(char *input)
 {
 	char	**var;
 	int		n;
@@ -26,5 +26,4 @@ int	builtin_exit(char *input)
 	}
 	mtxs_free(var);
 	exit(g_exit_code);
-	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 13:19:27 by msisto            #+#    #+#             */
-/*   Updated: 2025/02/14 11:14:57 by msisto           ###   ########.fr       */
+/*   Updated: 2025/02/20 14:43:09 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ void	here_doc(t_redircmd *rcmd, char *rule)
 
 	fd = open("temp_file", rcmd->mode, 0777);
 	if (fd == -1)
-	write(2, "Error\nfailed to create temp file\n", 33);
+		write(2, "Error\nfailed to create temp file\n", 33);
 	while (1)
 	{
 		line = readline("> ");
-		if (eof_checker(line, rule) == 1 || !line)
+		if (eof_checker(line, rule) == 1)
 			break ;
 		if (line)
 		{
@@ -64,14 +64,13 @@ void	here_doc(t_redircmd *rcmd, char *rule)
 void	runredir(t_cmd *cmd, char **envp)
 {
 	t_redircmd	*rcmd;
+
 	rcmd = (t_redircmd *)cmd;
 	if (rcmd->mode == O_RDONLY)
 		close(0);
 	if (rcmd->mode > O_RDONLY && rcmd->here_doc == 0)
 		close(1);
-	if (rcmd->here_doc == 1)
-		here_doc(rcmd, rcmd->file);
-	else
+	if (rcmd->here_doc == 0)
 		open(rcmd->file, rcmd->mode, 0777);
 	runcmd(rcmd->cmd, envp);
 }

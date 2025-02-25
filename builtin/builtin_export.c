@@ -3,21 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: efoschi <efoschi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/11 11:53:48 by msisto            #+#    #+#             */
-/*   Updated: 2025/02/11 11:53:48 by msisto           ###   ########.fr       */
+/*   Created: 2025/02/11 11:58:05 by efoschi           #+#    #+#             */
+/*   Updated: 2025/02/11 11:58:05 by efoschi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	export_ccc(char *var, char **env)
+char	*a_var_update(char *var, char *env)
 {
+	int		k;
+	char	*ret;
+
+	k = 0;
+	ret = malloc(ft_strlen_g(var) + 1);
+	while (var[k])
+	{
+		ret[k] = var[k];
+		k++;
+	}
+	ret[k] = '\0';
+	free(env);
+	return (ret);
+}
+
+void	**export_ccc(char *var, char **env)
+{
+	char	**tmp;
 	char	*ex_var;
 	char	*ex_env;
 	int		i;
-	int		k;
 
 	i = 0;
 	ex_var = var_ex(var, '=');
@@ -26,57 +43,46 @@ void	export_ccc(char *var, char **env)
 		ex_env = var_ex(env[i], '=');
 		if (varcmp(ex_var, ex_env, ft_strlen_g(ex_var)) == 1)
 		{
-			free(env[i]);
-			env[i] = malloc(ft_strlen_g(var) + 1);
-			k = 0;
-			while (var[k])
-			{
-				env[i][k] = var[k];
-				k++;
-			}
-			env[i][k] = '\0';
+			env[i] = a_var_update(var, env[i]);
+			free(ex_env);
+			free(ex_var);
+			return ((void **)env);
 		}
 		free(ex_env);
 		i++;
 	}
 	free(ex_var);
+	i = mtx_len(env);
+	tmp = (char **)ft_realloc(env, i + 1);
+	tmp[i] = strdup(var);
+	return ((void**)tmp);
 }
 
-char	**ft_realloc(char **mtx, int size)
+void	**ft_realloc(char **mtx, int size)
 {
 	char	**ret;
 	int		i;
+	int		mtx_l;
 
 	i = 0;
+	mtx_l = mtx_len(mtx);
 	ret = malloc((size + 1) * sizeof(char *));
 	if (ret == NULL)
 		return (NULL);
 	while (i < size)
 	{
-		ret[i] = mtx[i];
+		if (i < mtx_l)
+			ret[i] = mtx[i];
+		else
+			ret[i] = NULL;
 		i++;
 	}
 	ret[i] = NULL;
-	mtxs_free(mtx);
-	return (ret);
+	free(mtx);
+	return ((void **)ret);
 }
 
-void	var_extractor(char *var, char *input)
-{
-	int	i;
-
-	i = 0;
-	input = malloc(ft_strlen(var) + 1);
-	if (input == NULL)
-		return ;
-	while (var[i] != '\0')
-	{
-		input[i] = var[i];
-		i++;
-	}
-}
-
-int	builtin_export(char *input, char **env)
+void	**builtin_export(char *input, char **env)
 {
 	char	**var;
 	char	**tmp;
@@ -88,21 +94,21 @@ int	builtin_export(char *input, char **env)
 	{
 		builtin_env(env, 1);
 		mtxs_free(var);
-		return (0);
+		return ((void **)env);
 	}
+	tmp = env_cloner(env);
 	while (var[i] != NULL)
 	{
+		if ((var[i][0] >= 33 && var[i][0] <= 64) || (var[i][0] >= 91 && var[i][0] <= 96) || (var[i][0] >= 123 && var[i][0] <= 126))
+		{
+			perror("not a valid identifier\n");
+			g_exit_code = 1;
+			break ;
+		}
 		if (ft_strnstr(var[i], "=", ft_strlen_g(var[i])) != 0)
-			export_ccc(var[i], env);
+			tmp = (char **)export_ccc(var[i], tmp);
 		i++;
 	}
-	//tmp = ft_realloc(env, mtx_len(env) + mtx_len(var));
-	//while (i < mtx_len(var))
-	//{
-	//	var_extractor(var[i], tmp[mtx_len(tmp) - mtx_len(var) + i]);
-	//	i++;
-	//}
-	//env = tmp;
 	mtxs_free(var);
-	return (0);
+	return ((void **)tmp);
 }

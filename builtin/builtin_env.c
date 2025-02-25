@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: efoschi <efoschi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/11 11:53:22 by msisto            #+#    #+#             */
-/*   Updated: 2025/02/11 11:53:22 by msisto           ###   ########.fr       */
+/*   Created: 2025/02/11 11:59:07 by efoschi           #+#    #+#             */
+/*   Updated: 2025/02/11 11:59:07 by efoschi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	builtin_env(char **env, int flag)
+void	builtin_env(char **env, int flag)
 {
 	int	i;
 
@@ -24,5 +24,5 @@ int	builtin_env(char **env, int flag)
 		printf("%s\n", env[i]);
 		i++;
 	}
-	return (0);
+	return ;
 }
