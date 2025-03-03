@@ -12,16 +12,15 @@
 
 #include "../minishell.h"
 
-void	builtin_env(char **env, int flag)
+void	builtin_env(char **env)
 {
 	int	i;
 
 	i = 0;
 	while (env[i])
 	{
-		if (flag == 1)
-			printf("declare -x ");
-		printf("%s\n", env[i]);
+		if (ft_strchr(env[i], '='))
+			printf("%s\n", env[i]);
 		i++;
 	}
 	return ;

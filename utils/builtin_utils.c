@@ -130,7 +130,7 @@ void	**exe_bt(char *input, char **env)
 	else if (ft_strncmp(args[0], "env", 3) == 0)
 	{
 		tmp = NULL;
-		builtin_env(env, 0);
+		builtin_env(env);
 	}
 	else if (ft_strncmp(args[0], "exit", 4) == 0)
 	{

@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/02/25 14:46:49 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/03 14:06:07 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,12 +121,6 @@ int		varcmp(char *str1, char *str2, int n);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_isdigit(int c);
 int		ft_atoi(const char *s);
-//utils/builtin_utils
-char	*ft_substr(const char *s, unsigned int start, size_t len);
-int		ft_count_words(char const *s, char c);
-char	**ft_split_bt(char const *s, char c);
-void	**exe_bt(char *input, char **env);
-int		control_bt(char *input, char **env);
 //parse
 int		peek(char **ps, char *es, char *toks);
 int		gettoken(char **ps, char *es, char **q, char **eq);
@@ -169,7 +163,7 @@ void	runredir(t_cmd *cmd, char **envp);
 //builtin
 void	**builtin_cd(char *input, char **env);
 void	builtin_echo(char **args);
-void	builtin_env(char **env, int flag);
+void	builtin_env(char **env);
 void	builtin_exit(char *input);
 void	builtin_pwd(char **envp);
 void	**builtin_unset(char **env, t_cmd *cmd, char *str);
@@ -177,7 +171,15 @@ void	**builtin_unset(char **env, t_cmd *cmd, char *str);
 char	*a_var_update(char *var, char *env);
 void	**export_ccc(char *var, char **env);
 void	**ft_realloc(char **mtx, int size);
+void	p_export(char **env_cp);
+void	sort_env(char **env);
 void	**builtin_export(char *input, char **env);
+//utils/builtin_utils
+char	*ft_substr(const char *s, unsigned int start, size_t len);
+int		ft_count_words(char const *s, char c);
+char	**ft_split_bt(char const *s, char c);
+void	**exe_bt(char *input, char **env);
+int		control_bt(char *input, char **env);
 //get_next_line
 char	*gnl_strjoin(char *line, char *buf);
 char	*str_clear(char *buf);
