@@ -18,13 +18,15 @@ char	*var_ex(char *str, char c)
 	char	*ret;
 
 	i = 0;
+	if (!str)
+		return (NULL);
 	while (str[i] != c && str[i])
 		i++;
 	ret = malloc(i + 1);
 	if (!ret)
 		return(NULL);
 	i = 0;
-	while (str[i] != c)
+	while (str[i] != c && str[i])
 	{
 		ret[i] = str[i];
 		i++;
