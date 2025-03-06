@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/04 15:09:25 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/06 15:18:25 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,19 +167,22 @@ void	builtin_env(char **env);
 void	builtin_exit(char *input);
 void	builtin_pwd(char **envp);
 void	**builtin_unset(char **env, t_cmd *cmd, char *str);
+//builtin/export_print
+void	p_export(char **env_cp);
+void	sort_env(char **env);
 //builtin/export_is_valid
 int		ft_isalpha(int c);
 int		ft_isalnum(int c);
 int		arg_validation(char	*arg);
 //builtin/export
 char	*ft_strjoinf12(char *s1, char *s2);
-void	var_content_elab(char* var_content);
-char	*a_var_update(char *var, char *env);
+char	what_is_next(char *str, int flag);
+char	*find_n_ret(char *name, char **env);
+char	*ambient_value(char* str, char **env);
+void	var_content_elab(char* var_content, char **env);
+char	*a_var_update(char *var, char *env_l, char **env);
 void	**export_ccc(char *var, char **env);
 void	**ft_realloc(char **mtx, int size);
-	//sort and print
-void	p_export(char **env_cp);
-void	sort_env(char **env);
 	//main function
 void	**builtin_export(char *input, char **env);
 //utils/builtin_utils
