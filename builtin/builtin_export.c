@@ -158,9 +158,9 @@ char	*var_content_elab(char* var_content, char **env)
 		if (var_content[k] && var_content[k] != 34 && var_content[k] != 39)
 		{
 			ret = exp_not_in_q(var_content + k, ret, env);
-			flag = what_is_next(var_content + k, 0);
-			while (var_content[++k] && var_content[k] != flag)
-				;
+			while (var_content[++k] && var_content[k] != what_is_next(var_content + k, 0))
+				if (var_content[k + 1] == 0)
+					break ;
 		}
 		if ((var_content[k] == 34 || var_content[k] == 39))
 		{
@@ -221,7 +221,8 @@ void	**export_ccc(char *var, char **env)
 	free(ex_var);
 	i = mtx_len(env);
 	tmp = (char **)ft_realloc(env, i + 1);
-	tmp[i] = strdup(var);
+	tmp[i] = NULL;
+	tmp[i] = a_var_update(var, tmp[i], tmp);
 	return ((void**)tmp);
 }
 
