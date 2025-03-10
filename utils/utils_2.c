@@ -76,6 +76,8 @@ char	*var_ex(char *str, char c)
 	int		i;
 	char	*ret;
 
+	if (!str)
+		return (NULL);
 	i = 0;
 	while (str[i] != c && str[i])
 		i++;
@@ -83,7 +85,7 @@ char	*var_ex(char *str, char c)
 	if (!ret)
 		return(NULL);
 	i = 0;
-	while (str[i] != c)
+	while (str[i] && str[i] != c)
 	{
 		ret[i] = str[i];
 		i++;

@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: efoschi <efoschi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/11 11:58:47 by efoschi           #+#    #+#             */
-/*   Updated: 2025/02/11 11:58:47 by efoschi          ###   ########.fr       */
+/*   Created: 2025/02/11 11:54:19 by msisto            #+#    #+#             */
+/*   Updated: 2025/02/11 11:54:19 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char *ft_substr(const char *s, unsigned int start, size_t len)
+char	*ft_substr(const char *s, unsigned int start, size_t len)
 {
-	char *substr;
-	size_t i;
+	char	*substr;
+	size_t	i;
 
 	if (!s)
 		return (NULL);
@@ -40,69 +40,26 @@ char *ft_substr(const char *s, unsigned int start, size_t len)
 	return (substr);
 }
 
-int	ft_count_words(char const *s, char c)
+static char	**execute_builtin(char **args, char *input, char **env)
 {
-	int		i;
-	int		count;
+	char	**tmp;
 
-	i = 0;
-	count = 0;
-	while (s[i])
-	{
-		if (s[i] != c)
-		{
-			count++;
-			while (s[i] && s[i] != c)
-				i++;
-		}
-		else
-			i++;
-	}
-	return (count);
-}
-
-char **ft_split_bt(char const *s, char c)
-{
-	char **matrix;
-	int i;
-	int j;
-	int k;
-	int word_count;
-
-	if (!s)
-		return (NULL);
-	word_count = ft_count_words(s, c);
-	matrix = malloc(sizeof(char *) * (word_count + 1));
-	if (!matrix)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (j <= word_count)
-		matrix[j++] = NULL;
-	j = 0;
-	while (s[i] && j < word_count)
-	{
-		while (s[i] && s[i] == c)
-			i++;
-		if (s[i])
-		{
-			k = i;
-			while (s[i] && s[i] != c)
-				i++;
-
-			matrix[j] = ft_substr(s, k, i - k);
-			if (!matrix[j])
-			{
-				while (j > 0)
-					free(matrix[--j]);
-				free(matrix);
-				return (NULL);
-			}
-			j++;
-		}
-	}
-	matrix[j] = NULL;
-	return (matrix);
+	tmp = NULL;
+	if (ft_strncmp(args[0], "pwd", 3) == 0)
+		builtin_pwd(env);
+	else if (ft_strncmp(args[0], "cd", 2) == 0)
+		tmp = (char **)builtin_cd(input, env);
+	else if (ft_strncmp(args[0], "echo", 4) == 0)
+		builtin_echo(args, env);
+	else if (ft_strncmp(args[0], "env", 3) == 0)
+		builtin_env(env);
+	else if (ft_strncmp(args[0], "exit", 4) == 0)
+		builtin_exit(input);
+	else if (ft_strncmp(args[0], "export", 6) == 0)
+		tmp = (char **)builtin_export(input, env);
+	else if (ft_strncmp(args[0], "unset", 5) == 0)
+		builtin_unset(input, env);
+	return (tmp);
 }
 
 void	**exe_bt(char *input, char **env)
@@ -115,41 +72,28 @@ void	**exe_bt(char *input, char **env)
 	args = ft_split_bt(input, ' ');
 	if (!args)
 		return (NULL);
-	if (ft_strncmp(args[0], "pwd", 3) == 0)
-	{
-		tmp = NULL;
-		builtin_pwd(env);
-	}
-	else if (ft_strncmp(args[0], "cd", 2) == 0)
-		tmp = (char **)builtin_cd(input, env);
-	else if (ft_strncmp(args[0], "echo", 4) == 0)
-	{
-		tmp = NULL;
-		builtin_echo(args);
-	}
-	else if (ft_strncmp(args[0], "env", 3) == 0)
-	{
-		tmp = NULL;
-		builtin_env(env, 0);
-	}
-	else if (ft_strncmp(args[0], "exit", 4) == 0)
-	{
-		tmp = NULL;
-		builtin_exit(input);
-	}
-	else if (ft_strncmp(args[0], "export", 6) == 0)
-		tmp = (char **)builtin_export(input, env);
-	// else if (ft_strncmp(args[0], "unset", 5) == 0)
-	// {
-	// 	if (args[1])
-	// 		ret = builtin_unset(env, args[1]);
-	// 	else
-	// 		ret = 1;
-	// }
-	else
-		tmp = NULL;
+	tmp = execute_builtin(args, input, env);
 	mtxs_free(args);
 	return ((void **)tmp);
+}
+
+static int	check_builtin(char *cmd)
+{
+	if (ft_strncmp(cmd, "pwd", 3) == 0)
+		return (1);
+	else if (ft_strncmp(cmd, "cd", 2) == 0)
+		return (1);
+	else if (ft_strncmp(cmd, "echo", 4) == 0)
+		return (1);
+	else if (ft_strncmp(cmd, "env", 3) == 0)
+		return (1);
+	else if (ft_strncmp(cmd, "exit", 4) == 0)
+		return (1);
+	else if (ft_strncmp(cmd, "export", 6) == 0)
+		return (1);
+	else if (ft_strncmp(cmd, "unset", 5) == 0)
+		return (1);
+	return (0);
 }
 
 int	control_bt(char *input, char **env)
@@ -163,25 +107,7 @@ int	control_bt(char *input, char **env)
 	args = ft_split_bt(input, ' ');
 	if (!args)
 		return (1);
-	if (ft_strncmp(args[0], "pwd", 3) == 0)
-		ret = 1;
-	else if (ft_strncmp(args[0], "cd", 2) == 0)
-		ret = 1;
-	else if (ft_strncmp(args[0], "echo", 4) == 0)
-		ret = 1;
-	else if (ft_strncmp(args[0], "env", 3) == 0)
-		ret = 1;
-	else if (ft_strncmp(args[0], "exit", 4) == 0)
-		ret = 1;
-	else if (ft_strncmp(args[0], "export", 6) == 0)
-		ret = 1;
-	// else if (ft_strncmp(args[0], "unset", 5) == 0)
-	// {
-	// 	if (args[1])
-	// 		ret =args[1]);
-	// 	else
-	// 		ret =(args);
+	ret = check_builtin(args[0]);
 	mtxs_free(args);
 	return (ret);
 }
-

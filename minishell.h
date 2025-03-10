@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: efoschi <efoschi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/02/24 13:28:21 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/10 15:23:45 by efoschi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,18 +111,12 @@ int		ft_strchr(char *comp, char s);
 size_t	ft_strlen(char	*s);
 void	*ft_memset(void *b, int c, size_t len);
 int		mtx_len(char **mtx);
-//utils/builtin_utils
-char	*ft_substr(const char *s, unsigned int start, size_t len);
-int		ft_count_words(char const *s, char c);
-char	**ft_split_bt(char const *s, char c);
-void	**exe_bt(char *input, char **env);
-int		control_bt(char *input, char **env);
 //utils/utils_2
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
-int		ft_atoi(const char *s);
+int	ft_strncmp(const char *s1, const char *s2, size_t n);
+int	ft_atoi(const char *s);
 char	*var_ex(char *str, char c);
-int		varcmp(char *s1, char *s2, int n);
-int		ft_strcpy(char *dest, const char *src);
+int	varcmp(char *s1, char *s2, int n);
+int	ft_strcpy(char *dest, const char *src);
 //parse
 int		peek(char **ps, char *es, char *toks);
 int		gettoken(char **ps, char *es, char **q, char **eq);
@@ -157,6 +151,17 @@ void	runpipe(t_cmd *cmd, char **envp);
 //runcmd/runredir
 void	here_doc(t_redircmd *rcmd, char *rule);
 void	runredir(t_cmd *cmd, char **envp);
+//utils/builtin_utils
+char	*ft_substr(const char *s, unsigned int start, size_t len);
+void	**exe_bt(char *input, char **env);
+int		control_bt(char *input, char **env);
+//utils/builtin_utils_2
+char	**ft_split_bt(char const *s, char c);
+int		ft_count_words(char const *s, char c);
+//utils/echo_utils
+int		check_option_n(char *str);
+void	*ft_memcpy(void *dst, const void *src, size_t n);
+int		is_valid_var_char(char c);
 //get_next_line
 char	*gnl_strjoin(char *line, char *buf);
 char	*str_clear(char *buf);
@@ -171,15 +176,14 @@ char	*return_fun(char *output);
 //BUILTIN
 //builtin commands
 void	**builtin_cd(char *input, char **env);
-void	builtin_echo(char **args);
-void	builtin_env(char **env, int flag);
+void	builtin_echo(char **args, char **env);
+void	builtin_env(char **env);
 void	builtin_exit(char *input);
-void	builtin_pwd(char **envp);
-void	**builtin_unset(char **env, t_cmd *cmd, char *str);
-//builtin/export
-char	*a_var_update(char *var, char *env);
-void	**export_ccc(char *var, char **env);
+void	var_extractor(char *var, char *input);
 void	**ft_realloc(char **mtx, int size);
 void	**builtin_export(char *input, char **env);
+void	builtin_pwd(char **envp);
+// int		builtin_unset(char **env, t_cmd *cmd, char *str);
+void	**builtin_unset(char *input, char **env);
 
 #endif

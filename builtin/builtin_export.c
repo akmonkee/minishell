@@ -14,8 +14,8 @@
 
 char	*a_var_update(char *var, char *env)
 {
-	int		k;
 	char	*ret;
+	int		k;
 
 	k = 0;
 	ret = malloc(ft_strlen_g(var) + 1);
@@ -77,10 +77,66 @@ void	**ft_realloc(char **mtx, int size)
 			ret[i] = NULL;
 		i++;
 	}
+	if (mtx_l > size)
+		free(mtx[mtx_l - 1]);
 	ret[i] = NULL;
 	free(mtx);
 	return ((void **)ret);
 }
+
+//sorting and printing env
+
+void	p_export(char **env_cp)
+{
+	int	i;
+	int	j;
+	int	len;
+
+	i = -1;
+	while (env_cp[++i])
+	{
+		len = -1;
+		while (env_cp[i][++len] && env_cp[i][len] != '=')
+			;
+		j = -1;
+		printf("declare -x ");
+		while (++j < len)
+			printf("%c", env_cp[i][j]);
+		if (len < ft_strlen_g(env_cp[i]) && ft_strchr(env_cp[i], '='))
+			printf("=\"%s\"", env_cp[i] + len + 1);
+		printf("\n");
+	}
+}
+
+void	sort_env(char **env)
+{
+	int		i;
+	int		k;
+	int		size;
+	char	*tmp;
+	char	**env_cp;
+
+	size = mtx_len(env);
+	env_cp = env_cloner(env);
+	i = -1;
+	while (++i < size - 1)
+	{
+		k = -1;
+		while (++k < size - i - 1)
+		{
+			if (strcmp(env_cp[k], env_cp[k + 1]) > 0)
+			{
+				tmp = env_cp[k];
+				env_cp[k] = env_cp[k + 1];
+				env_cp[k + 1] = tmp;
+			}
+		}
+	}
+	p_export(env_cp);
+	mtxs_free(env_cp);
+}
+
+//main export function
 
 void	**builtin_export(char *input, char **env)
 {
@@ -92,9 +148,9 @@ void	**builtin_export(char *input, char **env)
 	var = ft_split(input, ' ', 0, 0);
 	if (var[i] == NULL)
 	{
-		builtin_env(env, 1);
+		sort_env(env);
 		mtxs_free(var);
-		return ((void **)env);
+		return (NULL);
 	}
 	tmp = env_cloner(env);
 	while (var[i] != NULL)

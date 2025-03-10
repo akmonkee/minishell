@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
+/*   By: efoschi <efoschi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 11:57:54 by efoschi           #+#    #+#             */
-/*   Updated: 2025/02/24 15:27:17 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/10 15:07:11 by efoschi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	parse_exe(char *input, char **envp)
 	t_cmd	*cmd;
 
 	cmd = parsecmd(input);
+	//doc_cmd(cmd, envp);
 	runcmd(cmd, envp);
 	freecmd(cmd);
 	free(cmd);
@@ -124,5 +125,3 @@ int	main(int ac, char **av, char *envp[])
 	}
 	return (0);
 }
-
-

@@ -12,101 +12,93 @@
 
 #include "../minishell.h"
 
-static int check_option_n(char *str)
+static void	print_env_value(char *var_name, char **env)
 {
-	int i;
+	int		j;
+	char	*env_value;
+	int		var_len;
 
-	i = 0;
-	if (!str || str[i] != '-')
-		return (0);
-	i++;
-	while (str[i] && str[i] == 'n')
-		i++;
-	if (str[i] == '\0')
-		return (1);
-	return (0);
-}
-
-static void	*ft_memcpy(void *dst, const void *src, size_t n)
-{
-	unsigned char		*ptr1;
-	const unsigned char	*ptr2;
-
-	if (!dst && !src)
-		return (NULL);
-	ptr1 = (unsigned char *)dst;
-	ptr2 = (unsigned char *)src;
-	while (n-- > 0)
-		*(ptr1++) = *(ptr2++);
-	return ((void *)dst);
-}
-
-static void print_with_env(char *str)
-{
-	int i;
-	int len;
-	int start;
-	int end;
-	char *var_name;
-	char *env_value;
-
-	if (!str)
-		return;
-
-	len = strlen(str);
-	if (len == 0)
-		return;
-
-	i = 0;
-	while (i < len)
+	var_len = strlen(var_name);
+	env_value = NULL;
+	j = 0;
+	while (env[j] != NULL)
 	{
-		if (str[i] == '$' && i + 1 < len)
+		if (strncmp(env[j], var_name, var_len) == 0 && env[j][var_len] == '=')
 		{
-			if (str[i + 1] == '?')
-			{
-				printf("%d", g_exit_code);
-				i += 2;
-			}
-			start = i + 1;
-			end = start;
-			while (end < len && (str[end] == '_' ||
-								 (str[end] >= 'A' && str[end] <= 'Z') ||
-								 (str[end] >= 'a' && str[end] <= 'z') ||
-								 (str[end] >= '0' && str[end] <= '9')))
-			{
-				end++;
-			}
-			if (end > start)
-			{
-				int var_len = end - start;
-				var_name = (char *)malloc(sizeof(char) * (var_len + 1));
-				if (var_name)
-				{
-					ft_memcpy(var_name, str + start, var_len);
-					var_name[var_len] = '\0';
-					env_value = getenv(var_name);
-					if (env_value)
-						printf("%s", env_value);
-					free(var_name);
-					i = end;
-					continue;
-				}
-			}
+			env_value = env[j] + var_len + 1;
+			break ;
 		}
-		printf("%c", str[i]);
-		i++;
+		j++;
+	}
+	if (env_value)
+		printf("%s", env_value);
+}
+
+static char	*extract_var_name(char *str, int start, int end)
+{
+	char	*var_name;
+	var_name = (char *)malloc(sizeof(char) * (end - start + 1));
+	if (var_name)
+	{
+		ft_memcpy(var_name, str + start, end - start);
+		var_name[end - start] = '\0';
+	}
+	return (var_name);
+}
+
+static void	handle_dollar_sign(char *str, int *i, char **env)
+{
+	int		start;
+	int		end;
+	char	*var_name;
+
+	if (str[*i + 1] == '?')
+	{
+		printf("%d", g_exit_code);
+		*i += 2;
+		return ;
+	}
+	start = *i + 1;
+	end = start;
+	while (is_valid_var_char(str[end]))
+		end++;
+	if (end > start)
+	{
+		var_name = extract_var_name(str, start, end);
+		if (var_name)
+		{
+			print_env_value(var_name, env);
+			free(var_name);
+			*i = end;
+		}
 	}
 }
 
-void	builtin_echo(char **args)
+static void	print_with_env(char *str, char **env)
 {
-	int i;
-	int option_n;
+	int	i;
+
+	if (!str)
+		return;
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '$' && str[i + 1])
+			handle_dollar_sign(str, &i, env);
+		else
+			printf("%c", str[i++]);
+	}
+}
+
+void	builtin_echo(char **args, char **env)
+{
+	int	i;
+	int	option_n;
 
 	if (!args[1])
 	{
 		printf("\n");
-		return ;
+		return;
 	}
 	i = 1;
 	option_n = 0;
@@ -118,12 +110,11 @@ void	builtin_echo(char **args)
 	while (args[i])
 	{
 		if (args[i][0] != '\0')
-			print_with_env(args[i]);
+			print_with_env(args[i], env);
 		if (args[i + 1])
 			printf(" ");
 		i++;
 	}
 	if (!option_n)
 		printf("\n");
-	return ;
 }
