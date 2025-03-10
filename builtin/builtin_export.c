@@ -14,30 +14,6 @@
 
 //env mod
 
-char	*ft_strjoinf12(char *s1, char *s2)
-{
-	int		i;
-	int		c;
-	char	*ret;
-
-	if (!s2)
-		return (NULL);
-	ret = malloc(ft_strlen_g(s1) + ft_strlen_g(s2) + 1);
-	if (!ret)
-		return (NULL);
-	i = 0;
-	c = 0;
-	while (s1[i])
-		ret[c++] = s1[i++];
-	i = 0;
-	while (s2[i])
-		ret[c++] = s2[i++];
-	ret[c] = '\0';
-	free(s1);
-	free(s2);
-	return (ret);
-}
-
 char	what_is_next(char *str, int flag)
 {
 	int	i;
@@ -102,63 +78,104 @@ char	*ambient_value(char* str, char **env)
 			free(tmp);
 		}
 	}
+	if (!ret && what_is_next(str, 1) != 36)
+		return(var_ex(str, '\0'));
 	return (ret);
 }
 
-void	var_content_elab(char* var_content, char **env)
+char	*exp_not_in_q(char *str, char *ret, char **env)
 {
-	int		k;
-	int		flag[2];
-	char	*ret;
 	char	*b_quote;
 	char	*tmp;
 
+	b_quote = var_ex(str, what_is_next(str, 0));
+	tmp = ambient_value(b_quote, env);
+	free(b_quote);
+	if (!ret)
+	{
+		ret = var_ex(tmp, '\0');
+		free(tmp);
+	}
+	else if (tmp)
+		ret = ft_strjoinf12(ret, tmp);
+	return (ret);
+}
+
+char	*quote_elab(char *str, int flag, char *ret, char **env)
+{
+	char	*tmp;
+	char	*b_quote;
+
+	if (flag == '\"')
+	{
+		b_quote = var_ex(str + 1, flag);
+		tmp = ambient_value(b_quote, env);
+		free(b_quote);
+	}
+	if (!ret)
+	{
+		if (flag == '\"')
+		{
+			ret = var_ex(tmp, '\0');
+			free(tmp);
+		}
+		else
+			ret = var_ex(str + 1, flag);
+	}
+	else
+	{
+		if (flag == '\'')
+			tmp = var_ex(str + 1, flag);
+		if (tmp)
+			ret = ft_strjoinf12(ret, tmp);
+	}
+	return (ret);
+}
+
+int	*flag_set(int *flag, int n1, int n2)
+{
+	int	*ret;
+
+	free(flag);
+	ret = malloc(2 * sizeof(int));
+	ret[0] = n1;
+	ret[1] = n2;
+	return (ret);
+}
+
+char	*var_content_elab(char* var_content, char **env)
+{
+	int		k;
+	int		flag;
+	char	*ret;
+
 	k = -1;
-	flag[0] = 0;
-	flag[1] = 0;
 	ret = NULL;
 	if (!what_is_next(var_content, 0))
-	{
-		ret = ambient_value(var_content, env);
-		free(ret);
-		return ;
-	}
+		return (ambient_value(var_content, env));
 	while (var_content[++k])
 	{
-		if (var_content[k] == flag[1])
+		if (var_content[k] && var_content[k] != 34 && var_content[k] != 39)
 		{
-			flag[0] = 0;
-			flag[1] = 0;
-			k++;
-			b_quote = var_ex(var_content + k, what_is_next(var_content + k, 0));
-			if (b_quote)
-				ret = ft_strjoinf12(ret, b_quote);
+			ret = exp_not_in_q(var_content + k, ret, env);
+			flag = what_is_next(var_content + k, 0);
+			while (var_content[++k] && var_content[k] != flag)
+				;
 		}
-		if ((var_content[k] == '\'' || var_content[k] == '\"') && flag[0] != 1)
+		if ((var_content[k] == 34 || var_content[k] == 39))
 		{
-			flag[0] = 1;
-			if (var_content[k] == '\'')
-				flag[1] = 39;
-			else
-				flag[1] = 34;
-			if (!ret)
-				ret = var_ex(var_content, flag[1]);
-			tmp = var_ex(var_content + k + 1, flag[1]);
-			ret = ft_strjoinf12(ret, tmp);
-			while (var_content[k] && var_content[k] != flag[1])
-				k++;
+			flag = var_content[k];
+			ret = quote_elab(var_content + k, flag, ret, env);
+			while (var_content[++k] && var_content[k] != flag)
+				;
 		}
-		if (var_content[k] == '\0')
-			break ;
 	}
-	if (ret)
-	{
-		free(ret);
-	}
+	return (ret);
 }
 
 char	*a_var_update(char *var, char *env_l, char **env)
 {
+	char	*tmp;
 	char	*var_name;
 	char	*ret;
 	char	*var_content;
@@ -169,12 +186,10 @@ char	*a_var_update(char *var, char *env_l, char **env)
 	while (var[++k] && var[k] != '=')
 		;
 	var_content = var_ex(var + k + 1, '\0');
-	var_content_elab(var_content, env);
-	k = -1;
-	ret = malloc(ft_strlen_g(var) + 1);
-	while (var[++k])
-		ret[k] = var[k];
-	ret[k] = '\0';
+	tmp = var_content_elab(var_content, env);
+	ret = var_ex(var_name, '\0');
+	ret = ft_strjoinf1(ret, "=");
+	ret = ft_strjoinf12(ret, tmp);
 	free(env_l);
 	free(var_name);
 	free(var_content);

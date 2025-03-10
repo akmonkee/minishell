@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/06 15:18:25 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/10 11:55:50 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,12 +174,17 @@ void	sort_env(char **env);
 int		ft_isalpha(int c);
 int		ft_isalnum(int c);
 int		arg_validation(char	*arg);
-//builtin/export
+//builtin/export_strjoins
+char	*ft_strjoinf1(char *s1, char *s2);
 char	*ft_strjoinf12(char *s1, char *s2);
+//builtin/export
 char	what_is_next(char *str, int flag);
 char	*find_n_ret(char *name, char **env);
 char	*ambient_value(char* str, char **env);
-void	var_content_elab(char* var_content, char **env);
+char	*exp_not_in_q(char *str, char *ret, char **env);
+char	*quote_elab(char *str, int flag, char *ret, char **env);
+int		*flag_set(int *flag, int n1, int n2);
+char	*var_content_elab(char* var_content, char **env);
 char	*a_var_update(char *var, char *env_l, char **env);
 void	**export_ccc(char *var, char **env);
 void	**ft_realloc(char **mtx, int size);
