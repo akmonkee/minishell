@@ -6,7 +6,7 @@
 /*   By: efoschi <efoschi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/10 15:23:45 by efoschi          ###   ########.fr       */
+/*   Updated: 2025/03/11 17:03:08 by efoschi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,9 @@ int	ft_atoi(const char *s);
 char	*var_ex(char *str, char c);
 int	varcmp(char *s1, char *s2, int n);
 int	ft_strcpy(char *dest, const char *src);
+//utils/main_utils
+void	fork_and_execute(char *input, char ***env);
+void	handle_input(char *input, char ***env);
 //parse
 int		peek(char **ps, char *es, char *toks);
 int		gettoken(char **ps, char *es, char **q, char **eq);

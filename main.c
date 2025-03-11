@@ -6,7 +6,7 @@
 /*   By: efoschi <efoschi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 11:57:54 by efoschi           #+#    #+#             */
-/*   Updated: 2025/03/10 15:07:11 by efoschi          ###   ########.fr       */
+/*   Updated: 2025/03/11 17:07:23 by efoschi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,8 @@ void	parse_exe(char *input, char **envp)
 
 void	start_shell(char **envp)
 {
-	char	**tmp;
-	char	**env;
 	char	*input;
-	pid_t	pid;
+	char	**env;
 
 	input = NULL;
 	env = env_cloner(envp);
@@ -76,34 +74,7 @@ void	start_shell(char **envp)
 			rl_clear_history();
 			break ;
 		}
-		if (*input)
-		{
-			add_history(input);
-			if (control_bt(input, env) == 1)
-			{
-				tmp = (char **)exe_bt(input, env);
-				if (tmp)
-				{
-					mtxs_free(env);
-					env = env_cloner(tmp);
-					mtxs_free (tmp);
-				}
-			}
-			else
-			{
-				pid = fork();
-				if (pid == -1)
-				{
-					write(2, "fork non riuscito\n", 18);
-					return ;
-				}
-				if (pid == 0)
-					return (parse_exe(input, env));
-				else
-					wait(NULL);
-			}
-		}
-		free(input);
+		handle_input(input, &env);
 	}
 }
 
