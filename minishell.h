@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/10 15:42:25 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/11 15:31:49 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,22 +167,23 @@ void	builtin_env(char **env);
 void	builtin_exit(char *input);
 void	builtin_pwd(char **envp);
 void	**builtin_unset(char **env, t_cmd *cmd, char *str);
-//builtin/export_print
-void	p_export(char **env_cp);
-void	sort_env(char **env);
 //builtin/export_is_valid
 int		ft_isalpha(int c);
 int		ft_isalnum(int c);
 int		arg_validation(char	*arg);
+//builtin/export_print
+void	p_export(char **env_cp);
+void	sort_env(char **env);
 //builtin/export_strjoins
 char	*ft_strjoinf1(char *s1, char *s2);
+char	*ft_strjoinf2(char *s1, char *s2);
 char	*ft_strjoinf12(char *s1, char *s2);
 //builtin/export_var_exp
 char	*find_n_ret(char *name, char **env);
 char	*ambient_value(char* str, char **env);
 char	*exp_not_in_q(char *str, char *ret, char **env);
 char	*quote_elab(char *str, int flag, char *ret, char **env);
-char	*var_content_elab(char* var_content, char **env);
+char	*var_content_elab(char* var_c, char **env);
 //builtin/export
 char	what_is_next(char *str, int flag);
 char	*a_var_update(char *var, char *env_l, char **env);

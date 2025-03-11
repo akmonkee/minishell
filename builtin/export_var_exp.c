@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:39:13 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/10 15:42:52 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/11 15:18:33 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ char	*quote_elab(char *str, int flag, char *ret, char **env)
 	return (ret);
 }
 
-char	*var_content_elab(char* var_content, char **env)
+char	*var_content_elab(char* var_c, char **env)
 {
 	int		k;
 	int		flag;
@@ -120,22 +120,22 @@ char	*var_content_elab(char* var_content, char **env)
 
 	k = -1;
 	ret = NULL;
-	if (!what_is_next(var_content, 0))
-		return (ambient_value(var_content, env));
-	while (var_content[++k])
+	if (!what_is_next(var_c, 0))
+		return (ambient_value(var_c, env));
+	while (var_c[++k])
 	{
-		if (var_content[k] && var_content[k] != 34 && var_content[k] != 39)
+		if (var_c[k] && var_c[k] != 34 && var_c[k] != 39)
 		{
-			ret = exp_not_in_q(var_content + k, ret, env);
-			while (var_content[++k] && var_content[k] != what_is_next(var_content + k, 0))
-				if (var_content[k + 1] == 0)
+			ret = exp_not_in_q(var_c + k, ret, env);
+			while (var_c[++k] && var_c[k] != what_is_next(var_c + k, 0))
+				if (var_c[k + 1] == 0)
 					break ;
 		}
-		if ((var_content[k] == 34 || var_content[k] == 39))
+		if ((var_c[k] == 34 || var_c[k] == 39))
 		{
-			flag = var_content[k];
-			ret = quote_elab(var_content + k, flag, ret, env);
-			while (var_content[++k] && var_content[k] != flag)
+			flag = var_c[k];
+			ret = quote_elab(var_c + k, flag, ret, env);
+			while (var_c[++k] && var_c[k] != flag)
 				;
 		}
 	}

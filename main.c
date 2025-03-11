@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:21:33 by msisto            #+#    #+#             */
-/*   Updated: 2025/02/25 14:51:55 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/11 10:17:59 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,27 +18,16 @@ char	**env_cloner(char **envp)
 {
 	char	**ret;
 	int		i;
-	int		k;
 
-	i = 0;
-	while (envp[i] != NULL)
-		i++;
+	i = -1;
+	while (envp[++i] != NULL)
+		;
 	ret = malloc((i + 1) * sizeof(char *));
 	if (ret == NULL)
 		return (NULL);
-	i = 0;
-	while (envp[i] != NULL)
-	{
-		k = 0;
-		ret[i] = malloc(ft_strlen_g(envp[i]) + 1);
-		while (k < ft_strlen_g(envp[i]))
-		{
-			ret[i][k] = envp[i][k];
-			k++;
-		}
-		ret[i][k] = '\0';
-		i++;
-	}
+	i = -1;
+	while (envp[++i] != NULL)
+		ret[i] = var_ex(envp[i], '\0');
 	ret[i] = NULL;
 	return (ret);
 }
