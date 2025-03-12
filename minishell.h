@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/11 15:31:49 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/12 14:22:41 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,12 +161,17 @@ int		eof_checker(char *line, char *rule);
 void	here_doc(t_redircmd *rcmd, char *rule);
 void	runredir(t_cmd *cmd, char **envp);
 //builtin
-void	**builtin_cd(char *input, char **env);
 void	builtin_echo(char **args);
 void	builtin_env(char **env);
 void	builtin_exit(char *input);
 void	builtin_pwd(char **envp);
 void	**builtin_unset(char **env, t_cmd *cmd, char *str);
+//builtin/builtin_cd
+char	*strjoin_path(char *path, int flag);
+char	*path_builder(char *input, char *curr_pwd);
+void	**pwd_mod(char *str, char **env);
+void	**env_mod(char *path, char *curr_pwd, char **env);
+void	**builtin_cd(char *input, char **env);
 //builtin/export_is_valid
 int		ft_isalpha(int c);
 int		ft_isalnum(int c);

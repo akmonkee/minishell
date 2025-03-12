@@ -20,14 +20,37 @@ char	what_is_next(char *str, int flag)
 	while (str[i])
 	{
 		if (str[i] == '\'' && flag != 1)
-			return (39);
-		if (str[i] == '\"')
-			return (34);
-		if (str[i] == '$' && flag == 1)
-			return (36);
-		i++;
+		return (39);
+	if (str[i] == '\"')
+	return (34);
+if (str[i] == '$' && flag == 1)
+return (36);
+i++;
+}
+return (0);
+}
+
+void	**ft_realloc(char **mtx, int size)
+{
+	char	**ret;
+	int		i;
+	int		mtx_l;
+
+	i = -1;
+	mtx_l = mtx_len(mtx);
+	ret = malloc((size + 1) * sizeof(char *));
+	if (ret == NULL)
+		return (NULL);
+	while (++i < size)
+	{
+		if (i < mtx_l)
+			ret[i] = mtx[i];
+		else
+			ret[i] = NULL;
 	}
-	return (0);
+	ret[i] = NULL;
+	free(mtx);
+	return ((void **)ret);
 }
 
 char	*a_var_update(char *var, char *env_l, char **env)
@@ -81,29 +104,6 @@ void	**export_ccc(char *var, char **env)
 	tmp[i] = NULL;
 	tmp[i] = a_var_update(var, tmp[i], tmp);
 	return ((void**)tmp);
-}
-
-void	**ft_realloc(char **mtx, int size)
-{
-	char	**ret;
-	int		i;
-	int		mtx_l;
-
-	i = -1;
-	mtx_l = mtx_len(mtx);
-	ret = malloc((size + 1) * sizeof(char *));
-	if (ret == NULL)
-		return (NULL);
-	while (++i < size)
-	{
-		if (i < mtx_l)
-			ret[i] = mtx[i];
-		else
-			ret[i] = NULL;
-	}
-	ret[i] = NULL;
-	free(mtx);
-	return ((void **)ret);
 }
 
 void	**builtin_export(char *input, char **env)
