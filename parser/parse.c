@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 11:17:55 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/11 10:17:56 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/13 10:22:21 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,31 @@ int	peek(char **ps, char *es, char *toks)
 		s++;
 	*ps = s;
 	return (*s && ft_strchr(toks, *s));
+}
+
+int	redir_check(char **s, char redir, int curr_ret)
+{
+	int		ret;
+	char	*p;
+
+	p = *s;
+	p++;
+	ret = curr_ret;
+	if (*p == redir)
+	{
+		if (redir == '<')
+		{
+			ret =  '-';
+			p++;
+		}
+		if (redir == '>')
+		{
+			ret = '+';
+			p++;
+		}
+	}
+	*s = p;
+	return (ret);
 }
 
 int	gettoken(char **ps, char *es, char **q, char **eq)
@@ -39,42 +64,11 @@ int	gettoken(char **ps, char *es, char **q, char **eq)
 	else if (*s == '|')
 		s++;
 	else if (*s == '<')
-	{
-		s++;
-		if (*s == '<')
-		{
-			ret = '-';
-			s++;
-		}
-	}
+		ret = redir_check(&s, '<', ret);
 	else if (*s == '>')
-	{
-		s++;
-		if (*s == '>')
-		{
-			ret = '+';
-			s++;
-		}
-	}
+		ret = redir_check(&s, '>', ret);
 	else
-	{
-		ret = 'a';
-		while (s < es && !ft_strchr(WHITE_SPACE, *s) && !ft_strchr(SYMBOLS, *s))
-		{
-			if(parse_squote(s, es) == 1)
-			{
-				s++;
-				while (s < es)
-				{
-					if (*s == 39)
-						break ;
-					s++;
-				}
-			}
-			s++;
-		}
-
-	}
+		ret = s_scroll(&s, es, 'a');
 	if (eq)
 		*eq = s;
 	while (s < es && ft_strchr(WHITE_SPACE, *s))

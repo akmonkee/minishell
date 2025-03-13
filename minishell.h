@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/12 14:22:41 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/13 10:23:54 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,9 +123,12 @@ int		ft_isdigit(int c);
 int		ft_atoi(const char *s);
 //parse
 int		peek(char **ps, char *es, char *toks);
+int		redir_check(char **s, char redir, int curr_ret);
 int		gettoken(char **ps, char *es, char **q, char **eq);
 t_cmd	*parseline(char **ps, char *es);
 t_cmd	*parsecmd(char *s);
+//parse2
+int		s_scroll(char **s, char *es, int ret);
 //parse quotes
 char	single_quote(char *s, char *es);
 //parse pipe
