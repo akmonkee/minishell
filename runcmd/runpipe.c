@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 11:59:25 by msisto            #+#    #+#             */
-/*   Updated: 2025/02/07 14:34:58 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/13 10:36:46 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,24 @@ int	fork1()
 
 	pid = fork();
 	return (pid);
+}
+
+void	left_pipe(t_pipecmd *pcmd, char **envp, int p_0, int p_1)
+{
+	close(1);
+	dup(p_1);
+	close(p_0);
+	close(p_0);
+	runcmd(pcmd->left, envp);
+}
+
+void	right_pipe(t_pipecmd *pcmd, char **envp, int p_0, int p_1)
+{
+	close(0);
+	dup(p_0);
+	close(p_0);
+	close(p_1);
+	runcmd(pcmd->right, envp);
 }
 
 void	runpipe(t_cmd *cmd, char **envp)
@@ -32,21 +50,9 @@ void	runpipe(t_cmd *cmd, char **envp)
 		return ;
 	}
 	if (fork1() == 0)
-	{
-		close(1);
-		dup(p[1]);
-		close(p[0]);
-		close(p[1]);
-		runcmd(pcmd->left, envp);
-	}
+		left_pipe(pcmd, envp, p[0], p[1]);
 	if (fork1() == 0)
-	{
-		close(0);
-		dup(p[0]);
-		close(p[0]);
-		close(p[1]);
-		runcmd(pcmd->right, envp);
-	}
+		right_pipe(pcmd, envp, p[0], p[1]);
 	close(p[0]);
 	close(p[1]);
 	wait(NULL);

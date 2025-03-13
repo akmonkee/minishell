@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/13 10:23:54 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/13 14:10:39 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,8 @@ void	doc_cmd(t_cmd *cmd, char **envp);
 void	runcmd(t_cmd *cmd, char **envp);
 //runcmd/runpipe
 int		fork1();
+void	left_pipe(t_pipecmd *pcmd, char **envp, int p_0, int p_1);
+void	right_pipe(t_pipecmd *pcmd, char **envp, int p_0, int p_1);
 void	runpipe(t_cmd *cmd, char **envp);
 //runcmd/runredir
 int		eof_checker(char *line, char *rule);
@@ -167,8 +169,14 @@ void	runredir(t_cmd *cmd, char **envp);
 void	builtin_echo(char **args);
 void	builtin_env(char **env);
 void	builtin_exit(char *input);
+//builtin/builtin_pwd
+char	*true_pwd_ex();
 void	builtin_pwd(char **envp);
-void	**builtin_unset(char **env, t_cmd *cmd, char *str);
+//builtin/builtin_unset
+void	remove_env_var(char **env, int i);
+void	free_env_var(char *ex_env, char *ex_var);
+void	unset_ccc(char *var, char **env);
+void	builtin_unset(char *input, char **env);
 //builtin/builtin_cd
 char	*strjoin_path(char *path, int flag);
 char	*path_builder(char *input, char *curr_pwd);

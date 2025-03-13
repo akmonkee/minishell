@@ -113,7 +113,7 @@ void	**builtin_cd(char *input, char **env)
 	int		i;
 
 	i = 0;
-	curr_pwd = find_n_ret("PWD", env);
+	curr_pwd = true_pwd_ex();
 	input+=2;
 	while (*input == ' ' && *input != '\0')
 		input++;

@@ -139,13 +139,11 @@ void	**exe_bt(char *input, char **env)
 	}
 	else if (ft_strncmp(args[0], "export", 6) == 0)
 		tmp = (char **)builtin_export(input, env);
-	// else if (ft_strncmp(args[0], "unset", 5) == 0)
-	// {
-	// 	if (args[1])
-	// 		ret = builtin_unset(env, args[1]);
-	// 	else
-	// 		ret = 1;
-	// }
+	else if (ft_strncmp(args[0], "unset", 5) == 0)
+	{
+		builtin_unset(input, env);
+		tmp = NULL;
+	}
 	else
 		tmp = NULL;
 	mtxs_free(args);
@@ -175,12 +173,8 @@ int	control_bt(char *input, char **env)
 		ret = 1;
 	else if (ft_strncmp(args[0], "export", 6) == 0)
 		ret = 1;
-	// else if (ft_strncmp(args[0], "unset", 5) == 0)
-	// {
-	// 	if (args[1])
-	// 		ret =args[1]);
-	// 	else
-	// 		ret =(args);
+	else if (ft_strncmp(args[0], "unset", 5) == 0)
+		ret = 1;
 	mtxs_free(args);
 	return (ret);
 }
