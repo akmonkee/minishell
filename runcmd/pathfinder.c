@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 11:17:05 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/07 14:41:21 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/13 14:47:56 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,15 +103,16 @@ char	*ft_strnstr(const char *s, const char *to_find, size_t len)
 char	**path_finder(char **envp)
 {
 	char	**paths;
+	char	*con;
 	int		i;
 
 	i = 0;
 	if (!envp)
 		return (NULL);
-	while (!ft_strnstr(envp[i], "PATH", 4))
-		i++;
-	if (!envp[i])
+	con = find_n_ret("PATH", envp);
+	if (!con)
 		return (NULL);
-	paths = ft_split(envp[i], ':', 0, 5);
+	paths = ft_split_bt(con, ':');
+	free(con);
 	return (paths);
 }
