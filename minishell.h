@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/14 17:55:25 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/14 17:59:12 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,15 +216,5 @@ int		ft_count_words(char const *s, char c);
 char	**ft_split_bt(char const *s, char c);
 void	**exe_bt(char *input, char **env);
 int		control_bt(char *input, char **env);
-//get_next_line
-char	*gnl_strjoin(char *line, char *buf);
-char	*str_clear(char *buf);
-char	*get_next_line(int fd, int i2);
-void	ft_in_array(char *buf);
-char	*print_out(char *ret);
-char	*update_ret(char *ret);
-char	*ft_strchr_g(const char *s, int c);
-char	*get_line(int fd, char *ret);
-char	*return_fun(char *output);
 
 #endif
