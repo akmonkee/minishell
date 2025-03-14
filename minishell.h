@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/14 17:30:32 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/14 17:55:25 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ typedef struct s_pipecmd
 }	t_pipecmd;
 
 //main
-char	**env_cloner(char **envp);
 void	parse_exe(char *input, char **envp);
 void	start_shell(char **envp);
 //utils/freecmd
@@ -208,7 +207,9 @@ void	**export_ccc(char *var, char **env);
 void	**ft_realloc(char **mtx, int size);
 void	**builtin_export(char *input, char **env);
 //utils/builtin_utils2
+int		ft_strlen_g(const char *str);
 int		builtin_exec(char **command, char **envp);
+char	**env_cloner(char **envp);
 //utils/builtin_utils
 char	*ft_substr(const char *s, unsigned int start, size_t len);
 int		ft_count_words(char const *s, char c);
@@ -220,7 +221,6 @@ char	*gnl_strjoin(char *line, char *buf);
 char	*str_clear(char *buf);
 char	*get_next_line(int fd, int i2);
 void	ft_in_array(char *buf);
-int		ft_strlen_g(const char *str);
 char	*print_out(char *ret);
 char	*update_ret(char *ret);
 char	*ft_strchr_g(const char *s, int c);

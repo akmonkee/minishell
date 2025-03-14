@@ -6,31 +6,13 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:21:33 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/14 17:43:48 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/14 17:53:51 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int	g_exit_code;
-
-char	**env_cloner(char **envp)
-{
-	char	**ret;
-	int		i;
-
-	i = -1;
-	while (envp[++i] != NULL)
-		;
-	ret = malloc((i + 1) * sizeof(char *));
-	if (ret == NULL)
-		return (NULL);
-	i = -1;
-	while (envp[++i] != NULL)
-		ret[i] = var_ex(envp[i], '\0');
-	ret[i] = NULL;
-	return (ret);
-}
 
 void	parse_exe(char *input, char **envp)
 {
