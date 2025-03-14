@@ -115,28 +115,13 @@ void	**exe_bt(char *input, char **env)
 	args = ft_split_bt(input, ' ');
 	if (!args)
 		return (NULL);
-	if (ft_strncmp(args[0], "pwd", 3) == 0)
-	{
-		tmp = NULL;
-		builtin_pwd(env);
-	}
-	else if (ft_strncmp(args[0], "cd", 2) == 0)
-		tmp = (char **)builtin_cd(input, env);
-	else if (ft_strncmp(args[0], "echo", 4) == 0)
-	{
-		tmp = NULL;
-		builtin_echo(args);
-	}
-	else if (ft_strncmp(args[0], "env", 3) == 0)
-	{
-		tmp = NULL;
-		builtin_env(env);
-	}
-	else if (ft_strncmp(args[0], "exit", 4) == 0)
+	if (ft_strncmp(args[0], "exit", 4) == 0)
 	{
 		tmp = NULL;
 		builtin_exit(input);
 	}
+	else if (ft_strncmp(args[0], "cd", 2) == 0)
+		tmp = (char **)builtin_cd(input, env);
 	else if (ft_strncmp(args[0], "export", 6) == 0)
 		tmp = (char **)builtin_export(input, env);
 	else if (ft_strncmp(args[0], "unset", 5) == 0)
@@ -161,13 +146,7 @@ int	control_bt(char *input, char **env)
 	args = ft_split_bt(input, ' ');
 	if (!args)
 		return (1);
-	if (ft_strncmp(args[0], "pwd", 3) == 0)
-		ret = 1;
-	else if (ft_strncmp(args[0], "cd", 2) == 0)
-		ret = 1;
-	else if (ft_strncmp(args[0], "echo", 4) == 0)
-		ret = 1;
-	else if (ft_strncmp(args[0], "env", 3) == 0)
+	if (ft_strncmp(args[0], "cd", 2) == 0)
 		ret = 1;
 	else if (ft_strncmp(args[0], "exit", 4) == 0)
 		ret = 1;

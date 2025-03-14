@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:35:28 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/04 14:47:56 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/14 17:18:32 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,12 @@ void	ft_execute_command(char **command, char **envp)
 	char	**path;
 	char	*exe_path;
 
+	if (builtin_exec(command, envp) == 1)
+		return ;
 	path = path_finder(envp);
 	if (!path)
 	{
-		write(2, "unable to create path\n", 22);
+		perror("unable to create path\n");
 		return ;
 	}
 	exe_path = cmd_check(path, command[0]);

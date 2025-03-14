@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:21:33 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/11 10:17:59 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/14 17:43:48 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,44 @@ char	**env_cloner(char **envp)
 void	parse_exe(char *input, char **envp)
 {
 	t_cmd	*cmd;
+	pid_t	pid;
+	int		exit_status;
 
 	cmd = parsecmd(input);
-	doc_cmd(cmd, envp);
-	runcmd(cmd, envp);
-	freecmd(cmd);
-	free(cmd);
-	free(input);
-	mtxs_free(envp);
+	signal(SIGQUIT, ign);
+	signal(SIGINT, ign);
+	signal(SIGTERM, ign);
+	pid = fork();
+	if (pid == -1)
+	{
+		perror("failed to fork \n");
+		g_exit_code = 1;
+		freecmd(cmd);
+		free(cmd);
+	}
+	else if (pid == 0)
+	{
+		doc_cmd(cmd, envp);
+		runcmd(cmd, envp);
+		freecmd(cmd);
+		free(cmd);
+		free(input);
+		mtxs_free(envp);
+		exit (g_exit_code);
+	}
+	else
+	{
+		signal(SIGINT, signal_execve);
+		signal(SIGQUIT, signal_execve);
+		waitpid(pid, &exit_status, 0);
+		signal(SIGINT, signal_handler);
+		signal(SIGTERM, signal_handler);
+		signal(SIGQUIT, ign);
+		if (WIFEXITED(exit_status))
+			g_exit_code = WEXITSTATUS(exit_status);
+		freecmd(cmd);
+		free(cmd);
+	}
 }
 
 void	start_shell(char **envp)
@@ -50,7 +80,6 @@ void	start_shell(char **envp)
 	char	**tmp;
 	char	**env;
 	char	*input;
-	pid_t	pid;
 
 	input = NULL;
 	env = env_cloner(envp);
@@ -79,18 +108,7 @@ void	start_shell(char **envp)
 				}
 			}
 			else
-			{
-				pid = fork();
-				if (pid == -1)
-				{
-					write(2, "fork non riuscito\n", 18);
-					return ;
-				}
-				if (pid == 0)
-					return (parse_exe(input, env));
-				else
-					wait(NULL);
-			}
+				parse_exe(input, env);
 		}
 		free(input);
 	}
@@ -103,8 +121,8 @@ int	main(int ac, char **av, char *envp[])
 		write(2, "Error\nno args allowed\n", 22);
 		return (1);
 	}
-	signal(SIGQUIT, handle_sigquit);
-	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, signal_handler);
+	signal(SIGINT, signal_handler);
 	if (isatty(STDIN_FILENO))
 		start_shell(envp);
 	else

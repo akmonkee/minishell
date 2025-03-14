@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 11:59:25 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/13 10:36:46 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/14 12:32:39 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	left_pipe(t_pipecmd *pcmd, char **envp, int p_0, int p_1)
 	close(1);
 	dup(p_1);
 	close(p_0);
-	close(p_0);
+	close(p_1);
 	runcmd(pcmd->left, envp);
 }
 
@@ -46,7 +46,7 @@ void	runpipe(t_cmd *cmd, char **envp)
 	pcmd = (t_pipecmd *)cmd;
 	if (pipe(p) < 0)
 	{
-		write(2, "pipe\n", 5);
+		perror("pipe\n");
 		return ;
 	}
 	if (fork1() == 0)

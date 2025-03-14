@@ -108,13 +108,10 @@ void	builtin_echo(char **args)
 		printf("\n");
 		return ;
 	}
-	i = 1;
+	i = 0;
 	option_n = 0;
-	while (args[i] && check_option_n(args[i]))
-	{
+	while (args[++i] && check_option_n(args[i]))
 		option_n = 1;
-		i++;
-	}
 	while (args[i])
 	{
 		if (args[i][0] != '\0')

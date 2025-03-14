@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/13 14:10:39 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/14 17:30:32 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,9 @@ void	start_shell(char **envp);
 void	freepipe(t_cmd *cmd);
 void	freecmd(t_cmd *cmd);
 //utils/signal_utils
-void	handle_sigquit(int sig);
-void	handle_sigint(int sig);
+void	ign(int sig);
+void	signal_execve(int sig);
+void	signal_handler(int sig);
 //utils/quote_utils
 int		parse_squote(char *s, char *es);
 int		check_singleq(char *q);
@@ -206,6 +207,8 @@ char	*a_var_update(char *var, char *env_l, char **env);
 void	**export_ccc(char *var, char **env);
 void	**ft_realloc(char **mtx, int size);
 void	**builtin_export(char *input, char **env);
+//utils/builtin_utils2
+int		builtin_exec(char **command, char **envp);
 //utils/builtin_utils
 char	*ft_substr(const char *s, unsigned int start, size_t len);
 int		ft_count_words(char const *s, char c);
