@@ -12,35 +12,7 @@
 
 #include "../minishell.h"
 
-char *ft_substr(const char *s, unsigned int start, size_t len)
-{
-	char *substr;
-	size_t i;
-
-	if (!s)
-		return (NULL);
-	if (start >= ft_strlen_g(s))
-	{
-		substr = malloc(1);
-		if (!substr)
-			return (NULL);
-		substr[0] = '\0';
-		return (substr);
-	}
-	substr = malloc(len + 1);
-	if (!substr)
-		return (NULL);
-	i = 0;
-	while (s[start + i] && i < len)
-	{
-		substr[i] = s[start + i];
-		i++;
-	}
-	substr[i] = '\0';
-	return (substr);
-}
-
-int	ft_count_words(char const *s, char c)
+int	ft_count_words(char *s, char c)
 {
 	int		i;
 	int		count;
@@ -61,12 +33,26 @@ int	ft_count_words(char const *s, char c)
 	return (count);
 }
 
-char **ft_split_bt(char const *s, char c)
+void	strjoin_alloc(char **ps, char **mtx, int j, char c)
+{
+	char	*s;
+
+	s = *ps;
+	mtx[j] = var_ex(s, c);
+	if (!mtx[j])
+	{
+		mtxs_free(mtx);
+		return ;
+	}
+	while (*s != '\0' && *s != c)
+		s++;
+	*ps = s;
+}
+
+char	**ft_split_bt(char *s, char c)
 {
 	char **matrix;
-	int i;
 	int j;
-	int k;
 	int word_count;
 
 	if (!s)
@@ -75,85 +61,83 @@ char **ft_split_bt(char const *s, char c)
 	matrix = malloc(sizeof(char *) * (word_count + 1));
 	if (!matrix)
 		return (NULL);
-	i = 0;
 	j = 0;
-	while (j <= word_count)
-		matrix[j++] = NULL;
-	j = 0;
-	while (s[i] && j < word_count)
+	while (*s != '\0' && j < word_count)
 	{
-		while (s[i] && s[i] == c)
-			i++;
-		if (s[i])
+		while (*s != '\0' && *s == c)
+			s++;
+		if (*s != '\0')
 		{
-			k = i;
-			while (s[i] && s[i] != c)
-				i++;
-
-			matrix[j] = ft_substr(s, k, i - k);
-			if (!matrix[j])
-			{
-				while (j > 0)
-					free(matrix[--j]);
-				free(matrix);
-				return (NULL);
-			}
+			strjoin_alloc(&s, matrix, j, c);
 			j++;
 		}
 	}
-	matrix[j] = NULL;
+	if (matrix)
+		matrix[j] = NULL;
 	return (matrix);
 }
 
-void	**exe_bt(char *input, char **env)
+void	exe_bt(char **input, t_mini *mini)
 {
 	char	**tmp;
-	char	**args;
 
+	tmp = NULL;
 	if (!input)
-		return (NULL);
-	args = ft_split_bt(input, ' ');
-	if (!args)
-		return (NULL);
-	if (ft_strncmp(args[0], "exit", 4) == 0)
-	{
-		tmp = NULL;
+		return ;
+	if (ft_strncmp(input[0], "exit", 4) == 0)
 		builtin_exit(input);
-	}
-	else if (ft_strncmp(args[0], "cd", 2) == 0)
-		tmp = (char **)builtin_cd(input, env);
-	else if (ft_strncmp(args[0], "export", 6) == 0)
-		tmp = (char **)builtin_export(input, env);
-	else if (ft_strncmp(args[0], "unset", 5) == 0)
+	else if (ft_strncmp(input[0], "cd", 2) == 0)
+		tmp = (char **)builtin_cd(input[1], mini->env);
+	else if (ft_strncmp(input[0], "export", 6) == 0)
+		tmp = (char **)builtin_export(input, mini->env);
+	else if (ft_strncmp(input[0], "unset", 5) == 0)
+		builtin_unset(input, mini);
+	else if (ft_strncmp(input[0], "pwd", 3) == 0)
 	{
-		builtin_unset(input, env);
-		tmp = NULL;
+		if (input[1] != NULL)
+			g_exit_code = 2;
+		else
+			builtin_pwd(mini->env);
 	}
+	else if (ft_strncmp(input[0], "env", 3) == 0)
+	{
+		if (input[1] != NULL)
+			g_exit_code = 2;
+		else
+			builtin_env(mini->env);
+	}
+	else if (ft_strncmp(input[0], "echo", 4) == 0)
+		builtin_echo(input);
 	else
 		tmp = NULL;
-	mtxs_free(args);
-	return ((void **)tmp);
+	if (tmp)
+	{
+		mtxs_free(mini->env);
+		mini->env = env_cloner(tmp);
+		mtxs_free(tmp);
+	}
 }
 
-int	control_bt(char *input, char **env)
+int	control_bt(char *input)
 {
-	char	**args;
 	int		ret;
 
 	ret = 0;
 	if (!input)
 		return (1);
-	args = ft_split_bt(input, ' ');
-	if (!args)
-		return (1);
-	if (ft_strncmp(args[0], "cd", 2) == 0)
+	if (ft_strncmp(input, "cd", 2) == 0)
 		ret = 1;
-	else if (ft_strncmp(args[0], "exit", 4) == 0)
+	else if (ft_strncmp(input, "exit", 4) == 0)
 		ret = 1;
-	else if (ft_strncmp(args[0], "export", 6) == 0)
+	else if (ft_strncmp(input, "export", 6) == 0)
 		ret = 1;
-	else if (ft_strncmp(args[0], "unset", 5) == 0)
+	else if (ft_strncmp(input, "unset", 5) == 0)
 		ret = 1;
-	mtxs_free(args);
+	else if (ft_strncmp(input, "pwd", 5) == 0)
+		ret = 1;
+	else if (ft_strncmp(input, "env", 5) == 0)
+		ret = 1;
+	else if (ft_strncmp(input, "echo", 5) == 0)
+		ret = 1;
 	return (ret);
 }

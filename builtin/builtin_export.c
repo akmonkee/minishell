@@ -106,27 +106,23 @@ void	**export_ccc(char *var, char **env)
 	return ((void**)tmp);
 }
 
-void	**builtin_export(char *input, char **env)
+void	**builtin_export(char **input, char **env)
 {
-	char	**var;
 	char	**tmp;
 	int		i;
 
 	i = 1;
-	var = ft_split(input, ' ', 0, 0);
-	if (var[i] == NULL)
+	if (input[i] == NULL)
 	{
 		sort_env(env);
-		mtxs_free(var);
 		return (NULL);
 	}
 	tmp = env_cloner(env);
-	while (var[i] != NULL)
+	while (input[i] != NULL)
 	{
-		if (arg_validation(var[i]))
-			tmp = (char **)export_ccc(var[i], tmp);
+		if (arg_validation(input[i]))
+			tmp = (char **)export_ccc(input[i], tmp);
 		i++;
 	}
-	mtxs_free(var);
 	return ((void **)tmp);
 }

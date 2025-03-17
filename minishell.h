@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/14 17:59:12 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/17 13:47:25 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,11 @@
 
 extern int g_exit_code;
 
+typedef struct s_mini
+{
+	char	**env;
+}	t_mini;
+
 /*cmd structs*/
 
 typedef struct s_cmd
@@ -96,7 +101,7 @@ typedef struct s_pipecmd
 }	t_pipecmd;
 
 //main
-void	parse_exe(char *input, char **envp);
+void	parse_exe(char *input, t_mini *mini);
 void	start_shell(char **envp);
 //utils/freecmd
 void	freepipe(t_cmd *cmd);
@@ -146,7 +151,7 @@ char	*ft_strjoin(char *path, char *cmd);
 void	ffree(char *str);
 void	mtxs_free(char **mtx);
 char	*cmd_check(char **path, char *command);
-void	ft_execute_command(char **command, char **envp);
+void	ft_execute_command(char **command, t_mini *mini);
 //runcmd/pathfinder
 char	*path_ex(char *string, int ex_len, int start);
 int		path_count(char *string, char c);
@@ -155,20 +160,20 @@ char	*ft_strnstr(const char *s, const char *to_find, size_t len);
 char	**path_finder(char **envp);
 //runcmd/runcmd
 void	doc_cmd(t_cmd *cmd, char **envp);
-void	runcmd(t_cmd *cmd, char **envp);
+void	runcmd(t_cmd *cmd, t_mini *mini);
 //runcmd/runpipe
 int		fork1();
-void	left_pipe(t_pipecmd *pcmd, char **envp, int p_0, int p_1);
-void	right_pipe(t_pipecmd *pcmd, char **envp, int p_0, int p_1);
-void	runpipe(t_cmd *cmd, char **envp);
+void	left_pipe(t_pipecmd *pcmd, t_mini *mini, int p_0, int p_1);
+void	right_pipe(t_pipecmd *pcmd, t_mini *mini, int p_0, int p_1);
+void	runpipe(t_pipecmd *pcmd, t_mini *mini);
 //runcmd/runredir
 int		eof_checker(char *line, char *rule);
 void	here_doc(t_redircmd *rcmd, char *rule);
-void	runredir(t_cmd *cmd, char **envp);
+void	runredir(t_cmd *cmd, t_mini *mini);
 //builtin
 void	builtin_echo(char **args);
 void	builtin_env(char **env);
-void	builtin_exit(char *input);
+void	builtin_exit(char **input);
 //builtin/builtin_pwd
 char	*true_pwd_ex();
 void	builtin_pwd(char **envp);
@@ -176,7 +181,7 @@ void	builtin_pwd(char **envp);
 void	remove_env_var(char **env, int i);
 void	free_env_var(char *ex_env, char *ex_var);
 void	unset_ccc(char *var, char **env);
-void	builtin_unset(char *input, char **env);
+void	builtin_unset(char **input, t_mini *mini);
 //builtin/builtin_cd
 char	*strjoin_path(char *path, int flag);
 char	*path_builder(char *input, char *curr_pwd);
@@ -205,16 +210,16 @@ char	what_is_next(char *str, int flag);
 char	*a_var_update(char *var, char *env_l, char **env);
 void	**export_ccc(char *var, char **env);
 void	**ft_realloc(char **mtx, int size);
-void	**builtin_export(char *input, char **env);
+void	**builtin_export(char **input, char **env);
 //utils/builtin_utils2
 int		ft_strlen_g(const char *str);
 int		builtin_exec(char **command, char **envp);
 char	**env_cloner(char **envp);
 //utils/builtin_utils
-char	*ft_substr(const char *s, unsigned int start, size_t len);
-int		ft_count_words(char const *s, char c);
-char	**ft_split_bt(char const *s, char c);
-void	**exe_bt(char *input, char **env);
-int		control_bt(char *input, char **env);
+int		ft_count_words(char *s, char c);
+void	strjoin_alloc(char **ps, char **mtx, int j, char c);
+char	**ft_split_bt(char *s, char c);
+void	exe_bt(char **input, t_mini *mini);
+int		control_bt(char *input);
 
 #endif

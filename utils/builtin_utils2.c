@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:19:49 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/14 17:56:00 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/17 12:57:21 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,33 +22,6 @@ int	ft_strlen_g(const char *str)
 	while (str[i] != '\0')
 		i++;
 	return (i);
-}
-
-int	builtin_exec(char **command, char **envp)
-{
-	if (ft_strncmp(command[0], "pwd", 3) == 0)
-	{
-		if (command[1] != NULL)
-		{
-			perror("too many args\n");
-			g_exit_code = 1;
-		}
-		else
-			return (builtin_pwd(envp), 1);
-	}
-	else if (ft_strncmp(command[0], "env", 3) == 0)
-	{
-		if (command[1] != NULL)
-		{
-			perror("too many args\n");
-			g_exit_code = 1;
-		}
-		else
-			return (builtin_env(envp), 1);
-	}
-	else if (ft_strncmp(command[0], "echo", 4) == 0)
-		return(builtin_echo(command), 1);
-	return (g_exit_code);
 }
 
 char	**env_cloner(char **envp)

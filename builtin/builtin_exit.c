@@ -12,18 +12,20 @@
 
 #include "../minishell.h"
 
-void	builtin_exit(char *input)
+void	builtin_exit(char **input)
 {
-	char	**var;
-	int		n;
+	int	n;
 
 	n = 0;
-	var = ft_split(input, ' ', 0, 0);
-	if (var[1] != NULL)
+	if (mtx_len(input) > 2)
 	{
-		n = ft_atoi(var[1]);
+		g_exit_code = 2;
+		return ;
+	}
+	if (input[1] != NULL)
+	{
+		n = ft_atoi(input[1]);
 		g_exit_code = (unsigned char)n;
 	}
-	mtxs_free(var);
 	exit(g_exit_code);
 }

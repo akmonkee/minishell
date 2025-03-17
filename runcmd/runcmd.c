@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 11:57:08 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/14 17:17:12 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/17 13:35:18 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,15 @@ void	doc_cmd(t_cmd *cmd, char **envp)
 	}
 }
 
-void	runcmd(t_cmd *cmd, char	**envp)
+void	runcmd(t_cmd *cmd, t_mini *mini)
 {
 	t_execcmd	*ecmd;
+	t_pipecmd	*pcmd;
 
 	if (!cmd)
 	{
 		perror("no parse tree\n");
-		exit (1);
+		return ;
 	}
 	if (cmd->type == EXEC)
 	{
@@ -55,14 +56,17 @@ void	runcmd(t_cmd *cmd, char	**envp)
 		if (!ecmd->argv[0])
 		{
 			perror("no args for tree\n");
-			exit (1);
+			return ;
 		}
 		if (!ecmd->eargv[0])
 			mtxs_free(ecmd->eargv);
-		ft_execute_command(ecmd->argv, envp);
+		ft_execute_command(ecmd->argv, mini);
 	}
 	else if (cmd->type == PIPE)
-		runpipe(cmd, envp);
+	{
+		pcmd = (t_pipecmd *)cmd;
+		runpipe(pcmd, mini);
+	}
 	else if (cmd->type == REDIR)
-		runredir(cmd, envp);
+		runredir(cmd, mini);
 }

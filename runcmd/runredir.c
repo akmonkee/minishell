@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 13:19:27 by msisto            #+#    #+#             */
-/*   Updated: 2025/02/20 14:43:09 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/17 13:48:26 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	here_doc(t_redircmd *rcmd, char *rule)
 		unlink("temp_file");
 }
 
-void	runredir(t_cmd *cmd, char **envp)
+void	runredir(t_cmd *cmd, t_mini *mini)
 {
 	t_redircmd	*rcmd;
 
@@ -72,5 +72,5 @@ void	runredir(t_cmd *cmd, char **envp)
 		close(1);
 	if (rcmd->here_doc == 0)
 		open(rcmd->file, rcmd->mode, 0777);
-	runcmd(rcmd->cmd, envp);
+	runcmd(rcmd->cmd, mini);
 }

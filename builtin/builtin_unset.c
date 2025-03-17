@@ -56,23 +56,20 @@ void	unset_ccc(char *var, char **env)
 	return ;
 }
 
-void	builtin_unset(char *input, char **env)
+void	builtin_unset(char **input, t_mini *mini)
 {
-	char	**var;
 	int		i;
 
 	i = 1;
-	var = ft_split_bt(input, ' ');
-	if (var[i] == NULL)
+	if (input[i] == NULL)
 	{
 		printf("unset: not enough arguments\n");
 		return ;
 	}
-	while (var[i] != NULL)
+	while (input[i] != NULL)
 	{
-		unset_ccc(var[i], env);
+		unset_ccc(input[i], mini->env);
 		i++;
 	}
-	mtxs_free(var);
 	return ;
 }

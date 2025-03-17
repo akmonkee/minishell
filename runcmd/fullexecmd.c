@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:35:28 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/14 17:18:32 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/17 13:45:24 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,23 +87,26 @@ char	*cmd_check(char **path, char *command)
 	return (NULL);
 }
 
-void	ft_execute_command(char **command, char **envp)
+void	ft_execute_command(char **command, t_mini *mini)
 {
-	char	**path;
-	char	*exe_path;
-
-	if (builtin_exec(command, envp) == 1)
-		return ;
-	path = path_finder(envp);
-	if (!path)
+	if (control_bt(command[0]) == 1)
+		exe_bt(command, mini);
+	else
 	{
-		perror("unable to create path\n");
-		return ;
+		char	**path;
+		char	*exe_path;
+
+		path = path_finder(mini->env);
+		if (!path)
+		{
+			perror("unable to create path\n");
+			exit (1);
+		}
+		exe_path = cmd_check(path, command[0]);
+		mtxs_free(path);
+		if (!exe_path)
+			exit (1);
+		if (execve(exe_path, command, mini->env) == -1)
+			free(exe_path);
 	}
-	exe_path = cmd_check(path, command[0]);
-	mtxs_free(path);
-	if (!exe_path)
-		return ;
-	if (execve(exe_path, command, envp) == -1)
-		free(exe_path);
 }
