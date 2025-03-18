@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:35:28 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/17 13:45:24 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/18 11:40:30 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,26 +87,50 @@ char	*cmd_check(char **path, char *command)
 	return (NULL);
 }
 
+void	execve_cmd(char **command, t_mini *mini)
+{
+	char	**path;
+	char	*exe_path;
+
+	path = path_finder(mini->env);
+	if (!path)
+	{
+		perror("unable to create path\n");
+		exit (1);
+	}
+	exe_path = cmd_check(path, command[0]);
+	mtxs_free(path);
+	if (!exe_path)
+		exit (1);
+	if (execve(exe_path, command, mini->env) == -1)
+		free(exe_path);
+}
+
 void	ft_execute_command(char **command, t_mini *mini)
 {
+	int	pid;
+	int	exit_status;
+
 	if (control_bt(command[0]) == 1)
 		exe_bt(command, mini);
 	else
 	{
-		char	**path;
-		char	*exe_path;
-
-		path = path_finder(mini->env);
-		if (!path)
+		signal(SIGQUIT, ign);
+		signal(SIGINT, ign);
+		signal(SIGTERM, ign);
+		pid = fork();
+		if (pid == 0)
+			execve_cmd(command, mini);
+		else
 		{
-			perror("unable to create path\n");
-			exit (1);
+			signal(SIGINT, signal_execve);
+			signal(SIGQUIT, signal_execve);
+			waitpid(pid, &exit_status, 0);
+			signal(SIGINT, signal_handler);
+			signal(SIGTERM, signal_handler);
+			signal(SIGQUIT, ign);
+			if (WIFEXITED(exit_status))
+				g_exit_code = WEXITSTATUS(exit_status);
 		}
-		exe_path = cmd_check(path, command[0]);
-		mtxs_free(path);
-		if (!exe_path)
-			exit (1);
-		if (execve(exe_path, command, mini->env) == -1)
-			free(exe_path);
 	}
 }

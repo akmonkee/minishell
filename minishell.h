@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/17 13:47:25 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/18 11:39:48 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,7 @@ char	*ft_strjoin(char *path, char *cmd);
 void	ffree(char *str);
 void	mtxs_free(char **mtx);
 char	*cmd_check(char **path, char *command);
+void	execve_cmd(char **command, t_mini *mini);
 void	ft_execute_command(char **command, t_mini *mini);
 //runcmd/pathfinder
 char	*path_ex(char *string, int ex_len, int start);
@@ -162,9 +163,6 @@ char	**path_finder(char **envp);
 void	doc_cmd(t_cmd *cmd, char **envp);
 void	runcmd(t_cmd *cmd, t_mini *mini);
 //runcmd/runpipe
-int		fork1();
-void	left_pipe(t_pipecmd *pcmd, t_mini *mini, int p_0, int p_1);
-void	right_pipe(t_pipecmd *pcmd, t_mini *mini, int p_0, int p_1);
 void	runpipe(t_pipecmd *pcmd, t_mini *mini);
 //runcmd/runredir
 int		eof_checker(char *line, char *rule);
