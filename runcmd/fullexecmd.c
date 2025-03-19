@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:35:28 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/18 11:40:30 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/19 15:34:33 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ void	execve_cmd(char **command, t_mini *mini)
 	char	**path;
 	char	*exe_path;
 
+	if (mini->cmd->type == REDIR)
+		runredir(mini->cmd, STDIN_FILENO, STDOUT_FILENO, mini);
 	path = path_finder(mini->env);
 	if (!path)
 	{

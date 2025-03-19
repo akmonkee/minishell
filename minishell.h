@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/18 11:39:48 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/19 15:30:41 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,6 @@
 
 extern int g_exit_code;
 
-typedef struct s_mini
-{
-	char	**env;
-}	t_mini;
 
 /*cmd structs*/
 
@@ -75,6 +71,12 @@ typedef struct s_cmd
 {
 	int		type;
 }	t_cmd;
+
+typedef struct s_mini
+{
+	char	**env;
+	t_cmd	*cmd;
+}	t_mini;
 
 typedef struct s_execcmd
 {
@@ -160,14 +162,14 @@ char	**ft_split(char *string, char c, int index, int start);
 char	*ft_strnstr(const char *s, const char *to_find, size_t len);
 char	**path_finder(char **envp);
 //runcmd/runcmd
-void	doc_cmd(t_cmd *cmd, char **envp);
-void	runcmd(t_cmd *cmd, t_mini *mini);
+void	runcmd(t_cmd *cmd, int curr_in, int curr_out, t_mini *mini);
 //runcmd/runpipe
-void	runpipe(t_pipecmd *pcmd, t_mini *mini);
+void	runpipe(t_pipecmd *pcmd, int curr_in, int curr_out, t_mini *mini);
 //runcmd/runredir
+void	dup_std_fd(int curr_fd, int std_fd);
 int		eof_checker(char *line, char *rule);
 void	here_doc(t_redircmd *rcmd, char *rule);
-void	runredir(t_cmd *cmd, t_mini *mini);
+void	runredir(t_cmd *cmd, int curr_in, int curr_out, t_mini *mini);
 //builtin
 void	builtin_echo(char **args);
 void	builtin_env(char **env);

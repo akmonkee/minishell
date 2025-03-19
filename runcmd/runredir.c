@@ -6,11 +6,20 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 13:19:27 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/18 12:36:18 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/19 14:47:54 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	dup_std_fd(int curr_fd, int std_fd)
+{
+	if (curr_fd != std_fd)
+	{
+		dup2(curr_fd, std_fd);
+		close(curr_fd);
+	}
+}
 
 int	eof_checker(char *line, char *rule)
 {
@@ -61,16 +70,24 @@ void	here_doc(t_redircmd *rcmd, char *rule)
 		unlink("temp_file");
 }
 
-void	runredir(t_cmd *cmd, t_mini *mini)
+void	runredir(t_cmd *cmd, int curr_in, int curr_out, t_mini *mini)
 {
 	t_redircmd	*rcmd;
 
 	rcmd = (t_redircmd *)cmd;
-	if (rcmd->mode == O_RDONLY)
-		close(0);
-	if (rcmd->mode > O_RDONLY && rcmd->here_doc == 0)
-		close(1);
 	if (rcmd->here_doc == 0)
-		open(rcmd->file, rcmd->mode, 0777);
-	runcmd(rcmd->cmd, mini);
+	{
+		if (curr_in != STDIN_FILENO)
+			close(curr_in);
+		else if (curr_out != STDOUT_FILENO)
+			close(curr_out);
+		if (rcmd->mode == O_RDONLY)
+			curr_in  = open(rcmd->file, rcmd->mode);
+		else if (rcmd->mode > O_RDONLY)
+			curr_out = open(rcmd->file, rcmd->mode, 0777);
+		dup_std_fd(curr_in, STDIN_FILENO);
+		dup_std_fd(curr_out, STDOUT_FILENO);
+	}
+	else
+		here_doc(rcmd, rcmd->file);
 }

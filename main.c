@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:21:33 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/18 11:38:57 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/19 15:30:21 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,11 @@ int	g_exit_code;
 
 void	parse_exe(char *input, t_mini *mini)
 {
-	t_cmd	*cmd;
 
-	cmd = parsecmd(input);
-	runcmd(cmd, mini);
-	freecmd(cmd);
-	free(cmd);
+	mini->cmd = parsecmd(input);
+	runcmd(mini->cmd, STDIN_FILENO, STDOUT_FILENO, mini);
+	freecmd(mini->cmd);
+	free(mini->cmd);
 }
 
 void	start_shell(char **envp)

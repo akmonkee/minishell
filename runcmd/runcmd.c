@@ -6,44 +6,17 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 11:57:08 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/18 11:40:15 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/19 15:35:13 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	doc_cmd(t_cmd *cmd, char **envp)
-{
-	t_pipecmd	*pcmd;
-	t_redircmd	*rcmd;
-
-	if (!cmd)
-	{
-		write(2, "no parse tree\n", 14);
-		exit (1);
-	}
-	if (cmd->type == EXEC)
-	{
-		return ;
-	}
-	else if (cmd->type == PIPE)
-	{
-		pcmd = (t_pipecmd *)cmd;
-		doc_cmd(pcmd->left, envp);
-		doc_cmd(pcmd->right, envp);
-	}
-	else if (cmd->type == REDIR)
-	{
-		rcmd = (t_redircmd *)cmd;
-		if (rcmd->here_doc == 1)
-			here_doc(rcmd, rcmd->file);
-	}
-}
-
-void	runcmd(t_cmd *cmd, t_mini *mini)
+void	runcmd(t_cmd *cmd, int curr_in, int curr_out, t_mini *mini)
 {
 	t_execcmd	*ecmd;
 	t_pipecmd	*pcmd;
+	t_redircmd	*rcmd;
 
 	if (!cmd)
 	{
@@ -65,8 +38,11 @@ void	runcmd(t_cmd *cmd, t_mini *mini)
 	else if (cmd->type == PIPE)
 	{
 		pcmd = (t_pipecmd *)cmd;
-		runpipe(pcmd, mini);
+		runpipe(pcmd, curr_in, curr_out, mini);
 	}
 	else if (cmd->type == REDIR)
-		runredir(cmd, mini);
+	{
+		rcmd = (t_redircmd *)cmd;
+		runcmd(rcmd->cmd, curr_in, curr_out, mini);
+	}
 }
