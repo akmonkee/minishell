@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:21:33 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/19 15:30:21 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/20 14:43:04 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,37 @@ int	g_exit_code;
 
 void	parse_exe(char *input, t_mini *mini)
 {
+	t_execcmd	*ecmd;
+	pid_t		pid;
+	int			exit_status;
 
 	mini->cmd = parsecmd(input);
-	runcmd(mini->cmd, STDIN_FILENO, STDOUT_FILENO, mini);
+	ecmd = (t_execcmd *)mini->cmd;
+	if (mini->cmd && mini->cmd->type == EXEC && control_bt(ecmd->argv[0]))
+		runcmd(mini->cmd, mini);
+	else
+	{
+		signal(SIGQUIT, ign);
+		signal(SIGINT, ign);
+		signal(SIGTERM, ign);
+		pid = fork();
+		if (pid == 0)
+		{
+			runcmd(mini->cmd, mini);
+			exit(0);
+		}
+		else
+		{
+			signal(SIGINT, signal_execve);
+			signal(SIGQUIT, signal_execve);
+			waitpid(pid, &exit_status, 0);
+			signal(SIGINT, signal_handler);
+			signal(SIGTERM, signal_handler);
+			signal(SIGQUIT, ign);
+			if (WIFEXITED(exit_status))
+				g_exit_code = WEXITSTATUS(exit_status);
+		}
+	}
 	freecmd(mini->cmd);
 	free(mini->cmd);
 }

@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:35:28 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/19 15:34:33 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/20 14:42:57 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,6 @@ void	execve_cmd(char **command, t_mini *mini)
 	char	**path;
 	char	*exe_path;
 
-	if (mini->cmd->type == REDIR)
-		runredir(mini->cmd, STDIN_FILENO, STDOUT_FILENO, mini);
 	path = path_finder(mini->env);
 	if (!path)
 	{
@@ -110,29 +108,8 @@ void	execve_cmd(char **command, t_mini *mini)
 
 void	ft_execute_command(char **command, t_mini *mini)
 {
-	int	pid;
-	int	exit_status;
-
 	if (control_bt(command[0]) == 1)
 		exe_bt(command, mini);
 	else
-	{
-		signal(SIGQUIT, ign);
-		signal(SIGINT, ign);
-		signal(SIGTERM, ign);
-		pid = fork();
-		if (pid == 0)
-			execve_cmd(command, mini);
-		else
-		{
-			signal(SIGINT, signal_execve);
-			signal(SIGQUIT, signal_execve);
-			waitpid(pid, &exit_status, 0);
-			signal(SIGINT, signal_handler);
-			signal(SIGTERM, signal_handler);
-			signal(SIGQUIT, ign);
-			if (WIFEXITED(exit_status))
-				g_exit_code = WEXITSTATUS(exit_status);
-		}
-	}
+		execve_cmd(command, mini);
 }

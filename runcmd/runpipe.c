@@ -6,13 +6,13 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 11:59:25 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/19 12:46:52 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/20 14:35:57 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	runpipe(t_pipecmd *pcmd, int curr_in, int curr_out, t_mini *mini)
+void	runpipe(t_pipecmd *pcmd, t_mini *mini)
 {
 	int	p[2];
 	int	pid_left;
@@ -27,7 +27,9 @@ void	runpipe(t_pipecmd *pcmd, int curr_in, int curr_out, t_mini *mini)
 		dup(p[1]);
 		close(p[0]);
 		close(p[1]);
-		runcmd(pcmd->left, curr_in, curr_out, mini);
+		runcmd(pcmd->left, mini);
+		freecmd(mini->cmd);
+		free(mini->cmd);
 		mtxs_free(mini->env);
 		free(mini);
 		exit(g_exit_code);
@@ -39,7 +41,9 @@ void	runpipe(t_pipecmd *pcmd, int curr_in, int curr_out, t_mini *mini)
 		dup(p[0]);
 		close(p[0]);
 		close(p[1]);
-		runcmd(pcmd->right, curr_in, curr_out, mini);
+		runcmd(pcmd->right, mini);
+		freecmd(mini->cmd);
+		free(mini->cmd);
 		mtxs_free(mini->env);
 		free(mini);
 		exit(g_exit_code);
