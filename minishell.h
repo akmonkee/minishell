@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/20 14:37:43 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/24 16:21:50 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,9 +113,7 @@ void	ign(int sig);
 void	signal_execve(int sig);
 void	signal_handler(int sig);
 //utils/quote_utils
-int		parse_squote(char *s, char *es);
-int		check_singleq(char *q);
-char	*quote_man(char *q, char *eq);
+int		parse_squote(char *s, char *es, char flag);
 //utils/utils
 char	*name_extractor(char *q, char *eq);
 int		ft_strchr(char *comp, char s);

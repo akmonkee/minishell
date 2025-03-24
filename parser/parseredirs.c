@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 12:58:05 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/11 10:42:46 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/24 16:13:13 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,7 @@ t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es)
 			write(2, "Error\n missing file for redirection\n", 36);
 			exit (1);
 		}
-		if (check_singleq(q))
-			name = quote_man(q, eq);
-		else
-			name = name_extractor(q, eq);
+		name = name_extractor(q, eq);
 		if (tok[0] == '<')
 			cmd = redircmd(cmd, name, 0, O_RDONLY);
 		else if (tok[0] == '>')

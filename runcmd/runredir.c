@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 13:19:27 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/20 14:37:17 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/24 17:28:13 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,17 +73,20 @@ void	here_doc(t_redircmd *rcmd, char *rule)
 void	runredir(t_cmd *cmd, t_mini *mini)
 {
 	t_redircmd	*rcmd;
+	char		*name;
 
 	rcmd = (t_redircmd *)cmd;
+	name = var_content_elab(rcmd->file, mini->env);
 	if (rcmd->here_doc == 0)
 	{
 		if (rcmd->mode == O_RDONLY)
 			close(0);
 		else if (rcmd->mode > O_RDONLY)
 			close(1);
-		open(rcmd->file, rcmd->mode, 0777);
+		open(name, rcmd->mode, 0777);
 	}
 	else
-		here_doc(rcmd, rcmd->file);
+		here_doc(rcmd, name);
+	free(name);
 	runcmd(rcmd->cmd, mini);
 }

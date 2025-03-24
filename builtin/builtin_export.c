@@ -20,14 +20,14 @@ char	what_is_next(char *str, int flag)
 	while (str[i])
 	{
 		if (str[i] == '\'' && flag != 1)
-		return (39);
-	if (str[i] == '\"')
-	return (34);
-if (str[i] == '$' && flag == 1)
-return (36);
-i++;
-}
-return (0);
+			return (39);
+		if (str[i] == '\"')
+			return (34);
+		if (str[i] == '$' && flag == 1)
+			return (36);
+		i++;
+	}
+	return (0);
 }
 
 void	**ft_realloc(char **mtx, int size)
