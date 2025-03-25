@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:39:13 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/24 14:33:46 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/25 10:24:27 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,17 +127,16 @@ char	*var_content_elab(char* var_c, char **env)
 		if (var_c[k] && var_c[k] != 34 && var_c[k] != 39)
 		{
 			ret = exp_not_in_q(var_c + k, ret, env);
-			while (var_c[++k] && var_c[k] != what_is_next(var_c + k, 0))
-				if (var_c[k + 1] == 0)
-					break ;
+			move_t_point(var_c, &k, 0);
 		}
 		if ((var_c[k] == 34 || var_c[k] == 39))
 		{
 			flag = var_c[k];
 			ret = quote_elab(var_c + k, flag, ret, env);
-			while (var_c[++k] && var_c[k] != flag)
-				;
+			move_t_point(var_c, &k, flag);
 		}
+		if (var_c[k] == '\0')
+			break ;
 	}
 	return (ret);
 }

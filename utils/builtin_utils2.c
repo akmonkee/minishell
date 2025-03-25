@@ -6,11 +6,30 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:19:49 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/17 12:57:21 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/25 10:24:38 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	move_t_point(char *var_c, int *k, int flag)
+{
+	int	i;
+
+	i = *k;
+	if (flag != '\0')
+	{
+		while (var_c[++i] && var_c[i] != flag)
+			;
+	}
+	else
+	{
+		while (var_c[++i] && var_c[i] != what_is_next(var_c + i, 0))
+			if (var_c[i + 1] == 0)
+				break ;
+	}
+	*k = i;
+}
 
 int	ft_strlen_g(const char *str)
 {

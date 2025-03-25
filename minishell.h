@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/24 16:21:50 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/25 10:24:20 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,6 +210,7 @@ void	**export_ccc(char *var, char **env);
 void	**ft_realloc(char **mtx, int size);
 void	**builtin_export(char **input, char **env);
 //utils/builtin_utils2
+void	move_t_point(char *var_c, int *k, int flag);
 int		ft_strlen_g(const char *str);
 int		builtin_exec(char **command, char **envp);
 char	**env_cloner(char **envp);
