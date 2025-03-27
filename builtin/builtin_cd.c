@@ -117,7 +117,7 @@ void	**builtin_cd(char *input, char **env)
 
 	i = 0;
 	curr_pwd = true_pwd_ex();
-	if (!input || ft_strncmp(input, "/", 1) == 0)
+	if (!input || fullcmp(input, "/") == 0)
 	{
 		path = var_ex("/", '\0');
 		chdir(path);

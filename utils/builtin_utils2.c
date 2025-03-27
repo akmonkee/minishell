@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:19:49 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/25 10:24:38 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/27 14:29:55 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,24 @@ int	ft_strlen_g(const char *str)
 	while (str[i] != '\0')
 		i++;
 	return (i);
+}
+
+int	fullcmp(char *input, char *sample)
+{
+	char	*ex_in;
+	int		i;
+	int		ret;
+
+	i = -1;
+	ret = 0;
+	ex_in = var_ex(input, ' ');
+	if (ft_strlen_g(sample) != ft_strlen_g(ex_in))
+		ret = 1;
+	while(ret != 1 && ++i < ft_strlen_g(ex_in))
+		if (ex_in[i] != sample[i])
+			ret = 1;
+	free(ex_in);
+	return (ret);
 }
 
 char	**env_cloner(char **envp)

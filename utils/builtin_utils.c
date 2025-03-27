@@ -84,29 +84,29 @@ void	exe_bt(char **input, t_mini *mini)
 	tmp = NULL;
 	if (!input)
 		return ;
-	if (ft_strncmp(input[0], "exit", 4) == 0)
+	if (fullcmp(input[0], "exit") == 0)
 		builtin_exit(input);
-	else if (ft_strncmp(input[0], "cd", 2) == 0)
+	else if (fullcmp(input[0], "cd") == 0)
 		tmp = (char **)builtin_cd(input[1], mini->env);
-	else if (ft_strncmp(input[0], "export", 6) == 0)
+	else if (fullcmp(input[0], "export") == 0)
 		tmp = (char **)builtin_export(input, mini->env);
-	else if (ft_strncmp(input[0], "unset", 5) == 0)
+	else if (fullcmp(input[0], "unset") == 0)
 		builtin_unset(input, mini);
-	else if (ft_strncmp(input[0], "pwd", 3) == 0)
+	else if (fullcmp(input[0], "pwd") == 0)
 	{
 		if (input[1] != NULL)
 			g_exit_code = 2;
 		else
 			builtin_pwd(mini->env);
 	}
-	else if (ft_strncmp(input[0], "env", 3) == 0)
+	else if (fullcmp(input[0], "env") == 0)
 	{
 		if (input[1] != NULL)
 			g_exit_code = 2;
 		else
 			builtin_env(mini->env);
 	}
-	else if (ft_strncmp(input[0], "echo", 4) == 0)
+	else if (fullcmp(input[0], "echo") == 0)
 		builtin_echo(input);
 	else
 		tmp = NULL;
@@ -125,19 +125,19 @@ int	control_bt(char *input)
 	ret = 0;
 	if (!input)
 		return (1);
-	if (ft_strncmp(input, "cd", 2) == 0)
+	if (fullcmp(input, "cd") == 0)
 		ret = 1;
-	else if (ft_strncmp(input, "exit", 4) == 0)
+	else if (fullcmp(input, "exit") == 0)
 		ret = 1;
-	else if (ft_strncmp(input, "export", 6) == 0)
+	else if (fullcmp(input, "export") == 0)
 		ret = 1;
-	else if (ft_strncmp(input, "unset", 5) == 0)
+	else if (fullcmp(input, "unset") == 0)
 		ret = 1;
-	else if (ft_strncmp(input, "pwd", 5) == 0)
+	else if (fullcmp(input, "pwd") == 0)
 		ret = 1;
-	else if (ft_strncmp(input, "env", 5) == 0)
+	else if (fullcmp(input, "env") == 0)
 		ret = 1;
-	else if (ft_strncmp(input, "echo", 5) == 0)
+	else if (fullcmp(input, "echo") == 0)
 		ret = 1;
 	return (ret);
 }
