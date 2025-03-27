@@ -43,8 +43,11 @@ char	*path_builder(char *input, char *curr_pwd)
 	char	*path;
 	char	**split;
 
+	if (ft_strlen_g(curr_pwd) != 1)
+		path = strjoin_path(curr_pwd, 0);
+	else
+		path = var_ex(curr_pwd, '\0');
 	split = ft_split_bt(input, '/');
-	path = strjoin_path(curr_pwd, 0);
 	i = -1;
 	while (split[++i] != NULL)
 	{
@@ -114,12 +117,15 @@ void	**builtin_cd(char *input, char **env)
 
 	i = 0;
 	curr_pwd = true_pwd_ex();
-	input+=2;
-	while (*input == ' ' && *input != '\0')
-		input++;
+	if (!input || ft_strncmp(input, "/", 1) == 0)
+	{
+		path = var_ex("/", '\0');
+		chdir(path);
+		ret_env = (char **)env_mod(path, curr_pwd, env);
+		return ((void **) ret_env);
+	}
 	path = path_builder(input, curr_pwd);
 	path = ft_strjoinf2("/", path);
-	chdir(path);
 	if (chdir(path) == -1)
 	{
 		printf("cd: %s: No such file or directory\n", path);

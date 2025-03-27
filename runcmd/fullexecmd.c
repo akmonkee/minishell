@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:35:28 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/25 10:06:16 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/25 10:33:56 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,29 +87,35 @@ char	*cmd_check(char **path, char *command)
 	return (NULL);
 }
 
+char	**command_elab(char **command, t_mini *mini)
+{
+	char	**ret;
+	int		i;
+
+	i = 0;
+	ret = malloc(sizeof(char *) * (mtx_len(command) + 1));
+	while (i < mtx_len(command))
+	{
+		ret[i] = var_content_elab(command[i], mini->env);
+		i++;
+	}
+	ret[i] = NULL;
+	return (ret);
+}
+
 void	execve_cmd(char **command, t_mini *mini)
 {
 	char	**path;
 	char	*exe_path;
 	char	**elab_cmd;
-	int		i;
 
-	i = 0;
 	path = path_finder(mini->env);
-	elab_cmd = malloc(sizeof(char *) * (mtx_len(command) + 1));
-	while (i < mtx_len(command))
-	{
-		elab_cmd[i] = var_content_elab(command[i], mini->env);
-		printf("%s\n", elab_cmd[i]);
-		i++;
-	}
-	elab_cmd[i] = NULL;
 	if (!path)
 	{
 		perror("unable to create path\n");
-		mtxs_free(elab_cmd);
 		exit (1);
 	}
+	elab_cmd = command_elab(command, mini);
 	if (access(elab_cmd[0], X_OK) == 0)
 		exe_path = var_ex(elab_cmd[0], '\0');
 	else

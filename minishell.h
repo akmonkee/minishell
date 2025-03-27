@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/25 10:24:20 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/27 10:35:28 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,7 @@ char	*ft_strjoin(char *path, char *cmd);
 void	ffree(char *str);
 void	mtxs_free(char **mtx);
 char	*cmd_check(char **path, char *command);
+char	**command_elab(char **command, t_mini *mini);
 void	execve_cmd(char **command, t_mini *mini);
 void	ft_execute_command(char **command, t_mini *mini);
 //runcmd/pathfinder
