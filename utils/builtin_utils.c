@@ -107,7 +107,7 @@ void	exe_bt(char **input, t_mini *mini)
 			builtin_env(mini->env);
 	}
 	else if (fullcmp(input[0], "echo") == 0)
-		builtin_echo(input);
+		builtin_echo(input, mini->env);
 	else
 		tmp = NULL;
 	if (tmp)
