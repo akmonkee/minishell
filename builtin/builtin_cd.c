@@ -116,6 +116,8 @@ void	**builtin_cd(char *input, char **env)
 	int		i;
 
 	i = 0;
+	if (!env)
+		return (NULL);
 	curr_pwd = true_pwd_ex();
 	if (!input || fullcmp(input, "/") == 0)
 	{

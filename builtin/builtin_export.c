@@ -112,6 +112,8 @@ void	**builtin_export(char **input, char **env)
 	int		i;
 
 	i = 1;
+	if (!env)
+		return (NULL);
 	if (input[i] == NULL)
 	{
 		sort_env(env);

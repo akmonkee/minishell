@@ -61,6 +61,8 @@ void	builtin_unset(char **input, t_mini *mini)
 	int		i;
 
 	i = 1;
+	if (!mini->env)
+		return ;
 	if (input[i] == NULL)
 	{
 		printf("unset: not enough arguments\n");

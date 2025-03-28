@@ -17,6 +17,8 @@ void	builtin_env(char **env)
 	int	i;
 
 	i = 0;
+	if (!env)
+		return ;
 	while (env[i])
 	{
 		if (ft_strchr(env[i], '='))
