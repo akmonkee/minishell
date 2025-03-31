@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/28 11:57:44 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/31 11:48:44 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,6 +194,7 @@ void	**builtin_cd(char *input, char **env);
 int		ft_isalpha(int c);
 int		ft_isalnum(int c);
 int		arg_validation(char	*arg);
+char	*ft_itoa(int n);
 //builtin/export_print
 void	p_export(char **env_cp);
 void	sort_env(char **env);
