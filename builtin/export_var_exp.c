@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:39:13 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/31 12:10:50 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/31 13:31:18 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,50 +34,6 @@ char	*find_n_ret(char *name, char **env)
 		free(ex_env);
 	}
 	return (NULL);
-}
-
-char	*ambient_value(char* str, char **env)
-{
-	int		i;
-	char	*tmp;
-	char	*res;
-	char	*ret;
-
-	i = -1;
-	ret = NULL;
-	while (str[++i])
-	{
-		if (str[i] == '$')
-		{
-			if (str[i + 1] == '\0')
-			{
-				ret = var_ex(str, '\0');
-				break ;
-			}
-			if (!ret)
-				ret = var_ex(str, '$');
-			if (str[i + 1] == '?')
-			{
-				res = ft_itoa(g_exit_code);
-				if (str[i + 2] != '$')
-				{
-					tmp = var_ex(str + i + 2, what_is_next(str + i, 2));
-					res = ft_strjoinf12(res, tmp);
-				}
-			}
-			else if (str[i + 1] != '\0')
-			{
-				tmp = var_ex(str + i + 1, what_is_next(str + i, 1));
-				res = find_n_ret(tmp, env);
-				free(tmp);
-			}
-			if (res)
-				ret = ft_strjoinf12(ret, res);
-		}
-	}
-	if (!ret && what_is_next(str, 1) != 36)
-		return(var_ex(str, '\0'));
-	return (ret);
 }
 
 char	*exp_not_in_q(char *str, char *ret, char **env)

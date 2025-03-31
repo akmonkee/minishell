@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/31 11:48:44 by msisto           ###   ########.fr       */
+/*   Updated: 2025/03/31 13:31:45 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,9 +202,10 @@ void	sort_env(char **env);
 char	*ft_strjoinf1(char *s1, char *s2);
 char	*ft_strjoinf2(char *s1, char *s2);
 char	*ft_strjoinf12(char *s1, char *s2);
+//builtin/export_av_n_ll
+char	*ambient_value(char *str, char **env);
 //builtin/export_var_exp
 char	*find_n_ret(char *name, char **env);
-char	*ambient_value(char* str, char **env);
 char	*exp_not_in_q(char *str, char *ret, char **env);
 char	*quote_elab(char *str, int flag, char *ret, char **env);
 char	*var_content_elab(char* var_c, char **env);
