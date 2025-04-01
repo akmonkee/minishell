@@ -6,11 +6,28 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 11:59:25 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/20 14:35:57 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/01 12:59:51 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static void	pipe_side(t_pipecmd *pcmd, int *p, int channel, t_mini *mini)
+{
+	close(channel);
+	dup(p[channel]);
+	close(p[0]);
+	close(p[1]);
+	if (channel == 1)
+		runcmd(pcmd->left, mini);
+	else
+		runcmd(pcmd->right, mini);
+	freecmd(mini->cmd);
+	free(mini->cmd);
+	mtxs_free(mini->env);
+	free(mini);
+	exit(g_exit_code);
+}
 
 void	runpipe(t_pipecmd *pcmd, t_mini *mini)
 {
@@ -22,32 +39,10 @@ void	runpipe(t_pipecmd *pcmd, t_mini *mini)
 	pipe(p);
 	pid_left = fork();
 	if (pid_left == 0)
-	{
-		close(1);
-		dup(p[1]);
-		close(p[0]);
-		close(p[1]);
-		runcmd(pcmd->left, mini);
-		freecmd(mini->cmd);
-		free(mini->cmd);
-		mtxs_free(mini->env);
-		free(mini);
-		exit(g_exit_code);
-	}
+		pipe_side(pcmd, p, 1, mini);
 	pid_right = fork();
 	if (pid_right == 0)
-	{
-		close(0);
-		dup(p[0]);
-		close(p[0]);
-		close(p[1]);
-		runcmd(pcmd->right, mini);
-		freecmd(mini->cmd);
-		free(mini->cmd);
-		mtxs_free(mini->env);
-		free(mini);
-		exit(g_exit_code);
-	}
+		pipe_side(pcmd, p, 0, mini);
 	close(p[0]);
 	close(p[1]);
 	waitpid(pid_left, &exit_status, 0);

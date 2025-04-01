@@ -64,10 +64,7 @@ void	builtin_unset(char **input, t_mini *mini)
 	if (!mini->env)
 		return ;
 	if (input[i] == NULL)
-	{
-		printf("unset: not enough arguments\n");
 		return ;
-	}
 	while (input[i] != NULL)
 	{
 		unset_ccc(input[i], mini->env);

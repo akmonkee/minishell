@@ -6,33 +6,11 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:35:28 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/25 10:33:56 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/01 13:36:14 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-char	*ft_strjoin(char *path, char *cmd)
-{
-	int		i;
-	int		c;
-	char	*fcmd;
-
-	if (!cmd)
-		return (NULL);
-	fcmd = malloc(ft_strlen(path) + ft_strlen(cmd) + 1);
-	if (!fcmd)
-		return (NULL);
-	i = 0;
-	c = 0;
-	while (path[i])
-		fcmd[c++] = path[i++];
-	i = 0;
-	while (cmd[i])
-		fcmd[c++] = cmd[i++];
-	fcmd[c] = '\0';
-	return (fcmd);
-}
 
 void	ffree(char *str)
 {
@@ -111,10 +89,7 @@ void	execve_cmd(char **command, t_mini *mini)
 
 	path = path_finder(mini->env);
 	if (!path)
-	{
-		perror("unable to create path\n");
-		exit (1);
-	}
+		panic_fun(command[0], ": No such file or directory\n", 1, 1);
 	elab_cmd = command_elab(command, mini);
 	if (access(elab_cmd[0], X_OK) == 0)
 		exe_path = var_ex(elab_cmd[0], '\0');

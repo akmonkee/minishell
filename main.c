@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:21:33 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/28 11:31:13 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/01 13:27:25 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,39 +14,55 @@
 
 int	g_exit_code;
 
+void	panic_fun(char *pre, char *input, int e_code, int exit_flag)
+{
+	char	*c_msg;
+
+	c_msg = ft_strjoin(pre , input);
+	perror(c_msg);
+	free(c_msg);
+	g_exit_code = e_code;
+	if (exit_flag == 1)
+		exit(g_exit_code);
+}
+
+static void	pexe_ll(t_mini *mini)
+{
+	pid_t		pid;
+	int			exit_status;
+
+	signal(SIGQUIT, ign);
+	signal(SIGINT, ign);
+	signal(SIGTERM, ign);
+	pid = fork();
+	if (pid == 0)
+	{
+		runcmd(mini->cmd, mini);
+		exit(0);
+	}
+	else
+	{
+		signal(SIGINT, signal_execve);
+		signal(SIGQUIT, signal_execve);
+		waitpid(pid, &exit_status, 0);
+		signal(SIGINT, signal_handler);
+		signal(SIGTERM, signal_handler);
+		signal(SIGQUIT, ign);
+		if (WIFEXITED(exit_status))
+			g_exit_code = WEXITSTATUS(exit_status);
+	}
+}
+
 void	parse_exe(char *input, t_mini *mini)
 {
 	t_execcmd	*ecmd;
-	pid_t		pid;
-	int			exit_status;
 
 	mini->cmd = parsecmd(input);
 	ecmd = (t_execcmd *)mini->cmd;
 	if (mini->cmd && mini->cmd->type == EXEC && control_bt(ecmd->argv[0]))
 		runcmd(mini->cmd, mini);
 	else
-	{
-		signal(SIGQUIT, ign);
-		signal(SIGINT, ign);
-		signal(SIGTERM, ign);
-		pid = fork();
-		if (pid == 0)
-		{
-			runcmd(mini->cmd, mini);
-			exit(0);
-		}
-		else
-		{
-			signal(SIGINT, signal_execve);
-			signal(SIGQUIT, signal_execve);
-			waitpid(pid, &exit_status, 0);
-			signal(SIGINT, signal_handler);
-			signal(SIGTERM, signal_handler);
-			signal(SIGQUIT, ign);
-			if (WIFEXITED(exit_status))
-				g_exit_code = WEXITSTATUS(exit_status);
-		}
-	}
+		pexe_ll(mini);
 	freecmd(mini->cmd);
 	free(mini->cmd);
 }

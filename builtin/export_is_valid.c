@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 15:07:26 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/31 11:49:37 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/01 13:44:51 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,27 +26,27 @@ int	ft_isalnum(int c)
 
 int	arg_validation(char	*arg)
 {
+	char	*name;
 	int	i;
 
 	i = -1;
+	name = var_ex(arg, '=');
 	if (!ft_isalpha(arg[0]))
 	{
-		perror("not a valid identifier\n");
-		g_exit_code = 1;
-		return (0);
+		panic_fun(name, ": not a valid identifier\n", 1, 0);
+		return (free(name), 0);
 	}
 	while (arg[++i])
 	{
 		if (!ft_isalnum(arg[i]) && arg[i] != '=' && arg[i] != '+')
 		{
-			perror("not a valid identifier\n");
-			g_exit_code = 1;
-			return (0);
+			panic_fun(name, ": not a valid identifier\n", 1, 0);
+			return (free(name), 0);
 		}
 		else if (arg[i] == '=')
-			return (1);
+			return (free(name), 1);
 	}
-	return (0);
+	return (free(name), 0);
 }
 
 static int	size(int num)

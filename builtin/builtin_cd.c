@@ -110,7 +110,6 @@ void	**env_mod(char *path, char *curr_pwd, char **env)
 
 void	**builtin_cd(char *input, char **env)
 {
-	char	**ret_env;
 	char	*curr_pwd;
 	char	*path;
 	int		i;
@@ -123,18 +122,16 @@ void	**builtin_cd(char *input, char **env)
 	{
 		path = var_ex("/", '\0');
 		chdir(path);
-		ret_env = (char **)env_mod(path, curr_pwd, env);
-		return ((void **) ret_env);
+		return (env_mod(path, curr_pwd, env));
 	}
 	path = path_builder(input, curr_pwd);
 	path = ft_strjoinf2("/", path);
 	if (chdir(path) == -1)
 	{
-		printf("cd: %s: No such file or directory\n", path);
+		panic_fun("cd :", input, 1, 0);
 		free(path);
 		free(curr_pwd);
 		return (NULL);
 	}
-	ret_env = (char **)env_mod(path, curr_pwd, env);
-	return ((void **) ret_env);
+	return (env_mod(path, curr_pwd, env));
 }

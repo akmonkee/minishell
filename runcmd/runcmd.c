@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 11:57:08 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/25 10:34:58 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/01 13:47:38 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	runcmd(t_cmd *cmd, t_mini *mini)
 
 	if (!cmd)
 	{
-		perror("no parse tree\n");
+		panic_fun("no parse ", "tree\n", 1, 0);
 		return ;
 	}
 	if (cmd->type == EXEC)
@@ -27,7 +27,7 @@ void	runcmd(t_cmd *cmd, t_mini *mini)
 		ecmd = (t_execcmd *)cmd;
 		if (!ecmd->argv[0])
 		{
-			perror("no args for tree\n");
+			panic_fun("no args ", "for tree\n", 1, 0);
 			return ;
 		}
 		if (!ecmd->eargv[0])
