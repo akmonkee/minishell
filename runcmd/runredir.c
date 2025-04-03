@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 13:19:27 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/24 17:28:13 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/02 12:23:02 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ void	here_doc(t_redircmd *rcmd, char *rule)
 	char	*line;
 	int		fd;
 
-	fd = open("temp_file", rcmd->mode, 0777);
+	fd = open(rule, rcmd->mode, 0777);
 	if (fd == -1)
-		write(2, "Error\nfailed to create temp file\n", 33);
+		panic_fun("minipierpaolo: ", "unable to open heredoc\n", 1, 0);
 	while (1)
 	{
 		line = readline("> ");
@@ -61,13 +61,13 @@ void	here_doc(t_redircmd *rcmd, char *rule)
 	}
 	free(line);
 	close(fd);
-	fd = open("temp_file", O_RDONLY);
+	fd = open(rule, O_RDONLY);
 	if (fd == -1)
-		write(2, "Error\nfailed to open temp file\n", 31);
+		panic_fun("minipierpaolo: ", "unable to open heredoc\n", 1, 0);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
-	if (access("temp_file", R_OK) == 0)
-		unlink("temp_file");
+	if (access(rule, R_OK) == 0)
+		unlink(rule);
 }
 
 void	runredir(t_cmd *cmd, t_mini *mini)
@@ -83,7 +83,8 @@ void	runredir(t_cmd *cmd, t_mini *mini)
 			close(0);
 		else if (rcmd->mode > O_RDONLY)
 			close(1);
-		open(name, rcmd->mode, 0777);
+		if (open(name, rcmd->mode, 0777) == -1)
+			panic_fun("minipierpaolo: ", name, 1, 0);
 	}
 	else
 		here_doc(rcmd, name);
