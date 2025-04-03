@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 10:53:56 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/03 11:19:44 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/03 11:40:03 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,33 @@ t_cmd	*execcmd(void)
 	ft_memset(cmd, 0, sizeof(*cmd));
 	cmd->type = EXEC;
 	return ((t_cmd *)cmd);
+}
+
+static int	s_error(t_cmd *cmd, int tok)
+{
+	if (tok == 0)
+		return (2);
+	else if (tok != 'a' && tok != 39)
+	{
+		panic_fun("Error\n", "syntax\n", 1, 0);
+		nulterminate(cmd);
+		freecmd(cmd);
+		free(cmd);
+		return (1);
+	}
+	return (0);
+}
+
+static int	max_error(t_cmd *cmd, int argc)
+{
+	if (argc == MAXARGS)
+	{
+		panic_fun("Error\n", "too many args\n", 1, 0);
+		freecmd(cmd);
+		free(cmd);
+		return (1);
+	}
+	return (0);
 }
 
 t_cmd	*parseexec(char **ps, char *es, char *q, char *eq)
@@ -36,29 +63,17 @@ t_cmd	*parseexec(char **ps, char *es, char *q, char *eq)
 	while (!peek(ps, es, "|)&;"))
 	{
 		tok = gettoken(ps, es, &q, &eq);
-		if (tok == 0)
+		if (s_error(ret, tok) == 2)
 			break ;
-		else if (tok != 'a' && tok != 39)
-		{
-			panic_fun("Error\n", "syntax\n", 1, 0);
-			nulterminate(ret);
-			freecmd(ret);
-			free(ret);
-			return (NULL);
-		}
+		else
+			if (s_error(ret, tok) == 1)
+				return (NULL);
 		cmd->argv[argc] = q;
 		cmd->eargv[argc] = eq;
 		argc++;
-		if (argc == MAXARGS)
-		{
-			panic_fun("Error\n", "too many args\n", 1, 0);
-			freecmd(ret);
-			free(ret);
+		if (max_error(ret, argc) == 1)
 			return (NULL);
-		}
 		ret = parseredirs(ret, ps, es);
 	}
-	cmd->argv[argc] = 0;
-	cmd->eargv[argc] = 0;
 	return (ret);
 }
