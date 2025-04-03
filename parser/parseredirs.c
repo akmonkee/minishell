@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 12:58:05 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/03 12:28:40 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/03 14:33:40 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,11 @@ static int	mf_error(t_cmd *cmd, t_redircmd *rcmd, int tok)
 
 static void	pr_ull(t_cmd *cmd, t_redircmd *rcmd, char *q, char *eq)
 {
-	char		*name;
-
-	name = name_extractor(q, eq);
 	rcmd->type = REDIR;
 	rcmd->cmd = cmd;
-	rcmd->file = name;
+	if (rcmd->file)
+		free(rcmd->file);
+	rcmd->file = name_extractor(q, eq);
 }
 
 t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es, char *q)

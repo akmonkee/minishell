@@ -103,7 +103,7 @@ void	**export_ccc(char *var, char **env)
 	tmp = (char **)ft_realloc(env, i + 1);
 	tmp[i] = NULL;
 	tmp[i] = a_var_update(var, tmp[i], tmp);
-	return ((void**)tmp);
+	return ((void **) tmp);
 }
 
 void	**builtin_export(char **input, char **env)
