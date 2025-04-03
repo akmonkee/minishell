@@ -6,55 +6,67 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 12:58:05 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/03 10:08:15 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/03 12:28:40 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_cmd	*redircmd(t_cmd *subcmd, char *file, int here_doc, int mode)
+static void	pr_ll(t_redircmd *rcmd, int here_doc, int mode, int fd)
 {
-	t_redircmd	*cmd;
-
-	cmd = malloc(sizeof(*cmd));
-	ft_memset(cmd, 0, sizeof(*cmd));
-	cmd->type = REDIR;
-	cmd->cmd = subcmd;
-	cmd->file = file;
-	cmd->here_doc = here_doc;
-	cmd->mode = mode;
-	if (mode == O_RDONLY)
-		cmd->fd = 0;
-	else if (mode == (O_WRONLY | O_CREAT))
-		cmd->fd = 1;
-	return ((t_cmd *)cmd);
+	rcmd->here_doc = here_doc;
+	rcmd->mode = mode;
+	rcmd->fd = fd;
 }
 
-t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es)
+static int	mf_error(t_cmd *cmd, t_redircmd *rcmd, int tok)
 {
-	int		tok[2];
-	char	*name;
-	char	*q;
-	char	*eq;
+	if (tok != 'a' && tok != 39)
+	{
+		panic_fun("Error\n", "missing file for redirection\n", 2, 0);
+		freecmd(cmd);
+		free(cmd);
+		free(rcmd);
+		return (1);
+	}
+	return (0);
+}
 
+static void	pr_ull(t_cmd *cmd, t_redircmd *rcmd, char *q, char *eq)
+{
+	char		*name;
+
+	name = name_extractor(q, eq);
+	rcmd->type = REDIR;
+	rcmd->cmd = cmd;
+	rcmd->file = name;
+}
+
+t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es, char *q)
+{
+	int			tok[2];
+	char		*eq;
+	t_redircmd	*rcmd;
+
+	rcmd = malloc(sizeof(*rcmd));
+	ft_memset(rcmd, 0, sizeof(*rcmd));
 	while (peek(ps, es, "<>"))
 	{
 		tok[0] = gettoken(ps, es, 0, 0);
 		tok[1] = gettoken(ps, es, &q, &eq);
-		if (tok[1] != 'a' && tok[1] != 39)
-		{
-			write(2, "Error\n missing file for redirection\n", 36);
-			exit (1);
-		}
-		name = name_extractor(q, eq);
+		if (mf_error(cmd, rcmd, tok[1]) == 1)
+			return (NULL);
+		pr_ull(cmd, rcmd, q, eq);
 		if (tok[0] == '<')
-			cmd = redircmd(cmd, name, 0, O_RDONLY);
+			pr_ll(rcmd, 0, O_RDONLY, 0);
 		else if (tok[0] == '>')
-			cmd = redircmd(cmd, name, 0, O_WRONLY | O_CREAT | O_TRUNC);
+			pr_ll(rcmd, 0, O_WRONLY | O_CREAT | O_TRUNC, 1);
 		else if (tok[0] == '+')
-			cmd = redircmd(cmd, name, 0, O_WRONLY | O_CREAT | O_APPEND);
+			pr_ll(rcmd, 0, O_WRONLY | O_CREAT | O_APPEND, 1);
 		else if (tok[0] == '-')
-			cmd = redircmd(cmd, name, 1, O_WRONLY | O_CREAT | O_TRUNC);
+			pr_ll(rcmd, 1, O_WRONLY | O_CREAT | O_APPEND, 1);
 	}
-	return (cmd);
+	if (rcmd->type == REDIR)
+		return ((t_cmd *)rcmd);
+	return (free(rcmd), cmd);
 }

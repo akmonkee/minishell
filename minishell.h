@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/03 10:39:50 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/03 12:13:16 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,8 +136,7 @@ t_cmd	*parsepipe(char **ps, char *es);
 t_cmd	*execcmd(void);
 t_cmd	*parseexec(char **ps, char *es, char *q, char *eq);
 //parseredirs
-t_cmd	*redircmd(t_cmd *subcmd, char *file, int here_doc, int mode);
-t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es);
+t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es, char *q);
 //nulterminate
 t_cmd	*nulterminate(t_cmd *cmd);
 //runcmd/fullexecmd

@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 10:53:56 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/03 11:40:03 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/03 12:13:33 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ static int	s_error(t_cmd *cmd, int tok)
 		free(cmd);
 		return (1);
 	}
+	else if (!cmd)
+		return (1);
 	return (0);
 }
 
@@ -46,6 +48,8 @@ static int	max_error(t_cmd *cmd, int argc)
 		free(cmd);
 		return (1);
 	}
+	if (!cmd)
+		return (1);
 	return (0);
 }
 
@@ -59,7 +63,7 @@ t_cmd	*parseexec(char **ps, char *es, char *q, char *eq)
 	ret = execcmd();
 	cmd = (t_execcmd *) ret;
 	argc = 0;
-	ret = parseredirs(ret, ps, es);
+	ret = parseredirs(ret, ps, es, NULL);
 	while (!peek(ps, es, "|)&;"))
 	{
 		tok = gettoken(ps, es, &q, &eq);
@@ -73,7 +77,7 @@ t_cmd	*parseexec(char **ps, char *es, char *q, char *eq)
 		argc++;
 		if (max_error(ret, argc) == 1)
 			return (NULL);
-		ret = parseredirs(ret, ps, es);
+		ret = parseredirs(ret, ps, es, NULL);
 	}
 	return (ret);
 }
