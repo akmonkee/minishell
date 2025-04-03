@@ -6,18 +6,33 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:55:37 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/03 10:36:51 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/03 16:21:00 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+static void	rcmd_nullterminate(t_cmd *cmd)
+{
+	t_redircmd	*rcmd;
+
+	rcmd = (t_redircmd *)cmd;
+	nulterminate(rcmd->cmd);
+}
+
+static void	pcmd_nullterminate(t_cmd *cmd)
+{
+	t_pipecmd	*pcmd;
+
+	pcmd = (t_pipecmd *)cmd;
+	nulterminate(pcmd->left);
+	nulterminate(pcmd->right);
+}
+
 t_cmd	*nulterminate(t_cmd *cmd)
 {
 	int			i;
 	t_execcmd	*ecmd;
-	t_pipecmd	*pcmd;
-	t_redircmd	*rcmd;
 
 	if (cmd == 0)
 		return (0);
@@ -32,15 +47,8 @@ t_cmd	*nulterminate(t_cmd *cmd)
 		}
 	}
 	else if (cmd->type == REDIR)
-	{
-		rcmd = (t_redircmd *)cmd;
-		nulterminate(rcmd->cmd);
-	}
+		rcmd_nullterminate(cmd);
 	else if (cmd->type == PIPE)
-	{
-		pcmd = (t_pipecmd *)cmd;
-		nulterminate(pcmd->left);
-		nulterminate(pcmd->right);
-	}
+		pcmd_nullterminate(cmd);
 	return (cmd);
 }

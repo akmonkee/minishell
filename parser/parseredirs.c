@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 12:58:05 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/03 14:33:40 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/03 16:06:17 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,24 @@ static void	pr_ull(t_cmd *cmd, t_redircmd *rcmd, char *q, char *eq)
 	rcmd->file = name_extractor(q, eq);
 }
 
-t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es, char *q)
+static t_redircmd	*rcmd_alloc(void)
 {
-	int			tok[2];
-	char		*eq;
 	t_redircmd	*rcmd;
 
 	rcmd = malloc(sizeof(*rcmd));
 	ft_memset(rcmd, 0, sizeof(*rcmd));
-	while (peek(ps, es, "<>"))
+	return (rcmd);
+}
+
+t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es, char *flag)
+{
+	int			tok[2];
+	char		*q;
+	char		*eq;
+	t_redircmd	*rcmd;
+
+	rcmd = rcmd_alloc();
+	while (peek(ps, es, flag))
 	{
 		tok[0] = gettoken(ps, es, 0, 0);
 		tok[1] = gettoken(ps, es, &q, &eq);

@@ -6,11 +6,39 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 11:30:33 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/03 11:18:33 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/03 16:23:55 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static void	ffree(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		str[i] = '\0';
+		i++;
+	}
+	free(str);
+}
+
+void	mtxs_free(char **mtx)
+{
+	int	i;
+
+	i = 0;
+	if (!mtx)
+		return ;
+	while (mtx[i])
+	{
+		ffree(mtx[i]);
+		i++;
+	}
+	free(mtx);
+}
 
 void	freepipe(t_cmd *cmd)
 {

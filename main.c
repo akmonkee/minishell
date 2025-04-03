@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:21:33 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/03 11:08:04 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/03 17:48:57 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,10 @@ void	start_shell(char **envp)
 	char	*input;
 	t_mini	*mini;
 
-	input = NULL;
 	mini = malloc(sizeof(*mini));
 	ft_memset(mini, 0, sizeof(*mini));
 	mini->env = env_cloner(envp);
-	printf("%s", IMG);
+	print_pierpaolo();
 	while (1)
 	{
 		input = readline("minipierpaolo> ");

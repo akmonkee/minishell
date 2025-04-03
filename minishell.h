@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/03 12:13:16 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/03 17:29:01 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,22 +27,6 @@
 # include <sys/ioctl.h>
 # include <termcap.h>
 # include <termios.h>
-
-# define IMG "......,,:::,,..,;+++;;:,,:::;;;+;;:,.,,:::,,.............,,:::,,..,;+++;;:,,:::;;;+;;:,.,,:::,,......\n" \
-"....,+****+;;::;;;;;;;;;;;;;;;;;;;;::;++****+,.........,+****+;;::;;;;;;;;;;;;;;;;;;;;::;++****+,....\n" \
-"....;**++;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::;;+**,.........;**++;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::;;+**,....\n" \
-"....,;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;::::,,........,;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;::::,,...\n" \
-"..,;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:;:;;;;;::.....,;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:;:;;;;;::..\n" \
-".:;;;;;;;+?S%+;;;;;;;;;;;;;;;;;;;;;;;;%%?;;;;;;;:,..:;;;;;;;+?S%+;;;;;;;;;;;;;;;;;;;;;;;;%%?;;;;;;;:,\n" \
-":;;;;;;;;;***;;;;;;;;;;;;;;;;;;;;;;;;;+**;;;;;;;;:.:;;;;;;;;;***;;;;;;;;;;;;;;;;;;;;;;;;;+**;;;;;;;;:\n" \
-";;;;+++;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;++;;;;.;;;;+++;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;++;;;;\n" \
-":;;;++*+++******************++++++++++++++;++;;;;:.:;;;++*+++******************++++++++++++++;++;;;;:\n" \
-",:;;;;;;;+++++++++++****+*+++++++++++++++;;;;;;;:..,:;;;;;;;+++++++++++****+*+++++++++++++++;;;;;;;:.\n" \
-"..,;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:.....,;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:..\n" \
-"....,:;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:,........,:;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:,...\n" \
-".....:+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;,...........:+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;,.....\n" \
-".....,:;;;;+++++++++++++++++++++++++++;;;;;:,...........,:;;;;+++++++++++++++++++++++++++;;;;;:,.....\n" \
-".......,:;;;;:,,,,,,::::::::::::,,,:;+++;;:...............,:;;;;:,,,,,,::::::::::::,,,:;+++;;:.......\n"
 
 # define WHITE_SPACE " \t\r\n\v"
 # define SYMBOLS "<|>"
@@ -95,11 +79,14 @@ typedef struct s_pipecmd
 	t_cmd	*right;
 }	t_pipecmd;
 
+//pierpaolo
+void	print_pierpaolo(void);
 //main
 void	panic_fun(char *pre, char *input, int e_code, int exit_flag);
 void	parse_exe(char *input, t_mini *mini);
 void	start_shell(char **envp);
 //utils/freecmd
+void	mtxs_free(char **mtx);
 void	freepipe(t_cmd *cmd);
 void	freecmd(t_cmd *cmd);
 //utils/signal_utils
@@ -136,12 +123,10 @@ t_cmd	*parsepipe(char **ps, char *es);
 t_cmd	*execcmd(void);
 t_cmd	*parseexec(char **ps, char *es, char *q, char *eq);
 //parseredirs
-t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es, char *q);
+t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es, char *flag);
 //nulterminate
 t_cmd	*nulterminate(t_cmd *cmd);
 //runcmd/fullexecmd
-void	ffree(char *str);
-void	mtxs_free(char **mtx);
 char	*cmd_check(char **path, char *command);
 char	**command_elab(char **command, t_mini *mini);
 void	execve_cmd(char **command, t_mini *mini);
@@ -157,13 +142,14 @@ void	runcmd(t_cmd *cmd, t_mini *mini);
 //runcmd/runpipe
 void	runpipe(t_pipecmd *pcmd, t_mini *mini);
 //runcmd/runredir
-void	dup_std_fd(int curr_fd, int std_fd);
 int		eof_checker(char *line, char *rule);
 void	here_doc(t_redircmd *rcmd, char *rule);
 void	runredir(t_cmd *cmd, t_mini *mini);
-//builtin
-void	builtin_env(char **env);
+//builtin/exit
 void	builtin_exit(char **input);
+//builtin/env
+void	env_bt(char *input, t_mini *mini);
+void	builtin_env(char **env);
 //builtin/builtin_echo
 int		check_option_n(char *str);
 void	print_with_env(char **arg, int i, char **env);

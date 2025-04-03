@@ -12,6 +12,14 @@
 
 #include "../minishell.h"
 
+void	env_bt(char *input, t_mini *mini)
+{
+	if (input)
+		panic_fun("env: ", input, 127, 0);
+	else
+		builtin_env(mini->env);
+}
+
 void	builtin_env(char **env)
 {
 	int	i;

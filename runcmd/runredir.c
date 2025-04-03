@@ -6,20 +6,11 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 13:19:27 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/03 12:12:05 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/03 16:30:36 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	dup_std_fd(int curr_fd, int std_fd)
-{
-	if (curr_fd != std_fd)
-	{
-		dup2(curr_fd, std_fd);
-		close(curr_fd);
-	}
-}
 
 int	eof_checker(char *line, char *rule)
 {
@@ -39,6 +30,13 @@ int	eof_checker(char *line, char *rule)
 	return (0);
 }
 
+static void	hd_write(char *line, int fd)
+{
+	write(fd, line, ft_strlen_g(line));
+	write(fd, "\n", 1);
+	free(line);
+}
+
 void	here_doc(t_redircmd *rcmd, char *rule)
 {
 	char	*line;
@@ -53,11 +51,7 @@ void	here_doc(t_redircmd *rcmd, char *rule)
 		if (eof_checker(line, rule) == 1)
 			break ;
 		if (line)
-		{
-			write(fd, line, ft_strlen_g(line));
-			write(fd, "\n", 1);
-			free(line);
-		}
+			hd_write(line, fd);
 	}
 	free(line);
 	close(fd);

@@ -6,39 +6,11 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:35:28 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/01 13:36:14 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/03 16:23:37 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	ffree(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		str[i] = '\0';
-		i++;
-	}
-	free(str);
-}
-
-void	mtxs_free(char **mtx)
-{
-	int	i;
-
-	i = 0;
-	if (!mtx)
-		return ;
-	while (mtx[i])
-	{
-		ffree(mtx[i]);
-		i++;
-	}
-	free(mtx);
-}
 
 char	*cmd_check(char **path, char *command)
 {

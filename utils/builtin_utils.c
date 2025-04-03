@@ -93,23 +93,11 @@ void	exe_bt(char **input, t_mini *mini)
 	else if (fullcmp(input[0], "unset") == 0)
 		builtin_unset(input, mini);
 	else if (fullcmp(input[0], "pwd") == 0)
-	{
-		if (input[1] != NULL)
-			g_exit_code = 2;
-		else
-			builtin_pwd(mini->env);
-	}
+		builtin_pwd(mini->env);
 	else if (fullcmp(input[0], "env") == 0)
-	{
-		if (input[1] != NULL)
-			g_exit_code = 2;
-		else
-			builtin_env(mini->env);
-	}
+		env_bt(input[1], mini);
 	else if (fullcmp(input[0], "echo") == 0)
 		builtin_echo(input, mini->env);
-	else
-		tmp = NULL;
 	if (tmp)
 	{
 		mtxs_free(mini->env);

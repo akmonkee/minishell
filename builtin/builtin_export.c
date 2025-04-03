@@ -83,9 +83,9 @@ void	**export_ccc(char *var, char **env)
 	char	*ex_env;
 	int		i;
 
-	i = 0;
+	i = -1;
 	ex_var = var_ex(var, '=');
-	while (env[i] != NULL)
+	while (env[++i] != NULL)
 	{
 		ex_env = var_ex(env[i], '=');
 		if (varcmp(ex_var, ex_env, ft_strlen_g(ex_var)) == 1)
@@ -96,7 +96,6 @@ void	**export_ccc(char *var, char **env)
 			return ((void **)env);
 		}
 		free(ex_env);
-		i++;
 	}
 	free(ex_var);
 	i = mtx_len(env);

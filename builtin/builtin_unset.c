@@ -15,7 +15,7 @@
 void	remove_env_var(char **env, int i)
 {
 	char	*tmp;
-	
+
 	while (env[i + 1] != NULL)
 	{
 		tmp = env[i];

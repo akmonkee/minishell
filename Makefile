@@ -1,6 +1,6 @@
 NAME = minishell
 
-SRC = main.c \
+SRC = main.c pierpaolo.c\
 parser/parse.c parser/parse2.c parser/parsepipe.c parser/parseexec.c parser/nulterminate.c parser/parseredirs.c parser/parsequotes.c \
 utils/utils.c utils/utils_2.c utils/freecmd.c utils/signal_utils.c utils/quote_utils.c utils/builtin_utils.c utils/builtin_utils2.c \
 runcmd/runcmd.c runcmd/pathfinder.c runcmd/fullexecmd.c runcmd/runpipe.c runcmd/runredir.c \

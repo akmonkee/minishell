@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:39:13 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/03 10:16:33 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/03 16:45:45 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,23 @@ char	*exp_not_in_q(char *str, char *ret, char **env)
 	return (ret);
 }
 
+static char	*qe_ll(char *str, int flag, char **env)
+{
+	char	*b_quote;
+	char	*tmp;
+
+	b_quote = var_ex(str + 1, flag);
+	tmp = ambient_value(b_quote, env);
+	free(b_quote);
+	return (tmp);
+}
+
 char	*quote_elab(char *str, int flag, char *ret, char **env)
 {
 	char	*tmp;
-	char	*b_quote;
 
 	if (flag == '\"')
-	{
-		b_quote = var_ex(str + 1, flag);
-		tmp = ambient_value(b_quote, env);
-		free(b_quote);
-	}
+		tmp = qe_ll(str, flag, env);
 	if (!ret)
 	{
 		if (flag == '\"')

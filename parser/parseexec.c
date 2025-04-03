@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 10:53:56 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/03 12:13:33 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/03 17:11:29 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,13 @@ t_cmd	*execcmd(void)
 
 static int	s_error(t_cmd *cmd, int tok)
 {
-	if (tok == 0)
-		return (2);
-	else if (tok != 'a' && tok != 39)
+	if (tok != 'a' && tok != 39)
 	{
 		panic_fun("Error\n", "syntax\n", 1, 0);
-		nulterminate(cmd);
 		freecmd(cmd);
 		free(cmd);
 		return (1);
 	}
-	else if (!cmd)
-		return (1);
 	return (0);
 }
 
@@ -63,21 +58,20 @@ t_cmd	*parseexec(char **ps, char *es, char *q, char *eq)
 	ret = execcmd();
 	cmd = (t_execcmd *) ret;
 	argc = 0;
-	ret = parseredirs(ret, ps, es, NULL);
+	ret = parseredirs(ret, ps, es, "<>");
 	while (!peek(ps, es, "|)&;"))
 	{
 		tok = gettoken(ps, es, &q, &eq);
-		if (s_error(ret, tok) == 2)
+		if (tok == 0)
 			break ;
-		else
-			if (s_error(ret, tok) == 1)
-				return (NULL);
+		if (s_error(ret, tok) == 1)
+			return (NULL);
 		cmd->argv[argc] = q;
 		cmd->eargv[argc] = eq;
 		argc++;
 		if (max_error(ret, argc) == 1)
 			return (NULL);
-		ret = parseredirs(ret, ps, es, NULL);
+		ret = parseredirs(ret, ps, es, "<>");
 	}
 	return (ret);
 }
