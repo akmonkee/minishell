@@ -24,7 +24,7 @@ char	*var_ex(char *str, char c)
 		i++;
 	ret = malloc(i + 1);
 	if (!ret)
-		return(NULL);
+		return (NULL);
 	i = 0;
 	while (str[i] != c && str[i])
 	{
@@ -49,7 +49,7 @@ int	varcmp(char *str1, char *str2, int n)
 	while (str1[i] == str2[i] && i < n && str1[i] && str2[i])
 		i++;
 	if (str1[i] != str2[i])
-		return(0);
+		return (0);
 	else
 		return (1);
 }

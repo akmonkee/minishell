@@ -74,7 +74,7 @@ void	**pwd_mod(char *str, char **env)
 	var_name = var_ex(str, '=');
 	while (env[++i] != NULL)
 	{
-		ex_env =  var_ex(env[i], '=');
+		ex_env = var_ex(env[i], '=');
 		if (varcmp(var_name, ex_env, ft_strlen_g(var_name)) == 1)
 		{
 			free(ex_env);
@@ -89,14 +89,14 @@ void	**pwd_mod(char *str, char **env)
 	i = mtx_len(env);
 	ret = (char **)ft_realloc(env, i + 1);
 	ret[i] = var_ex(str, '\0');
-	return ((void**)ret);
+	return ((void **) ret);
 }
 
 void	**env_mod(char *path, char *curr_pwd, char **env)
 {
-	char *path_c;
-	char *old_pwd;
-	char **ret_env;
+	char	*path_c;
+	char	*old_pwd;
+	char	**ret_env;
 
 	path_c = ft_strjoinf2("PWD=", path);
 	old_pwd = ft_strjoinf2("OLD_PWD=", curr_pwd);

@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-char	*true_pwd_ex()
+char	*true_pwd_ex(void)
 {
 	int		i;
 	char	buf[260];

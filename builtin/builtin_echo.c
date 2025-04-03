@@ -14,7 +14,7 @@
 
 int	check_option_n(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!str || str[i] != '-')
@@ -48,8 +48,8 @@ void	print_with_env(char **arg, int i, char **env)
 
 void	builtin_echo(char **args, char **env)
 {
-	int i;
-	int option_n;
+	int	i;
+	int	option_n;
 
 	if (!env)
 		return ;

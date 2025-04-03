@@ -62,7 +62,7 @@ char	*a_var_update(char *var, char *env_l, char **env)
 	int		k;
 
 	k = -1;
-	var_name=var_ex(var, '=');
+	var_name = var_ex(var, '=');
 	while (var[++k] && var[k] != '=')
 		;
 	var_content = var_ex(var + k + 1, '\0');

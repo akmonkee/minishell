@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/01 13:27:37 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/03 10:39:50 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,7 @@
 
 # define MAXARGS 10
 
-extern int g_exit_code;
-
+extern int	g_exit_code;
 
 /*cmd structs*/
 
@@ -134,8 +133,8 @@ char	single_quote(char *s, char *es);
 //parse pipe
 t_cmd	*parsepipe(char **ps, char *es);
 //parseexec
-t_cmd	*execcmd();
-t_cmd	*parseexec(char **ps, char *es);
+t_cmd	*execcmd(void);
+t_cmd	*parseexec(char **ps, char *es, char *q, char *eq);
 //parseredirs
 t_cmd	*redircmd(t_cmd *subcmd, char *file, int here_doc, int mode);
 t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es);
@@ -171,7 +170,7 @@ int		check_option_n(char *str);
 void	print_with_env(char **arg, int i, char **env);
 void	builtin_echo(char **args, char **env);
 //builtin/builtin_pwd
-char	*true_pwd_ex();
+char	*true_pwd_ex(void);
 void	builtin_pwd(char **envp);
 //builtin/builtin_unset
 void	remove_env_var(char **env, int i);
@@ -203,7 +202,7 @@ char	*ambient_value(char *str, char **env);
 char	*find_n_ret(char *name, char **env);
 char	*exp_not_in_q(char *str, char *ret, char **env);
 char	*quote_elab(char *str, int flag, char *ret, char **env);
-char	*var_content_elab(char* var_c, char **env);
+char	*var_content_elab(char *var_c, char **env);
 //builtin/export
 char	what_is_next(char *str, int flag);
 char	*a_var_update(char *var, char *env_l, char **env);

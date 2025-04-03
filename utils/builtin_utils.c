@@ -51,9 +51,9 @@ void	strjoin_alloc(char **ps, char **mtx, int j, char c)
 
 char	**ft_split_bt(char *s, char c)
 {
-	char **matrix;
-	int j;
-	int word_count;
+	char	**matrix;
+	int		j;
+	int		word_count;
 
 	if (!s)
 		return (NULL);

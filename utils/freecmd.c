@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 11:30:33 by msisto            #+#    #+#             */
-/*   Updated: 2025/01/31 11:02:13 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/03 11:18:33 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ void	freecmd(t_cmd *cmd)
 		return ;
 	if (cmd->type == PIPE)
 		freepipe(cmd);
-	if(cmd->type == REDIR)
+	if (cmd->type == REDIR)
 	{
 		rcmd = (t_redircmd *)cmd;
-		if (&rcmd->file)
+		if (rcmd->file)
 			free(rcmd->file);
 		freecmd(rcmd->cmd);
 		free(rcmd->cmd);

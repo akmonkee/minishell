@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:21:33 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/01 13:27:25 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/03 11:08:04 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	panic_fun(char *pre, char *input, int e_code, int exit_flag)
 {
 	char	*c_msg;
 
-	c_msg = ft_strjoin(pre , input);
+	c_msg = ft_strjoin(pre, input);
 	perror(c_msg);
 	free(c_msg);
 	g_exit_code = e_code;
@@ -58,10 +58,12 @@ void	parse_exe(char *input, t_mini *mini)
 	t_execcmd	*ecmd;
 
 	mini->cmd = parsecmd(input);
+	if (!mini->cmd)
+		return ;
 	ecmd = (t_execcmd *)mini->cmd;
 	if (mini->cmd && mini->cmd->type == EXEC && control_bt(ecmd->argv[0]))
 		runcmd(mini->cmd, mini);
-	else
+	else if (mini->cmd)
 		pexe_ll(mini);
 	freecmd(mini->cmd);
 	free(mini->cmd);

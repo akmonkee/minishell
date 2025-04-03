@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 15:07:26 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/01 13:44:51 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/03 10:15:18 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ft_isalnum(int c)
 int	arg_validation(char	*arg)
 {
 	char	*name;
-	int	i;
+	int		i;
 
 	i = -1;
 	name = var_ex(arg, '=');

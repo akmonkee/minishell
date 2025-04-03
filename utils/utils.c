@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 11:22:39 by msisto            #+#    #+#             */
-/*   Updated: 2025/02/11 12:04:04 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/03 10:27:14 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ void	*ft_memset(void *b, int c, size_t len)
 	}
 	return (b);
 }
-
 
 int	mtx_len(char **mtx)
 {

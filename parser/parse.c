@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/27 11:17:55 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/13 10:22:21 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/03 11:20:57 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	redir_check(char **s, char redir, int curr_ret)
 	{
 		if (redir == '<')
 		{
-			ret =  '-';
+			ret = '-';
 			p++;
 		}
 		if (redir == '>')
@@ -87,15 +87,20 @@ t_cmd	*parseline(char **ps, char *es)
 
 t_cmd	*parsecmd(char *s)
 {
-	char		*es;
+	char	*es;
 	t_cmd	*cmd;
 
 	es = s + ft_strlen(s);
 	cmd = parseline(&s, es);
+	if (!cmd)
+		return (NULL);
 	peek(&s, es, "");
-	if(s != es){
-		write(2, "Error\nend of command not reached\n", 33);
-		exit (1);
+	if (s != es)
+	{
+		panic_fun("Error\n", "end of command not reached\n", 1, 0);
+		freecmd(cmd);
+		free(cmd);
+		return (NULL);
 	}
 	nulterminate(cmd);
 	return (cmd);

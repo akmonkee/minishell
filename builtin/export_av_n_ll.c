@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 13:30:45 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/31 13:31:21 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/03 10:15:13 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,6 @@ char	*ambient_value(char *str, char **env)
 		}
 	}
 	if (!ret && what_is_next(str, 1) != 36)
-		return(var_ex(str, '\0'));
+		return (var_ex(str, '\0'));
 	return (ret);
 }

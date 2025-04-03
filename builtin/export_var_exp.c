@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:39:13 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/31 13:31:18 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/03 10:16:33 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ char	*find_n_ret(char *name, char **env)
 		if (varcmp(name, ex_env, ft_strlen_g(name)) == 1)
 		{
 			j = -1;
-			while (env[k][++j] != '=');
+			while (env[k][++j] != '=')
+				;
 			ret = var_ex(env[k] + j + 1, '\0');
 			free(ex_env);
 			return (ret);
@@ -85,7 +86,7 @@ char	*quote_elab(char *str, int flag, char *ret, char **env)
 	return (ret);
 }
 
-char	*var_content_elab(char* var_c, char **env)
+char	*var_content_elab(char *var_c, char **env)
 {
 	int		k;
 	int		flag;
