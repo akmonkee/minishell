@@ -110,7 +110,6 @@ void	**env_mod(char *path, char *curr_pwd, char **env)
 
 void	**builtin_cd(char *input, char **env)
 {
-	char	*in;
 	char	*curr_pwd;
 	char	*path;
 	int		i;
@@ -118,23 +117,18 @@ void	**builtin_cd(char *input, char **env)
 	i = 0;
 	if (!env)
 		return (NULL);
-	if (input)
-		in = var_content_elab(input, env);
 	curr_pwd = true_pwd_ex();
-	if (!input || fullcmp(in, "/") == 0)
+	if (!input || fullcmp(input, "/") == 0)
 	{
 		path = var_ex("/", '\0');
-		if (in)
-			free(in);
 		chdir(path);
 		return (env_mod(path, curr_pwd, env));
 	}
-	path = path_builder(in, curr_pwd);
+	path = path_builder(input, curr_pwd);
 	path = ft_strjoinf2("/", path);
-	free(in);
 	if (chdir(path) == -1)
 	{
-		panic_fun("cd :", in, 1, 0);
+		panic_fun("cd :", input, 1, 0);
 		free(path);
 		free(curr_pwd);
 		return (NULL);
