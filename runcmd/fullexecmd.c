@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:35:28 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/03 16:23:37 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/07 16:59:14 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	execve_cmd(char **command, t_mini *mini)
 	}
 	if (execve(exe_path, elab_cmd, mini->env) == -1)
 		free(exe_path);
+	mtxs_free(elab_cmd);
 }
 
 void	ft_execute_command(char **command, t_mini *mini)
