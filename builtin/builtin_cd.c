@@ -63,61 +63,54 @@ char	*path_builder(char *input, char *curr_pwd)
 	return (path);
 }
 
-void	**pwd_mod(char *str, char **env)
+static void	**ambient_cd(char *input, char *curr_pwd, char **env)
 {
-	int		i;
-	char	*var_name;
-	char	*ex_env;
-	char	**ret;
+	char	*path;
 
-	i = -1;
-	var_name = var_ex(str, '=');
-	while (env[++i] != NULL)
+	path = var_content_elab(input, env);
+	if (path[0] == '\0')
 	{
-		ex_env = var_ex(env[i], '=');
-		if (varcmp(var_name, ex_env, ft_strlen_g(var_name)) == 1)
-		{
-			free(ex_env);
-			free(var_name);
-			free(env[i]);
-			env[i] = var_ex(str, '\0');
-			return ((void **)env);
-		}
-		free(ex_env);
+		free(path);
+		path = var_ex("/", '\0');
 	}
-	free(var_name);
-	i = mtx_len(env);
-	ret = (char **)ft_realloc(env, i + 1);
-	ret[i] = var_ex(str, '\0');
-	return ((void **) ret);
+	if (chdir(path) == -1)
+	{
+		panic_fun("cd :", path, 1, 0);
+		free(path);
+		free(curr_pwd);
+		return (NULL);
+	}
+	return (env_mod(path, curr_pwd, env));
 }
 
-void	**env_mod(char *path, char *curr_pwd, char **env)
+static void	**minus_cd(char *curr_pwd, char **env)
 {
-	char	*path_c;
-	char	*old_pwd;
-	char	**ret_env;
+	char	*path;
 
-	path_c = ft_strjoinf2("PWD=", path);
-	old_pwd = ft_strjoinf2("OLD_PWD=", curr_pwd);
-	ret_env = env_cloner(env);
-	ret_env = (char **)pwd_mod(path_c, ret_env);
-	ret_env = (char **)pwd_mod(old_pwd, ret_env);
-	free(path_c);
-	free(old_pwd);
-	return ((void **)ret_env);
+	path = ambient_value("$OLD_PWD", env);
+	if (path[0] == '\0')
+	{
+		panic_fun("bash: cd: OLDPWD not set\n", NULL, 1, 0);
+		free(path);
+		free(curr_pwd);
+		return (NULL);
+	}
+	chdir(path);
+	return (env_mod(path, curr_pwd, env));
 }
 
 void	**builtin_cd(char *input, char **env)
 {
 	char	*curr_pwd;
 	char	*path;
-	int		i;
 
-	i = 0;
 	if (!env)
 		return (NULL);
 	curr_pwd = true_pwd_ex();
+	if (fullcmp(input, "-") == 0)
+		return(minus_cd(curr_pwd, env));
+	if (what_is_next(input, 1) == '$')
+		return(ambient_cd(input, curr_pwd, env));
 	if (!input || fullcmp(input, "/") == 0)
 	{
 		path = var_ex("/", '\0');

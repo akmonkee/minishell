@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:21:33 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/07 09:44:15 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/08 12:40:02 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,14 @@ void	panic_fun(char *pre, char *input, int e_code, int exit_flag)
 {
 	char	*c_msg;
 
-	c_msg = ft_strjoin(pre, input);
-	perror(c_msg);
-	free(c_msg);
+	if (!input)
+		perror(pre);
+	else
+	{
+		c_msg = ft_strjoin(pre, input);
+		perror(c_msg);
+		free(c_msg);
+	}
 	g_exit_code = e_code;
 	if (exit_flag == 1)
 		exit(g_exit_code);

@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/03 17:29:01 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/08 10:44:48 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,7 @@ void	runredir(t_cmd *cmd, t_mini *mini);
 //builtin/exit
 void	builtin_exit(char **input);
 //builtin/env
+void	**env_mod(char *path, char *curr_pwd, char **env);
 void	env_bt(char *input, t_mini *mini);
 void	builtin_env(char **env);
 //builtin/builtin_echo
@@ -155,6 +156,7 @@ int		check_option_n(char *str);
 void	print_with_env(char **arg, int i, char **env);
 void	builtin_echo(char **args, char **env);
 //builtin/builtin_pwd
+void	**pwd_mod(char *str, char **env);
 char	*true_pwd_ex(void);
 void	builtin_pwd(char **envp);
 //builtin/builtin_unset
@@ -165,8 +167,6 @@ void	builtin_unset(char **input, t_mini *mini);
 //builtin/builtin_cd
 char	*strjoin_path(char *path, int flag);
 char	*path_builder(char *input, char *curr_pwd);
-void	**pwd_mod(char *str, char **env);
-void	**env_mod(char *path, char *curr_pwd, char **env);
 void	**builtin_cd(char *input, char **env);
 //builtin/export_is_valid
 int		ft_isalpha(int c);

@@ -12,6 +12,35 @@
 
 #include "../minishell.h"
 
+void	**pwd_mod(char *str, char **env)
+{
+	int		i;
+	char	*var_name;
+	char	*ex_env;
+	char	**ret;
+
+	i = -1;
+	var_name = var_ex(str, '=');
+	while (env[++i] != NULL)
+	{
+		ex_env = var_ex(env[i], '=');
+		if (varcmp(var_name, ex_env, ft_strlen_g(var_name)) == 1)
+		{
+			free(ex_env);
+			free(var_name);
+			free(env[i]);
+			env[i] = var_ex(str, '\0');
+			return ((void **)env);
+		}
+		free(ex_env);
+	}
+	free(var_name);
+	i = mtx_len(env);
+	ret = (char **)ft_realloc(env, i + 1);
+	ret[i] = var_ex(str, '\0');
+	return ((void **) ret);
+}
+
 char	*true_pwd_ex(void)
 {
 	int		i;
