@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/08 10:44:48 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/09 13:39:36 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,6 @@ void	free_env_var(char *ex_env, char *ex_var);
 void	unset_ccc(char *var, char **env);
 void	builtin_unset(char **input, t_mini *mini);
 //builtin/builtin_cd
-char	*strjoin_path(char *path, int flag);
 char	*path_builder(char *input, char *curr_pwd);
 void	**builtin_cd(char *input, char **env);
 //builtin/export_is_valid
@@ -181,6 +180,7 @@ char	*ft_strjoin(char *path, char *cmd);
 char	*ft_strjoinf1(char *s1, char *s2);
 char	*ft_strjoinf2(char *s1, char *s2);
 char	*ft_strjoinf12(char *s1, char *s2);
+char	*strjoin_path(char *path, int flag);
 //builtin/export_av_n_ll
 char	*ambient_value(char *str, char **env);
 //builtin/export_var_exp

@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 11:08:10 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/01 11:06:39 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/09 13:39:15 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,5 +101,30 @@ char	*ft_strjoinf12(char *s1, char *s2)
 	ret[c] = '\0';
 	free(s1);
 	free(s2);
+	return (ret);
+}
+
+char	*strjoin_path(char *path, int flag)
+{
+	int		i;
+	int		len;
+	char	*ret;
+	char	**path_s;
+
+	i = 0;
+	path_s = ft_split_bt(path, '/');
+	len = mtx_len(path_s);
+	if (flag == 1)
+	{
+		free(path);
+		len--;
+	}
+	ret = var_ex(path_s[i], '\0');
+	while (++i < len)
+	{
+		ret = ft_strjoinf1(ret, "/");
+		ret = ft_strjoinf1(ret, path_s[i]);
+	}
+	mtxs_free(path_s);
 	return (ret);
 }

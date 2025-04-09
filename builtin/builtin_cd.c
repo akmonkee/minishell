@@ -12,31 +12,6 @@
 
 #include "../minishell.h"
 
-char	*strjoin_path(char *path, int flag)
-{
-	int		i;
-	int		len;
-	char	*ret;
-	char	**path_s;
-
-	i = 0;
-	path_s = ft_split_bt(path, '/');
-	len = mtx_len(path_s);
-	if (flag == 1)
-	{
-		free(path);
-		len--;
-	}
-	ret = var_ex(path_s[i], '\0');
-	while (++i < len)
-	{
-		ret = ft_strjoinf1(ret, "/");
-		ret = ft_strjoinf1(ret, path_s[i]);
-	}
-	mtxs_free(path_s);
-	return (ret);
-}
-
 char	*path_builder(char *input, char *curr_pwd)
 {
 	int		i;
@@ -99,6 +74,18 @@ static void	**minus_cd(char *curr_pwd, char **env)
 	return (env_mod(path, curr_pwd, env));
 }
 
+static void	**no_input_or_root(char *input, char *curr_pwd, char **env)
+{
+	char	*path;
+
+	if (!input)
+		path = ambient_value("$HOME", env);
+	else if (fullcmp(input, "/") == 0)
+		path = var_ex("/", '\0');
+	chdir(path);
+	return (env_mod(path, curr_pwd, env));
+}
+
 void	**builtin_cd(char *input, char **env)
 {
 	char	*curr_pwd;
@@ -107,21 +94,11 @@ void	**builtin_cd(char *input, char **env)
 	if (!env)
 		return (NULL);
 	curr_pwd = true_pwd_ex();
-	if (!input)
-	{
-		path = ambient_value("$HOME", env);
-		chdir(path);
-		return (env_mod(path, curr_pwd, env));
-	}
-	if (fullcmp(input, "/") == 0)
-	{
-		path = var_ex("/", '\0');
-		chdir(path);
-		return (env_mod(path, curr_pwd, env));
-	}
-	if (fullcmp(input, "-") == 0)
+	if (!input || fullcmp(input, "/") == 0)
+		return (no_input_or_root(input, curr_pwd, env));
+	else if (fullcmp(input, "-") == 0)
 		return (minus_cd(curr_pwd, env));
-	if (what_is_next(input, 1) == '$')
+	else if (what_is_next(input, 1) == '$')
 		return (ambient_cd(input, curr_pwd, env));
 	path = path_builder(input, curr_pwd);
 	path = ft_strjoinf2("/", path);
