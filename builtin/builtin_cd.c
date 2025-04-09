@@ -107,24 +107,29 @@ void	**builtin_cd(char *input, char **env)
 	if (!env)
 		return (NULL);
 	curr_pwd = true_pwd_ex();
-	if (fullcmp(input, "-") == 0)
-		return(minus_cd(curr_pwd, env));
-	if (what_is_next(input, 1) == '$')
-		return(ambient_cd(input, curr_pwd, env));
-	if (!input || fullcmp(input, "/") == 0)
+	if (!input)
+	{
+		path = ambient_value("$HOME", env);
+		chdir(path);
+		return (env_mod(path, curr_pwd, env));
+	}
+	if (fullcmp(input, "/") == 0)
 	{
 		path = var_ex("/", '\0');
 		chdir(path);
 		return (env_mod(path, curr_pwd, env));
 	}
+	if (fullcmp(input, "-") == 0)
+		return (minus_cd(curr_pwd, env));
+	if (what_is_next(input, 1) == '$')
+		return (ambient_cd(input, curr_pwd, env));
 	path = path_builder(input, curr_pwd);
 	path = ft_strjoinf2("/", path);
 	if (chdir(path) == -1)
 	{
 		panic_fun("cd :", input, 1, 0);
 		free(path);
-		free(curr_pwd);
-		return (NULL);
+		return (free(curr_pwd), NULL);
 	}
 	return (env_mod(path, curr_pwd, env));
 }

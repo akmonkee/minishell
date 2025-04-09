@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:35:28 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/08 12:56:21 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/09 12:01:25 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,20 +53,29 @@ char	**command_elab(char **command, t_mini *mini)
 	return (ret);
 }
 
+static void	absolute_cmd(char **command, t_mini *mini)
+{
+	char	*exe_path;
+
+	exe_path = var_ex(command[0], '\0');
+	if (execve(exe_path, command, mini->env) == -1)
+		free(exe_path);
+	rl_clear_history();
+}
+
 void	execve_cmd(char **command, t_mini *mini)
 {
 	char	**path;
 	char	*exe_path;
 	char	**elab_cmd;
 
+	if (access(command[0], X_OK) == 0)
+		absolute_cmd(command, mini);
 	path = path_finder(mini->env);
 	if (!path)
 		panic_fun(command[0], ": No such file or directory\n", 1, 1);
 	elab_cmd = command_elab(command, mini);
-	if (access(elab_cmd[0], X_OK) == 0)
-		exe_path = var_ex(elab_cmd[0], '\0');
-	else
-		exe_path = cmd_check(path, elab_cmd[0]);
+	exe_path = cmd_check(path, elab_cmd[0]);
 	mtxs_free(path);
 	if (!exe_path)
 	{
