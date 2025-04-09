@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:19:49 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/03 10:26:40 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/09 17:16:58 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,7 @@ char	**env_cloner(char **envp)
 	char	**ret;
 	int		i;
 
-	i = -1;
-	while (envp[++i] != NULL)
-		;
+	i = mtx_len(envp);
 	ret = malloc((i + 1) * sizeof(char *));
 	if (ret == NULL)
 		return (NULL);

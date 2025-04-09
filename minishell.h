@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/09 13:39:36 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/09 18:48:10 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_cmd
 typedef struct s_mini
 {
 	char	**env;
+	char	*input;
 	t_cmd	*cmd;
 }	t_mini;
 
@@ -86,6 +87,7 @@ void	panic_fun(char *pre, char *input, int e_code, int exit_flag);
 void	parse_exe(char *input, t_mini *mini);
 void	start_shell(char **envp);
 //utils/freecmd
+void	no_path(char *cmd, t_mini *mini);
 void	mtxs_free(char **mtx);
 void	freepipe(t_cmd *cmd);
 void	freecmd(t_cmd *cmd);

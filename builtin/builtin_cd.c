@@ -62,7 +62,7 @@ static void	**minus_cd(char *curr_pwd, char **env)
 {
 	char	*path;
 
-	path = ambient_value("$OLD_PWD", env);
+	path = ambient_value("$OLDPWD", env);
 	if (path[0] == '\0')
 	{
 		panic_fun("bash: cd: OLDPWD not set\n", NULL, 1, 0);

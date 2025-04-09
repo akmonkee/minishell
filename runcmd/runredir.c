@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 13:19:27 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/03 16:30:36 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/09 16:58:04 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	here_doc(t_redircmd *rcmd, char *rule)
 	char	*line;
 	int		fd;
 
-	fd = open(rule, rcmd->mode, 0777);
+	fd = open("temp", rcmd->mode, 0777);
 	if (fd == -1)
 		panic_fun("minipierpaolo: ", "unable to open heredoc\n", 1, 0);
 	while (1)
@@ -55,13 +55,13 @@ void	here_doc(t_redircmd *rcmd, char *rule)
 	}
 	free(line);
 	close(fd);
-	fd = open(rule, O_RDONLY);
+	fd = open("temp", O_RDONLY);
 	if (fd == -1)
 		panic_fun("minipierpaolo: ", "unable to open heredoc\n", 1, 0);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
-	if (access(rule, R_OK) == 0)
-		unlink(rule);
+	if (access("temp", R_OK) == 0)
+		unlink("temp");
 }
 
 void	runredir(t_cmd *cmd, t_mini *mini)

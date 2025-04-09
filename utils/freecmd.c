@@ -6,23 +6,22 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 11:30:33 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/03 16:23:55 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/09 18:47:43 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	ffree(char *str)
+void	no_path(char *cmd, t_mini *mini)
 {
-	int	i;
+	char	*cp_cmd;
 
-	i = 0;
-	while (str[i])
-	{
-		str[i] = '\0';
-		i++;
-	}
-	free(str);
+	cp_cmd = var_ex(cmd, '\0');
+	freecmd(mini->cmd);
+	free(mini->cmd);
+	mtxs_free(mini->env);
+	free(mini->input);
+	panic_fun(cp_cmd, ": No such file or directory\n", 1, 1);
 }
 
 void	mtxs_free(char **mtx)
@@ -30,11 +29,9 @@ void	mtxs_free(char **mtx)
 	int	i;
 
 	i = 0;
-	if (!mtx)
-		return ;
 	while (mtx[i])
 	{
-		ffree(mtx[i]);
+		free(mtx[i]);
 		i++;
 	}
 	free(mtx);
@@ -53,6 +50,7 @@ void	freepipe(t_cmd *cmd)
 
 void	freecmd(t_cmd *cmd)
 {
+	t_execcmd	*ecmd;
 	t_redircmd	*rcmd;
 
 	if (cmd->type == 0)
