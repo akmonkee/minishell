@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/09 18:48:10 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/10 11:46:47 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void	panic_fun(char *pre, char *input, int e_code, int exit_flag);
 void	parse_exe(char *input, t_mini *mini);
 void	start_shell(char **envp);
 //utils/freecmd
+void	free_mini(t_mini *mini);
 void	no_path(char *cmd, t_mini *mini);
 void	mtxs_free(char **mtx);
 void	freepipe(t_cmd *cmd);

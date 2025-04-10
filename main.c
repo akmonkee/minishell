@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:21:33 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/09 18:44:20 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/10 11:49:11 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,7 @@ static void	pexe_ll(char *input, t_mini *mini)
 	{
 		signal(SIGINT, signal_execve);
 		runcmd(mini->cmd, mini);
-		mtxs_free(mini->env);
-		freecmd(mini->cmd);
-		free(mini->cmd);
-		free(mini->input);
+		free_mini(mini);
 		exit(0);
 	}
 	else
@@ -90,7 +87,6 @@ void	start_shell(char **envp)
 	while (1)
 	{
 		input = readline("minipierpaolo> ");
-		mini->input = input;
 		if (!input)
 		{
 			printf("Pierpaolo dismissed you...\n");
@@ -101,6 +97,7 @@ void	start_shell(char **envp)
 		}
 		if (*input)
 		{
+			mini->input = input;
 			add_history(input);
 			parse_exe(input, mini);
 		}

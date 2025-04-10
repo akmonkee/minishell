@@ -6,21 +6,31 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 11:30:33 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/09 18:47:43 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/10 11:57:30 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	free_mini(t_mini *mini)
+{
+	if (mini->input)
+		free(mini->input);
+	if (mini->cmd)
+	{
+		freecmd(mini->cmd);
+		free(mini->cmd);
+	}
+	mtxs_free(mini->env);
+	free(mini);
+}
 
 void	no_path(char *cmd, t_mini *mini)
 {
 	char	*cp_cmd;
 
 	cp_cmd = var_ex(cmd, '\0');
-	freecmd(mini->cmd);
-	free(mini->cmd);
-	mtxs_free(mini->env);
-	free(mini->input);
+	free_mini(mini);
 	panic_fun(cp_cmd, ": No such file or directory\n", 1, 1);
 }
 
