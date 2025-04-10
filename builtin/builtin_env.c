@@ -49,5 +49,6 @@ void	builtin_env(char **env)
 			printf("%s\n", env[i]);
 		i++;
 	}
+	g_exit_code = 0;
 	return ;
 }

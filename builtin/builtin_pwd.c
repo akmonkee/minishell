@@ -65,4 +65,5 @@ void	builtin_pwd(char **envp)
 
 	getcwd(var, 260);
 	printf("%s\n", var);
+	g_exit_code = 0;
 }

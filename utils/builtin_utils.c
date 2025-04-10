@@ -85,7 +85,7 @@ void	exe_bt(char **input, t_mini *mini)
 	if (!input)
 		return ;
 	if (fullcmp(input[0], "exit") == 0)
-		builtin_exit(input);
+		builtin_exit(input, mini);
 	else if (fullcmp(input[0], "cd") == 0)
 		tmp = (char **)builtin_cd(input[1], mini->env);
 	else if (fullcmp(input[0], "export") == 0)

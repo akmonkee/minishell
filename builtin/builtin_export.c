@@ -125,5 +125,6 @@ void	**builtin_export(char **input, char **env)
 			tmp = (char **)export_ccc(input[i], tmp);
 		i++;
 	}
+	g_exit_code = 0;
 	return ((void **)tmp);
 }

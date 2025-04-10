@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/10 12:06:31 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/10 15:32:20 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ int		eof_checker(char *line, char *rule);
 void	here_doc(t_redircmd *rcmd, char *rule);
 void	runredir(t_cmd *cmd, t_mini *mini);
 //builtin/exit
-void	builtin_exit(char **input);
+void	builtin_exit(char **input, t_mini *mini);
 //builtin/env
 void	**env_mod(char *path, char *curr_pwd, char **env);
 void	env_bt(char *input, t_mini *mini);

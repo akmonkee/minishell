@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:21:33 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/10 15:16:51 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/10 15:50:28 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,23 @@ void	parse_exe(char *input, t_mini *mini)
 	free(mini->cmd);
 }
 
+static void	mini_str_set(t_mini *mini, int flag)
+{
+	if (flag == 1 || flag == 4)
+		mini->env = NULL;
+	if (flag == 2 || flag == 4)
+		mini->input = NULL;
+	if (flag == 3 || flag == 4)
+		mini->cmd = NULL;
+}
+
 void	start_shell(char **envp)
 {
 	char	*input;
 	t_mini	*mini;
 
 	mini = malloc(sizeof(*mini));
+	mini_str_set(mini, 4);
 	mini->env = env_cloner(envp);
 	print_pierpaolo();
 	while (1)
@@ -102,6 +113,7 @@ void	start_shell(char **envp)
 			parse_exe(input, mini);
 		}
 		free(input);
+		mini_str_set(mini, 2);
 	}
 }
 

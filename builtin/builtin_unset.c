@@ -71,5 +71,6 @@ void	builtin_unset(char **input, t_mini *mini)
 		unset_ccc(input[i], mini->env);
 		i++;
 	}
+	g_exit_code = 0;
 	return ;
 }

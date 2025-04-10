@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-void	builtin_exit(char **input)
+void	builtin_exit(char **input, t_mini *mini)
 {
 	int	n;
 	int	i;
@@ -28,7 +28,7 @@ void	builtin_exit(char **input)
 	{
 		while (input[1][++i])
 		{
-			if (ft_isalpha(input[1][i]))
+			if (ft_isalnum(input[1][i]))
 			{
 				panic_fun("exit: ", input[1], 2, 0);
 				panic_fun("numeric", " arg required", 2, 0);
@@ -38,5 +38,6 @@ void	builtin_exit(char **input)
 		n = ft_atoi(input[1]);
 		g_exit_code = (unsigned char)n;
 	}
+	free_mini(mini);
 	exit(g_exit_code);
 }

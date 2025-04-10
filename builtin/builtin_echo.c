@@ -65,5 +65,6 @@ void	builtin_echo(char **args, char **env)
 	print_with_env(args, i, env);
 	if (!option_n)
 		printf("\n");
+	g_exit_code = 0;
 	return ;
 }

@@ -108,5 +108,6 @@ void	**builtin_cd(char *input, char **env)
 		free(path);
 		return (free(curr_pwd), NULL);
 	}
+	g_exit_code = 0;
 	return (env_mod(path, curr_pwd, env));
 }
