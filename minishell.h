@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/10 11:46:47 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/10 12:06:31 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@
 
 extern int	g_exit_code;
 
-/*cmd structs*/
+//cmd struct
 
 typedef struct s_cmd
 {

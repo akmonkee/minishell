@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 11:30:33 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/10 11:57:30 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/10 13:20:04 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,9 @@
 
 void	free_mini(t_mini *mini)
 {
-	if (mini->input)
-		free(mini->input);
-	if (mini->cmd)
-	{
-		freecmd(mini->cmd);
-		free(mini->cmd);
-	}
+	free(mini->input);
+	freecmd(mini->cmd);
+	free(mini->cmd);
 	mtxs_free(mini->env);
 	free(mini);
 }
