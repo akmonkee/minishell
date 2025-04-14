@@ -40,7 +40,7 @@ void	unset_ccc(char *var, char **env)
 	int		i;
 
 	i = 1;
-	ex_var = var_ex(var, '=');
+	ex_var = var_ex(var, '\0');
 	while (env[i] != NULL)
 	{
 		ex_env = var_ex(env[i], '=');

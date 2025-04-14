@@ -19,7 +19,7 @@ char	what_is_next(char *str, int flag)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '\'' && flag != 1)
+		if (str[i] == '\'')
 			return (39);
 		if (str[i] == '\"')
 			return (34);
@@ -108,9 +108,14 @@ void	**export_ccc(char *var, char **env)
 void	**builtin_export(char **input, char **env)
 {
 	char	**tmp;
+	char	*ret;
+	char	*ex_var;
+	char	*ex_env;
 	int		i;
+	int		k;
 
 	i = 1;
+	k = -1;
 	if (!env)
 		return (NULL);
 	if (input[i] == NULL)
@@ -121,10 +126,32 @@ void	**builtin_export(char **input, char **env)
 	tmp = env_cloner(env);
 	while (input[i] != NULL)
 	{
-		if (arg_validation(input[i]))
+		if (input[i][0] == '\"' || input[i][0] == '\'')
+		{
+			ret = var_content_elab(input[i], tmp);
+			arg_validation(ret);
+			ex_var = var_ex(ret, '=');
+			while (tmp[++k] != NULL)
+			{
+				ex_env = var_ex(tmp[k], '=');
+				if (varcmp(ex_var, ex_env, ft_strlen_g(ex_var)) == 1)
+				{
+					tmp[k] = a_var_update(ret, tmp[k], tmp);
+					free(ex_env);
+					free(ex_var);
+					free(ret);
+					return ((void **)tmp);
+				}
+				free(ex_env);
+			}
+			free(ex_var);
+			tmp = (char **)ft_realloc(tmp, mtx_len(tmp) + 1);
+			tmp[mtx_len(tmp)] = NULL;
+			tmp[mtx_len(tmp)] = ret;
+		}
+		else if (arg_validation(input[i]))
 			tmp = (char **)export_ccc(input[i], tmp);
 		i++;
 	}
-	g_exit_code = 0;
 	return ((void **)tmp);
 }

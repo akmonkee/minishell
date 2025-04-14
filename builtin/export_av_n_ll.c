@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 13:30:45 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/03 10:15:13 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/14 11:40:01 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static char	*av_less_lines(char *str, int i, char **env)
 {
 	char	*tmp;
 	char	*res;
+	int		flag;
 
 	res = NULL;
 	if (str[i + 1] == '?')
@@ -29,9 +30,17 @@ static char	*av_less_lines(char *str, int i, char **env)
 	}
 	else if (str[i + 1] != '\0')
 	{
-		tmp = var_ex(str + i + 1, what_is_next(str + i, 1));
+		tmp = var_ex(str + i + 1, what_is_next(str + i + 1, 1));
+		flag = what_is_next(str + i + 1, 1);
+		while( str[i] && str[i] != flag)
+			i++;
 		res = find_n_ret(tmp, env);
 		free(tmp);
+		if (str[i] != '\0')
+		{
+			tmp = var_ex(str + i, what_is_next(str + i + 1, 1));
+			res = ft_strjoinf12(res, tmp);
+		}
 	}
 	return (res);
 }
