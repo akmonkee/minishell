@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 12:58:05 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/03 16:06:17 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/15 14:13:21 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static void	pr_ll(t_redircmd *rcmd, int here_doc, int mode, int fd)
 	rcmd->here_doc = here_doc;
 	rcmd->mode = mode;
 	rcmd->fd = fd;
+	rcmd->here_doc_name = NULL;
 }
 
 static int	mf_error(t_cmd *cmd, t_redircmd *rcmd, int tok)
@@ -39,6 +40,7 @@ static void	pr_ull(t_cmd *cmd, t_redircmd *rcmd, char *q, char *eq)
 	if (rcmd->file)
 		free(rcmd->file);
 	rcmd->file = name_extractor(q, eq);
+	rcmd->here_doc_name = NULL;
 }
 
 static t_redircmd	*rcmd_alloc(void)

@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 13:19:27 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/15 13:36:28 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/15 14:11:51 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void	handle_heredoc(t_redircmd *rcmd, char *rule, t_mini *mini)
 	if (pid == 0)
 	{
 		here_doc(rcmd, rule);
-		free(rule);
 		free_mini(mini);
 		exit(0);
 	}
@@ -103,8 +102,6 @@ void	runredir(t_cmd *cmd, t_mini *mini)
 		if (fd == -1)
 			panic_fun("minipierpaolo: ", "heredoc reopen failed\n", 1, 0);
 		unlink(rcmd->here_doc_name);
-		free(rcmd->here_doc_name);
-		rcmd->here_doc_name = NULL;
 	}
 	runcmd(rcmd->cmd, mini);
 }

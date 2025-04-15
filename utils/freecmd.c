@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 11:30:33 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/10 13:20:04 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/15 14:10:34 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,7 @@ void	freecmd(t_cmd *cmd)
 			free(rcmd->file);
 		freecmd(rcmd->cmd);
 		free(rcmd->cmd);
+		if (rcmd->here_doc_name != NULL)
+			free(rcmd->here_doc_name);
 	}
 }
