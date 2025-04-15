@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 10:35:28 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/10 13:20:19 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/15 14:00:21 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void	execve_cmd(char **command, t_mini *mini)
 	{
 		mtxs_free(elab_cmd);
 		free_mini(mini);
+		write(2, "command not found\n", 18);
 		exit (1);
 	}
 	rl_clear_history();

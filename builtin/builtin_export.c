@@ -19,11 +19,11 @@ char	what_is_next(char *str, int flag)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '\'')
+		if (str[i] == '\'' && flag != 2)
 			return (39);
 		if (str[i] == '\"')
 			return (34);
-		if (str[i] == '$' && flag == 1)
+		if (str[i] == '$' && flag != 0)
 			return (36);
 		i++;
 	}
@@ -56,22 +56,19 @@ void	**ft_realloc(char **mtx, int size)
 char	*a_var_update(char *var, char *env_l, char **env)
 {
 	char	*tmp;
-	char	*var_name;
 	char	*ret;
 	char	*var_content;
 	int		k;
 
 	k = -1;
-	var_name = var_ex(var, '=');
+	ret = var_ex(var, '=');
 	while (var[++k] && var[k] != '=')
 		;
 	var_content = var_ex(var + k + 1, '\0');
 	tmp = var_content_elab(var_content, env);
-	ret = var_ex(var_name, '\0');
 	ret = ft_strjoinf1(ret, "=");
 	ret = ft_strjoinf12(ret, tmp);
 	free(env_l);
-	free(var_name);
 	free(var_content);
 	return (ret);
 }
@@ -105,17 +102,15 @@ void	**export_ccc(char *var, char **env)
 	return ((void **) tmp);
 }
 
+
+
 void	**builtin_export(char **input, char **env)
 {
 	char	**tmp;
 	char	*ret;
-	char	*ex_var;
-	char	*ex_env;
 	int		i;
-	int		k;
 
 	i = 1;
-	k = -1;
 	if (!env)
 		return (NULL);
 	if (input[i] == NULL)
@@ -130,24 +125,7 @@ void	**builtin_export(char **input, char **env)
 		{
 			ret = var_content_elab(input[i], tmp);
 			arg_validation(ret);
-			ex_var = var_ex(ret, '=');
-			while (tmp[++k] != NULL)
-			{
-				ex_env = var_ex(tmp[k], '=');
-				if (varcmp(ex_var, ex_env, ft_strlen_g(ex_var)) == 1)
-				{
-					tmp[k] = a_var_update(ret, tmp[k], tmp);
-					free(ex_env);
-					free(ex_var);
-					free(ret);
-					return ((void **)tmp);
-				}
-				free(ex_env);
-			}
-			free(ex_var);
-			tmp = (char **)ft_realloc(tmp, mtx_len(tmp) + 1);
-			tmp[mtx_len(tmp)] = NULL;
-			tmp[mtx_len(tmp)] = ret;
+			tmp = (char **)be_ll(ret, tmp);
 		}
 		else if (arg_validation(input[i]))
 			tmp = (char **)export_ccc(input[i], tmp);

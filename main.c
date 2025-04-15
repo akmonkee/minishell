@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:21:33 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/10 15:50:28 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/15 13:03:20 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ static void	pexe_ll(char *input, t_mini *mini)
 	if (pid == 0)
 	{
 		signal(SIGINT, signal_execve);
+		signal(SIGQUIT, signal_execve);
+		run_heredoc(mini->cmd, mini);
 		runcmd(mini->cmd, mini);
 		free_mini(mini);
 		exit(0);
@@ -57,6 +59,8 @@ static void	pexe_ll(char *input, t_mini *mini)
 		signal(SIGTERM, signal_handler);
 		if (WIFEXITED(exit_status))
 			g_exit_code = WEXITSTATUS(exit_status);
+		else if (WIFSIGNALED(exit_status))
+			g_exit_code = 128 + WTERMSIG(exit_status);
 	}
 }
 

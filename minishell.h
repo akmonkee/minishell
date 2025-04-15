@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/10 15:32:20 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/15 13:09:06 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct s_redircmd
 	int		here_doc;
 	int		mode;
 	int		fd;
+	char	*here_doc_name;
 }	t_redircmd;
 
 typedef struct s_pipecmd
@@ -141,12 +142,14 @@ char	**ft_split(char *string, char c, int index, int start);
 char	*ft_strnstr(const char *s, const char *to_find, size_t len);
 char	**path_finder(char **envp);
 //runcmd/runcmd
+void	run_heredoc(t_cmd *cmd, t_mini *mini);
 void	runcmd(t_cmd *cmd, t_mini *mini);
 //runcmd/runpipe
 void	runpipe(t_pipecmd *pcmd, t_mini *mini);
 //runcmd/runredir
 int		eof_checker(char *line, char *rule);
 void	here_doc(t_redircmd *rcmd, char *rule);
+void	handle_heredoc(t_redircmd *rcmd, char *rule, t_mini *mini);
 void	runredir(t_cmd *cmd, t_mini *mini);
 //builtin/exit
 void	builtin_exit(char **input, t_mini *mini);
@@ -191,6 +194,8 @@ char	*find_n_ret(char *name, char **env);
 char	*exp_not_in_q(char *str, char *ret, char **env);
 char	*quote_elab(char *str, int flag, char *ret, char **env);
 char	*var_content_elab(char *var_c, char **env);
+//builtin/export_quoted_arg
+void	**be_ll(char *ret, char **tmp);
 //builtin/export
 char	what_is_next(char *str, int flag);
 char	*a_var_update(char *var, char *env_l, char **env);

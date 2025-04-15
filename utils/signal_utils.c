@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 11:37:45 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/10 11:48:24 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/15 09:46:11 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,9 @@ void	ign(int sig)
 void	signal_execve(int sig)
 {
 	if (sig == SIGINT)
-	{
 		g_exit_code = 130;
-		if (access("temp", R_OK) == 0)
-			unlink("temp");
-	}
+	if (sig == SIGQUIT)
+		g_exit_code = 131;
 	exit(g_exit_code);
 }
 

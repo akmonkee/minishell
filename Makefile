@@ -6,7 +6,7 @@ utils/utils.c utils/utils_2.c utils/freecmd.c utils/signal_utils.c utils/quote_u
 runcmd/runcmd.c runcmd/pathfinder.c runcmd/fullexecmd.c runcmd/runpipe.c runcmd/runredir.c \
 builtin/builtin_cd.c builtin/builtin_env.c builtin/builtin_exit.c builtin/builtin_pwd.c builtin/builtin_echo.c builtin/builtin_unset.c \
 builtin/builtin_export.c builtin/export_print.c builtin/export_is_valid.c builtin/export_strjoins.c builtin/export_var_exp.c \
-builtin/export_av_n_ll.c \
+builtin/export_av_n_ll.c builtin/export_quoted_arg.c \
 
 OUT = $(SRC:.c=.o)
 
