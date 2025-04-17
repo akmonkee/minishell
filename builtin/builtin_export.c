@@ -102,8 +102,6 @@ void	**export_ccc(char *var, char **env)
 	return ((void **) tmp);
 }
 
-
-
 void	**builtin_export(char **input, char **env)
 {
 	char	**tmp;
@@ -114,10 +112,7 @@ void	**builtin_export(char **input, char **env)
 	if (!env)
 		return (NULL);
 	if (input[i] == NULL)
-	{
-		sort_env(env);
-		return (NULL);
-	}
+		return (sort_env(env), NULL);
 	tmp = env_cloner(env);
 	while (input[i] != NULL)
 	{

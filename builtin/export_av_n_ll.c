@@ -6,17 +6,59 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 13:30:45 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/14 15:45:31 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/17 11:47:20 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+static char	*av_ll_ll_ll(char *res, char *str, int i)
+{
+	char	*tmp;
+
+	if (str[i] != '\0' && str[i] == str[i + 1])
+		res = ft_strjoinf1(res, "\'\'");
+	else if (!what_is_next(str + i + 1, 2))
+	{
+		tmp = var_ex(str + i, '\0');
+		res = ft_strjoinf12(res, tmp);
+	}
+	else
+	{
+		tmp = var_ex(str + i, what_is_next(str + i + 1, 1));
+		res = ft_strjoinf12(res, tmp);
+	}
+	return (res);
+}
+
+static char	*av_ll_ll(char *res, char *str, int i, char **env)
+{
+	char	*tmp;
+	int		flag;
+
+	tmp = var_ex(str + i + 1, what_is_next(str + i + 1, 1));
+	flag = what_is_next(str + i + 1, 1);
+	while (str[i] && str[i] != flag)
+		i++;
+	res = find_n_ret(tmp, env);
+	free(tmp);
+	if (str[i] == '\0')
+		return (res);
+	flag = what_is_next(str + i + 1, 2);
+	if (flag == '$')
+	{
+		tmp = var_ex(str + i, '$');
+		res = ft_strjoinf12(res, tmp);
+	}
+	else if (str[i] != '\0')
+		res = av_ll_ll_ll(res, str, i);
+	return (res);
+}
+
 static char	*av_less_lines(char *str, int i, char **env)
 {
 	char	*tmp;
 	char	*res;
-	int		flag;
 
 	res = NULL;
 	if (str[i + 1] == '?')
@@ -29,40 +71,7 @@ static char	*av_less_lines(char *str, int i, char **env)
 		}
 	}
 	else if (str[i + 1] != '\0')
-	{
-		tmp = var_ex(str + i + 1, what_is_next(str + i + 1, 1));
-		flag = what_is_next(str + i + 1, 1);
-		while(str[i] && str[i] != flag)
-			i++;
-		res = find_n_ret(tmp, env);
-		free(tmp);
-		if (str[i] == '\0')
-			return (res);
-		flag = what_is_next(str + i + 1, 2);
-		if (flag == '$')
-		{
-			tmp = var_ex(str + i, '$');
-			res = ft_strjoinf12(res, tmp);
-			while(str[i] && str[i] != '$')
-				i++;
-			return (res);
-		}
-		else if (str[i] != '\0')
-		{
-			if (str[i] != '\0' && str[i] == str[i + 1])
-				res = ft_strjoinf1(res, "\'\'");
-			else if (!what_is_next(str + i + 1, 2))
-			{
-				tmp = var_ex(str + i, '\0');
-				res = ft_strjoinf12(res, tmp);
-			}
-			else
-			{
-				tmp = var_ex(str + i, what_is_next(str + i + 1, 1));
-				res = ft_strjoinf12(res, tmp);
-			}
-		}
-	}
+		res = av_ll_ll(res, str, i, env);
 	return (res);
 }
 

@@ -14,10 +14,8 @@
 
 void	builtin_exit(char **input, t_mini *mini)
 {
-	int	n;
 	int	i;
 
-	n = 0;
 	i = -1;
 	if (mtx_len(input) > 2)
 	{
@@ -35,8 +33,7 @@ void	builtin_exit(char **input, t_mini *mini)
 				return ;
 			}
 		}
-		n = ft_atoi(input[1]);
-		g_exit_code = (unsigned char)n;
+		g_exit_code = (unsigned char)ft_atoi(input[1]);
 	}
 	free_mini(mini);
 	exit(g_exit_code);

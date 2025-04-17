@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/15 13:09:06 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/17 11:42:19 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ typedef struct s_pipecmd
 void	print_pierpaolo(void);
 //main
 void	panic_fun(char *pre, char *input, int e_code, int exit_flag);
-void	parse_exe(char *input, t_mini *mini);
 void	start_shell(char **envp);
 //utils/freecmd
 void	free_mini(t_mini *mini);
@@ -97,6 +96,7 @@ void	freecmd(t_cmd *cmd);
 void	ign(int sig);
 void	signal_execve(int sig);
 void	signal_handler(int sig);
+void	pexe_exit_status(int exit_status);
 //utils/quote_utils
 int		parse_squote(char *s, char *es, char flag);
 //utils/utils
@@ -144,6 +144,7 @@ char	**path_finder(char **envp);
 //runcmd/runcmd
 void	run_heredoc(t_cmd *cmd, t_mini *mini);
 void	runcmd(t_cmd *cmd, t_mini *mini);
+void	parse_exe(char *input, t_mini *mini);
 //runcmd/runpipe
 void	runpipe(t_pipecmd *pcmd, t_mini *mini);
 //runcmd/runredir

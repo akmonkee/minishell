@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 11:37:45 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/15 09:46:11 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/17 11:42:33 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,12 @@ void	signal_handler(int sig)
 	}
 	else if (sig == SIGTERM)
 		exit(1);
+}
+
+void	pexe_exit_status(int exit_status)
+{
+	if (WIFEXITED(exit_status))
+		g_exit_code = WEXITSTATUS(exit_status);
+	else if (WIFSIGNALED(exit_status))
+		g_exit_code = 128 + WTERMSIG(exit_status);
 }
