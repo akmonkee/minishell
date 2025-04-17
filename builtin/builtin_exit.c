@@ -28,7 +28,7 @@ void	builtin_exit(char **input, t_mini *mini)
 	{
 		while (input[1][++i])
 		{
-			if (ft_isalnum(input[1][i]))
+			if (!ft_isdigit(input[1][i]))
 			{
 				panic_fun("exit: ", input[1], 2, 0);
 				panic_fun("numeric", " arg required", 2, 0);
