@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 12:58:05 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/17 15:55:14 by msisto           ###   ########.fr       */
+/*   Updated: 2025/04/21 16:22:39 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,69 +52,51 @@ static t_redircmd	*rcmd_alloc(void)
 	return (rcmd);
 }
 
-/*t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es, char *flag)
+static t_redircmd	*init_redir_node(t_cmd *cmd, char **ps, char *es, char *flag, int *tok)
 {
-	int			tok[2];
 	char		*q;
 	char		*eq;
-	t_redircmd	*rcmd;
+	t_redircmd	*node;
 
-	while (peek(ps, es, flag))
-	{
-		rcmd = rcmd_alloc();
-		tok[0] = gettoken(ps, es, 0, 0);
-		tok[1] = gettoken(ps, es, &q, &eq);
-		if (mf_error(cmd, rcmd, tok[1]) == 1)
-			return (NULL);
-		pr_ull(cmd, rcmd, q, eq);
-		if (tok[0] == '<')
-			pr_ll(rcmd, 0, O_RDONLY, 0);
-		else if (tok[0] == '>')
-			pr_ll(rcmd, 0, O_WRONLY | O_CREAT | O_TRUNC, 1);
-		else if (tok[0] == '+')
-			pr_ll(rcmd, 0, O_WRONLY | O_CREAT | O_APPEND, 1);
-		else if (tok[0] == '-')
-			pr_ll(rcmd, 1, O_WRONLY | O_CREAT | O_APPEND, 1);
-		cmd = (t_cmd *)rcmd;
-	}
-	return (cmd);
-}*/
+	node = rcmd_alloc();
+	tok[0] = gettoken(ps, es, 0, 0);
+	tok[1] = gettoken(ps, es, &q, &eq);
+	if (mf_error(cmd, node, tok[1]) == 1)
+		return (NULL);
+	pr_ull(cmd, node, q, eq);
+	if (tok[0] == '<')
+		pr_ll(node, 0, O_RDONLY, 0);
+	else if (tok[0] == '>')
+		pr_ll(node, 0, O_WRONLY | O_CREAT | O_TRUNC, 1);
+	else if (tok[0] == '+')
+		pr_ll(node, 0, O_WRONLY | O_CREAT | O_APPEND, 1);
+	else if (tok[0] == '-')
+		pr_ll(node, 1, O_WRONLY | O_CREAT | O_APPEND, 1);
+	node->cmd = NULL;
+	return (node);
+}
 
 t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es, char *flag)
 {
 	int			tok[2];
-	char		*q;
-	char		*eq;
-	t_redircmd	*new_rcmd;
-	t_redircmd	*last_rcmd;
+	t_redircmd	*node;
+	t_redircmd	*last;
 	t_cmd		*head;
 
 	head = cmd;
-	last_rcmd = NULL;
+	last = NULL;
 	while (peek(ps, es, flag))
 	{
-		new_rcmd = rcmd_alloc();
-		tok[0] = gettoken(ps, es, 0, 0);
-		tok[1] = gettoken(ps, es, &q, &eq);
-		if (mf_error(cmd, new_rcmd, tok[1]) == 1)
+		node = init_redir_node(cmd, ps, es, flag, tok);
+		if (!node)
 			return (NULL);
-		pr_ull(cmd, new_rcmd, q, eq);
-		if (tok[0] == '<')
-			pr_ll(new_rcmd, 0, O_RDONLY, 0);
-		else if (tok[0] == '>')
-			pr_ll(new_rcmd, 0, O_WRONLY | O_CREAT | O_TRUNC, 1);
-		else if (tok[0] == '+')
-			pr_ll(new_rcmd, 0, O_WRONLY | O_CREAT | O_APPEND, 1);
-		else if (tok[0] == '-')
-			pr_ll(new_rcmd, 1, O_WRONLY | O_CREAT | O_APPEND, 1);
-		new_rcmd->cmd = NULL;
-		if (last_rcmd)
-			last_rcmd->cmd = (t_cmd *)new_rcmd;
+		if (last)
+			last->cmd = (t_cmd *)node;
 		else
-			head = (t_cmd *)new_rcmd;
-		last_rcmd = new_rcmd;
+			head = (t_cmd *)node;
+		last = node;
 	}
-	if (last_rcmd)
-		last_rcmd->cmd = cmd;
+	if (last)
+		last->cmd = cmd;
 	return (head);
 }
