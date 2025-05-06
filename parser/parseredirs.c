@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 12:58:05 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/21 16:22:39 by msisto           ###   ########.fr       */
+/*   Updated: 2025/05/06 10:25:15 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,6 @@ static void	pr_ll(t_redircmd *rcmd, int here_doc, int mode, int fd)
 	rcmd->mode = mode;
 	rcmd->fd = fd;
 	rcmd->here_doc_name = NULL;
-}
-
-static int	mf_error(t_cmd *cmd, t_redircmd *rcmd, int tok)
-{
-	if (tok != 'a' && tok != 39)
-	{
-		panic_fun("Error\n", "missing file for redirection\n", 2, 0);
-		freecmd(cmd);
-		free(cmd);
-		free(rcmd);
-		return (1);
-	}
-	return (0);
 }
 
 static void	pr_ull(t_cmd *cmd, t_redircmd *rcmd, char *q, char *eq)
@@ -52,10 +39,11 @@ static t_redircmd	*rcmd_alloc(void)
 	return (rcmd);
 }
 
-static t_redircmd	*init_redir_node(t_cmd *cmd, char **ps, char *es, char *flag, int *tok)
+static t_redircmd	*inr(t_cmd *cmd, char **ps, char *es, char *flag)
 {
 	char		*q;
 	char		*eq;
+	int			tok[2];
 	t_redircmd	*node;
 
 	node = rcmd_alloc();
@@ -78,7 +66,6 @@ static t_redircmd	*init_redir_node(t_cmd *cmd, char **ps, char *es, char *flag, 
 
 t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es, char *flag)
 {
-	int			tok[2];
 	t_redircmd	*node;
 	t_redircmd	*last;
 	t_cmd		*head;
@@ -87,7 +74,7 @@ t_cmd	*parseredirs(t_cmd *cmd, char **ps, char *es, char *flag)
 	last = NULL;
 	while (peek(ps, es, flag))
 	{
-		node = init_redir_node(cmd, ps, es, flag, tok);
+		node = inr(cmd, ps, es, flag);
 		if (!node)
 			return (NULL);
 		if (last)

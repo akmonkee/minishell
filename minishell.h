@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/17 11:42:19 by msisto           ###   ########.fr       */
+/*   Updated: 2025/05/06 10:25:41 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ t_cmd	*parsecmd(char *s);
 int		s_scroll(char **s, char *es, int ret);
 //parse quotes
 char	single_quote(char *s, char *es);
+int		mf_error(t_cmd *cmd, t_redircmd *rcmd, int tok);
 //parse pipe
 t_cmd	*parsepipe(char **ps, char *es);
 //parseexec
