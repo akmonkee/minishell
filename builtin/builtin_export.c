@@ -61,6 +61,14 @@ char	*a_var_update(char *var, char *env_l, char **env)
 	int		k;
 
 	k = -1;
+	while (var[++k])
+	{
+		if (var[k] == '=')
+			break ;
+	}
+	if (var[k] == '\0')
+		return (var_ex(var, '\0'));
+	k = -1;
 	ret = var_ex(var, '=');
 	while (var[++k] && var[k] != '=')
 		;
