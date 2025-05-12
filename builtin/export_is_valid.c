@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 15:07:26 by msisto            #+#    #+#             */
-/*   Updated: 2025/05/08 11:17:26 by msisto           ###   ########.fr       */
+/*   Updated: 2025/05/12 11:34:23 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	arg_validation(char	*arg)
 		panic_fun(name, ": not a valid identifier\n", 1, 0);
 		return (free(name), 0);
 	}
-	while (arg[++i])
+	while (arg[++i] && arg[i] != '=')
 	{
 		if (!ft_isalnum(arg[i]) && arg[i] != '=')
 		{
