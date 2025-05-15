@@ -19,6 +19,8 @@ char	what_is_next(char *str, int flag)
 	i = 0;
 	while (str[i])
 	{
+		if (str[i] == ' ' && flag != 2)
+			return (' ');
 		if (str[i] == '\'' && flag != 2)
 			return (39);
 		if (str[i] == '\"')
