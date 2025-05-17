@@ -126,14 +126,16 @@ void	**builtin_export(char **input, char **env)
 	tmp = env_cloner(env);
 	while (input[i] != NULL)
 	{
-		if (input[i][0] == '\"' || input[i][0] == '\'')
+		if (arg_validation(input[i]))
 		{
-			ret = var_content_elab(input[i], tmp);
-			arg_validation(ret);
-			tmp = (char **)be_ll(ret, tmp);
+			if (input[i][0] == '\"' || input[i][0] == '\'')
+			{
+				ret = var_content_elab(input[i], tmp);
+				tmp = (char **)be_ll(ret, tmp);
+			}
+			else
+				tmp = (char **)export_ccc(input[i], tmp);
 		}
-		else if (arg_validation(input[i]))
-			tmp = (char **)export_ccc(input[i], tmp);
 		i++;
 	}
 	return ((void **)tmp);
