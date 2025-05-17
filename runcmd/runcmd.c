@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 11:57:08 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/17 13:28:07 by msisto           ###   ########.fr       */
+/*   Updated: 2025/05/17 15:46:12 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static void	pexe_ll(char *input, t_mini *mini)
 	int			exit_status;
 
 	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, ign);
+	signal(SIGINT, SIG_IGN);
 	signal(SIGTERM, ign);
 	pid = fork();
 	if (pid == 0)

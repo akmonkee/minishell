@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 11:37:45 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/17 11:42:33 by msisto           ###   ########.fr       */
+/*   Updated: 2025/05/17 15:57:41 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,14 @@ void	signal_execve(int sig)
 	if (sig == SIGQUIT)
 		g_exit_code = 131;
 	exit(g_exit_code);
+}
+
+void	signal_hd(int sig)
+{
+	if (sig == SIGINT)
+		g_exit_code = 130;
+	if (sig == SIGQUIT)
+		g_exit_code = 131;
 }
 
 void	signal_handler(int sig)

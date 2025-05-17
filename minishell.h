@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/05/06 10:25:41 by msisto           ###   ########.fr       */
+/*   Updated: 2025/05/17 15:34:47 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ void	freecmd(t_cmd *cmd);
 //utils/signal_utils
 void	ign(int sig);
 void	signal_execve(int sig);
+void	signal_hd(int sig);
 void	signal_handler(int sig);
 void	pexe_exit_status(int exit_status);
 //utils/quote_utils
@@ -150,7 +151,7 @@ void	parse_exe(char *input, t_mini *mini);
 void	runpipe(t_pipecmd *pcmd, t_mini *mini);
 //runcmd/runredir
 int		eof_checker(char *line, char *rule);
-void	here_doc(t_redircmd *rcmd, char *rule);
+void	here_doc(t_redircmd *rcmd, char *rule, t_mini *mini);
 void	handle_heredoc(t_redircmd *rcmd, char *rule, t_mini *mini);
 void	runredir(t_cmd *cmd, t_mini *mini);
 //builtin/exit

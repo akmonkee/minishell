@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 13:19:27 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/15 14:11:51 by msisto           ###   ########.fr       */
+/*   Updated: 2025/05/17 15:56:46 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	hd_write(char *line, int fd)
 	free(line);
 }
 
-void	here_doc(t_redircmd *rcmd, char *rule)
+void	here_doc(t_redircmd *rcmd, char *rule, t_mini *mini)
 {
 	char	*line;
 	int		fd;
@@ -48,10 +48,17 @@ void	here_doc(t_redircmd *rcmd, char *rule)
 	while (1)
 	{
 		line = readline("> ");
+		if (g_exit_code != 0)
+		{
+			free_mini(mini);
+			close(fd);
+			exit (g_exit_code);
+		}
 		if (eof_checker(line, rule) == 1)
 			break ;
 		hd_write(line, fd);
 	}
+	free_mini(mini);
 	close(fd);
 }
 
@@ -60,20 +67,29 @@ void	handle_heredoc(t_redircmd *rcmd, char *rule, t_mini *mini)
 	pid_t	pid;
 	int		status;
 
+	signal(SIGINT, ign);
+	signal(SIGQUIT, ign);
 	pid = fork();
 	if (pid == -1)
 		panic_fun("minipierpaolo: ", "fork failed\n", 1, 0);
 	if (pid == 0)
 	{
-		here_doc(rcmd, rule);
-		free_mini(mini);
-		exit(0);
+		signal(SIGINT, signal_hd);
+		signal(SIGQUIT, signal_hd);
+		here_doc(rcmd, rule, mini);
+		exit(g_exit_code);
 	}
 	else
 	{
 		waitpid(pid, &status, 0);
+		signal(SIGINT, signal_execve);
+		signal(SIGQUIT, signal_execve);
 		if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
+		{
+			unlink(rcmd->file);
+			free_mini(mini);
 			exit(WEXITSTATUS(status));
+		}
 	}
 }
 
