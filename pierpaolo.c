@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 17:25:48 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/03 17:46:53 by msisto           ###   ########.fr       */
+/*   Updated: 2025/05/17 16:44:11 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,23 @@ void	print_pierpaolo(void)
 	printf("..,;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:.....,;;;;;;;;;");
 	printf(";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:..\n");
 	print_pierpaolo2();
+}
+
+void	signal_set(int type)
+{
+	if (type == 0)
+	{
+		signal(SIGINT, ign);
+		signal(SIGQUIT, ign);
+	}
+	if (type == 1)
+	{
+		signal(SIGINT, signal_hd);
+		signal(SIGQUIT, signal_hd);
+	}
+	if (type == 2)
+	{
+		signal(SIGINT, signal_execve);
+		signal(SIGQUIT, signal_execve);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/05/17 15:34:47 by msisto           ###   ########.fr       */
+/*   Updated: 2025/05/17 16:44:38 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ typedef struct s_pipecmd
 
 //pierpaolo
 void	print_pierpaolo(void);
+void	signal_set(int type);
 //main
 void	panic_fun(char *pre, char *input, int e_code, int exit_flag);
 void	start_shell(char **envp);
