@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 11:57:08 by msisto            #+#    #+#             */
-/*   Updated: 2025/05/19 10:44:32 by msisto           ###   ########.fr       */
+/*   Updated: 2025/05/19 11:10:02 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,12 +104,14 @@ void	parse_exe(char *input, t_mini *mini)
 	mini->cmd = parsecmd(input);
 	if (!mini->cmd)
 		return ;
-	g_exit_code = 0;
 	ecmd = (t_execcmd *)mini->cmd;
 	if (mini->cmd && mini->cmd->type == EXEC && control_bt(ecmd->argv[0]))
 		runcmd(mini->cmd, mini);
 	else if (mini->cmd)
+	{
+		g_exit_code = 0;
 		pexe_ll(input, mini);
+	}
 	freecmd(mini->cmd);
 	free(mini->cmd);
 }
