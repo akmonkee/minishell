@@ -20,7 +20,7 @@ void	**env_mod(char *path, char *curr_pwd, char **env)
 
 	path_c = ft_strjoinf2("PWD=", path);
 	old_pwd = ft_strjoinf2("OLDPWD=", curr_pwd);
-	ret_env = env_cloner(env);
+	ret_env = env_cloner(env, 0);
 	ret_env = (char **)pwd_mod(path_c, ret_env);
 	ret_env = (char **)pwd_mod(old_pwd, ret_env);
 	free(path_c);

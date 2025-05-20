@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 13:50:08 by msisto            #+#    #+#             */
-/*   Updated: 2025/03/05 13:50:39 by msisto           ###   ########.fr       */
+/*   Updated: 2025/05/20 17:26:14 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	sort_env(char **env)
 	char	**env_cp;
 
 	size = mtx_len(env);
-	env_cp = env_cloner(env);
+	env_cp = env_cloner(env, 0);
 	i = -1;
 	while (++i < size - 1)
 	{

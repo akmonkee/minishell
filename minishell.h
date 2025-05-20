@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:18:50 by msisto            #+#    #+#             */
-/*   Updated: 2025/05/17 16:44:38 by msisto           ###   ########.fr       */
+/*   Updated: 2025/05/20 17:25:31 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,7 +211,7 @@ void	move_t_point(char *var_c, int *k, int flag);
 int		ft_strlen_g(const char *str);
 int		fullcmp(char *input, char *sample);
 int		builtin_exec(char **command, char **envp);
-char	**env_cloner(char **envp);
+char	**env_cloner(char **envp, int flag);
 //utils/builtin_utils
 int		ft_count_words(char *s, char c);
 void	strjoin_alloc(char **ps, char **mtx, int j, char c);

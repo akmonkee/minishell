@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 11:19:49 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/09 17:16:58 by msisto           ###   ########.fr       */
+/*   Updated: 2025/05/20 17:59:50 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,31 @@ int	fullcmp(char *input, char *sample)
 	return (ret);
 }
 
-char	**env_cloner(char **envp)
+static void	shlvl_update(char **env, int i)
+{
+	char	*nbr;
+	char	*cmp;
+	int		lvl;
+
+	nbr = ambient_value("$SHLVL", env);
+	lvl = ft_atoi(nbr);
+	free(nbr);
+	nbr = ft_itoa(++lvl);
+	nbr = ft_strjoinf2("SHLVL=", nbr);
+	while (env[++i] != NULL)
+	{
+		cmp = var_ex(env[i], '=');
+		if (varcmp(cmp, "SHLVL", 5))
+		{
+			free(env[i]);
+			env[i] = var_ex(nbr, '\0');
+		}
+		free(cmp);
+	}
+	free(nbr);
+}
+
+char	**env_cloner(char **envp, int flag)
 {
 	char	**ret;
 	int		i;
@@ -74,5 +98,7 @@ char	**env_cloner(char **envp)
 	while (envp[++i] != NULL)
 		ret[i] = var_ex(envp[i], '\0');
 	ret[i] = NULL;
+	if (flag == 1)
+		shlvl_update(ret, -1);
 	return (ret);
 }

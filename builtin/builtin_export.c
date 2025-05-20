@@ -123,7 +123,7 @@ void	**builtin_export(char **input, char **env)
 		return (NULL);
 	if (input[i] == NULL)
 		return (sort_env(env), NULL);
-	tmp = env_cloner(env);
+	tmp = env_cloner(env, 0);
 	while (input[i] != NULL)
 	{
 		if (input[i][0] == '\"' || input[i][0] == '\'')

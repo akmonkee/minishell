@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 10:21:33 by msisto            #+#    #+#             */
-/*   Updated: 2025/04/17 11:25:37 by msisto           ###   ########.fr       */
+/*   Updated: 2025/05/20 17:25:46 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	start_shell(char **envp)
 
 	mini = malloc(sizeof(*mini));
 	mini_str_set(mini, 4);
-	mini->env = env_cloner(envp);
+	mini->env = env_cloner(envp, 1);
 	print_pierpaolo();
 	while (1)
 	{

@@ -101,7 +101,7 @@ void	exe_bt(char **input, t_mini *mini)
 	if (tmp)
 	{
 		mtxs_free(mini->env);
-		mini->env = env_cloner(tmp);
+		mini->env = (tmp);
 		mtxs_free(tmp);
 	}
 }
