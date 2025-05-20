@@ -35,6 +35,8 @@ void	builtin_exit(char **input, t_mini *mini)
 		}
 		g_exit_code = (unsigned char)ft_atoi(input[1]);
 	}
+	else
+		g_exit_code = 1;
 	free_mini(mini);
 	exit(g_exit_code);
 }
