@@ -80,8 +80,10 @@ static void	**no_input_or_root(char *input, char *curr_pwd, char **env)
 
 	if (!input)
 		path = ambient_value("$HOME", env);
-	else if (fullcmp(input, "/") == 0)
+	else if (!fullcmp(input, "/"))
 		path = var_ex("/", '\0');
+	else if (!fullcmp(input, "~"))
+		path = ambient_value("$HOME", env);
 	chdir(path);
 	return (env_mod(path, curr_pwd, env));
 }
@@ -94,7 +96,7 @@ void	**builtin_cd(char *input, char **env)
 	if (!env)
 		return (NULL);
 	curr_pwd = true_pwd_ex();
-	if (!input || fullcmp(input, "/") == 0)
+	if (!input || !fullcmp(input, "/") || !fullcmp(input, "~"))
 		return (no_input_or_root(input, curr_pwd, env));
 	else if (fullcmp(input, "-") == 0)
 		return (minus_cd(curr_pwd, env));
