@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 17:25:48 by msisto            #+#    #+#             */
-/*   Updated: 2025/05/22 16:32:50 by msisto           ###   ########.fr       */
+/*   Updated: 2025/05/23 11:17:32 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,22 @@ static void	print_pierpaolo2(void)
 	printf("++++++++++++++++++++++++++;;;;;:,.....\n");
 	printf(".......,:;;;;:,,,,,,::::::::::::,,,:;+++;;:...............,:;;;");
 	printf(";:,,,,,,::::::::::::,,,:;+++;;:.......\n");
-	printf(".............oooooo...oo..oooooo..oooooo...oooooo....oooo......");
-	printf("ooooo....oo.......ooooo...............\n");
-	printf(".............oo....o..oo..oooooo..oo....o..oo....o...oooo....oo");
-	printf("o...ooo..oo.....ooo...ooo.............\n");
-	printf(".............oo....o..oo..oo......oo....o..oo....o..oo..oo...oo");
-	printf(".....oo..oo.....oo.....oo.............\n");
-	printf(".............oooooo...oo..oooooo..oooooo...oooooo...oo..oo...oo");
-	printf(".....oo..oo.....oo.....oo.............\n");
-	printf(".............oo.......oo..oooooo..ooooo....oo......oooooooo..oo");
-	printf(".....oo..oo.....oo.....oo.............\n");
-	printf(".............oo.......oo..oo......oo..oo...oo......oo....oo..oo");
-	printf(".....oo..oo.....oo.....oo.............\n");
-	printf(".............oo.......oo..oooooo..oo...oo..oo.....oo......oo.oo");
-	printf("o...ooo..oooooo.ooo...ooo.............\n");
-	printf(".............oo.......oo..oooooo..oo...oo..oo.....oo......oo...");
-	printf("ooooo....oooooo...ooooo...............\n");
+	printf(".***********.oooooo...oo..oooooo..oooooo...oooooo....oooo......");
+	printf("ooooo....oo.......ooooo...***********.\n");
+	printf("...*********.oo....o..oo..oooooo..oo....o..oo....o...oooo....oo");
+	printf("o...ooo..oo.....ooo...ooo.*********...\n");
+	printf(".....*******.oo....o..oo..oo......oo....o..oo....o..oo..oo...oo");
+	printf(".....oo..oo.....oo.....oo.*******.....\n");
+	printf(".......*****.oooooo...oo..oooooo..oooooo...oooooo...oo..oo...oo");
+	printf(".....oo..oo.....oo.....oo.*****.......\n");
+	printf(".........***.oo.......oo..oooooo..ooooo....oo......oooooooo..oo");
+	printf(".....oo..oo.....oo.....oo.***.........\n");
+	printf(".........***.oo.......oo..oo......oo..oo...oo......oo....oo..oo");
+	printf(".....oo..oo.....oo.....oo.***.........\n");
+	printf("..........**.oo.......oo..oooooo..oo...oo..oo.....oo......oo.oo");
+	printf("o...ooo..oooooo.ooo...ooo.**..........\n");
+	printf("..........**.oo.......oo..oooooo..oo...oo..oo.....oo......oo...");
+	printf("ooooo....oooooo...ooooo...**..........\n");
 }
 
 void	print_pierpaolo(void)
