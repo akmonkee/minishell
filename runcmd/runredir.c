@@ -6,7 +6,7 @@
 /*   By: msisto <msisto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 13:19:27 by msisto            #+#    #+#             */
-/*   Updated: 2025/05/19 10:42:43 by msisto           ###   ########.fr       */
+/*   Updated: 2025/05/25 16:43:09 by msisto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,12 @@ void	here_doc(t_redircmd *rcmd, char *rule, t_mini *mini)
 	while (1)
 	{
 		line = readline("> ");
-		if (g_exit_code != 0 || eof_checker(line, rule) == 1)
+		if (g_exit_code != 0)
+		{
+			free(line);
+			break ;
+		}
+		if (eof_checker(line, rule) == 1)
 			break ;
 		hd_write(line, fd);
 	}
